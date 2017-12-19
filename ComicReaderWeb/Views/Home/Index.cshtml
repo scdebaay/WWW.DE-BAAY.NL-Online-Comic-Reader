@@ -1,0 +1,28 @@
+﻿@model ComicReaderWeb.Models.ComicPage
+@{
+    Layout = null;
+}
+@{
+    var comic = new ComicReaderWeb.Models.ComicPage(Model.conf, Model.currentPage)
+    {};
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Index</title>
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div id="page">
+        <div>
+            @ViewBag.Table
+        </div>
+        <div id="prevPage">
+            @Html.ActionLink("Previous page", "IndexPrevious", "Home", new { @page = comic.currentPage },null)
+        </div>
+        <div id="nextPage">
+            @Html.ActionLink("Next page", "IndexNext", "Home", new { @page = comic.currentPage }, null)
+        </div>
+    </div>
+</body>
+</html>

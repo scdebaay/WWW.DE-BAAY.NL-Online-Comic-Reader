@@ -1,0 +1,35 @@
+﻿@model ComicReaderWeb.Models.Comic
+@{
+    Layout = null;
+}
+@{
+    var comic = new ComicReaderWeb.Models.Comic()
+    {
+        sizeparam = Model.sizeparam,
+        size = Model.size,
+        page = Model.page,
+        pageparam = Model.pageparam,
+        requestedfile = Model.requestedfile
+    };
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Comic</title>
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div id="header">@Html.ActionLink("Home", "Index", "Home")</div>
+    <div id="page">
+        <div id="prevButton">
+            @Html.ActionLink("Previous", "ComicPrevious", "Comic", comic, null)
+        </div>
+        <div id="content">
+            <img width="@comic.size"alt="Comic" src="@ViewBag.ImageSource" />
+        </div>
+        <div id="nextButton">
+            @Html.ActionLink("Next", "ComicNext", "Comic", comic, null)
+        </div>
+    </div>
+</body>
+</html>
