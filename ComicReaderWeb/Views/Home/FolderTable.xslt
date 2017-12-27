@@ -31,7 +31,8 @@
         <a>
           <xsl:attribute name="href">
             <xsl:value-of select="$requestUrl"/>
-            <xsl:text>Comic/Comic/?file=</xsl:text>
+            <!--xsl:text>/Comic/Read/?file=</xsl:text-->
+            <xsl:text>/Comic/Read</xsl:text>
             <xsl:value-of select="@path"/>
           </xsl:attribute>
           <xsl:value-of select="@name"/>
