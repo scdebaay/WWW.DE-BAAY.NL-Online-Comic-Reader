@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
 using System.Xml.Linq;
 using System.IO;
 using System.Xml.Xsl;
@@ -21,7 +19,7 @@ namespace ComicReaderWeb.Models
         {
             this.currentPage = (int)current;
             this.conf = config;
-            XDocument request = XDocument.Load(config.ApiLocation + "?folder=comic&page=1&pageLimit=1" + config.pageLimit);
+            XDocument request = XDocument.Load(config.ApiLocation + "?folder=comic&page=1&pageLimit=" + config.pageLimit);
 
             int files;
             Int32.TryParse(request.Root.Attribute("files").Value.ToString(), out files);
@@ -36,8 +34,15 @@ namespace ComicReaderWeb.Models
             this.pageLimit = pageLimitInt;
 
             request = XDocument.Load(conf.ApiLocation + "?folder=comic&page=1&pageLimit=" + (this.Files + 1));
-
-            var tempresult = preResult(request, pageLimit, this.currentPage);
+            XElement tempresult;
+            if (this.currentPage <= pages)
+            {
+                tempresult = preResult(request, pageLimit, this.currentPage);
+            }
+            else
+            {
+                tempresult = preResult(request, pageLimit, pages);
+            }
 
             //convert XDocument to TextReader for conversion into XPathDocument
             TextReader result = new StringReader(tempresult.ToString());
@@ -60,6 +65,37 @@ namespace ComicReaderWeb.Models
         { private set; get; }
         public int currentPage
         { set; get; }
+        public int previousPage
+        { get {
+                if (this.currentPage - 1 >= 1)
+                {
+                    if (this.currentPage >= this.totalPages)
+                    {
+                        return this.totalPages - 1;
+                    }
+                    else
+                    {
+                        return this.currentPage - 1;
+                    }
+                    
+                }
+                else
+                {
+                    return 1;
+                }
+                
+            } }
+        public int nextPage
+        { get {
+                if (this.currentPage + 1 >= this.totalPages)
+                {
+                    return this.totalPages;
+                }
+                else
+                {
+                    return this.currentPage + 1;
+                }
+            } }
         public int totalPages
         { private set; get; }
         public int pageLimit

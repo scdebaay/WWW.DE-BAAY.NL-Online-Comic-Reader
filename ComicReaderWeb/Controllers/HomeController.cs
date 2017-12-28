@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿
 using System.Web.Mvc;
-using System.Xml.XPath;
-using System.Xml.Linq;
-using System.Xml.Xsl;
-using System.Xml;
-using System.IO;
 using ComicReaderWeb.Models;
-using System.Dynamic;
 
 namespace ComicReaderWeb.Controllers
 {
@@ -20,34 +11,37 @@ namespace ComicReaderWeb.Controllers
         // GET: /Home/
         public ActionResult Index(int? page)
         {
-            var currentPage = page ?? 1;
-
-            ComicPage comicpage = new ComicPage(config, currentPage);
-
-            ViewBag.Table = comicpage.ResultTables;
-            return View("Index", comicpage);
-        }
-
-        [HttpGet]
-        public ActionResult IndexPrevious(int? page)
-        {
-            if (page >= 1)
+            if (Session["currentPageKey"] == null)
             {
-                page--;
-            }            
-            ComicPage comicpage = new ComicPage(config, page);
-            ViewBag.Table = comicpage.ResultTables;
-            return View("Index", comicpage);
-        }
-
-        [HttpGet]
-        public ActionResult IndexNext(int? page)
-        {
-            //if (page <= comicpage.totalPages)
-            //{
-                page++;
-            //}
-            ComicPage comicpage = new ComicPage(config, page);
+                Session["currentPageKey"] = 1;
+            }
+            else
+            {
+                if (page == null) //returning from Comic to current Page, page is noet set, thus null
+                {
+                    int currentPageJump;
+                    System.Int32.TryParse(Session["currentPageKey"].ToString(), out currentPageJump);
+                    page = currentPageJump;
+                }
+                else
+                {
+                    Session["currentPageKey"] = page;
+                }                
+            }
+            int currentPage;
+            System.Int32.TryParse(Session["currentPageKey"].ToString(), out currentPage);
+            int newPage = page ?? 1;
+            if (currentPage > newPage && currentPage >= 1)
+            {
+                currentPage--;
+                Session["currentPageKey"] = currentPage;
+            }
+            if (currentPage < newPage)
+            {
+                currentPage++;
+                Session["currentPageKey"] = currentPage;
+            }
+            ComicPage comicpage = new ComicPage(config, currentPage);
             ViewBag.Table = comicpage.ResultTables;
             return View("Index", comicpage);
         }
