@@ -7,7 +7,7 @@ namespace ComicReaderWeb.Models
 {
     public class Comic
     {
-
+        
 
         public Comic()
         {
@@ -23,7 +23,7 @@ namespace ComicReaderWeb.Models
                 this.size = size;
             }
             else
-            {
+            { 
                 this.size = defaultsize;
             }
         }
@@ -31,14 +31,6 @@ namespace ComicReaderWeb.Models
         public string sizeparam { get; set; }
         public int size { get; set; }
         public int page { get; set; }
-        public int Previous { get {
-                return this.page - 1;
-            }
-        }
-        public int Next { get {
-                return this.page + 1;
-            }
-        }
         public string pageparam { get; set;}
         public string requestedfile { get; set; }                    
     }

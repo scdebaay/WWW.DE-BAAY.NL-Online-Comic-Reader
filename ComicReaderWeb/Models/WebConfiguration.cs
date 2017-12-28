@@ -15,7 +15,16 @@ namespace ComicReaderWeb.Models
         public WebConfiguration(System.Web.HttpContext context)
         {
             SetSettings();
-            this.SiteRoot = GetBaseUrl();
+            string baseURL = context.Request.Url.Scheme + "://" + context.Request.Url.Authority + context.Request.ApplicationPath ;
+            string querySlash = baseURL[baseURL.Length - 1].ToString();
+            if ( querySlash == "/")
+            {
+                this.SiteRoot = context.Request.Url.ToString(); 
+            }
+            else
+            {
+                this.SiteRoot = baseURL + "/";
+            }
         }
 
         private void SetSettings()
@@ -36,19 +45,6 @@ namespace ComicReaderWeb.Models
                     }
                 }
             }            
-        }
-
-        public string GetBaseUrl()
-        {
-            var request = System.Web.HttpContext.Current.Request;
-            var appUrl = HttpRuntime.AppDomainAppVirtualPath;
-
-            if (appUrl != "/")
-                appUrl = "/" + appUrl;
-
-            var baseUrl = string.Format("{0}://{1}{2}", request.Url.Scheme, request.Url.Authority, appUrl);
-
-            return baseUrl;
         }
 
         public string ApiLocation { private set; get; }

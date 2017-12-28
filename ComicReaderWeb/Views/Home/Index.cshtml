@@ -18,10 +18,10 @@
             @ViewBag.Table
         </div>
         <div id="prevPage">
-            @Html.ActionLink("Previous page", "Index", "Home", new { @page = comic.previousPage },null)
+            @Html.ActionLink("Previous page", "IndexPrevious", "Home", new { @page = comic.currentPage },null)
         </div>
         <div id="nextPage">
-            @Html.ActionLink("Next page", "Index", "Home", new { @page = comic.nextPage }, null)
+            @Html.ActionLink("Next page", "IndexNext", "Home", new { @page = comic.currentPage }, null)
         </div>
     </div>
 </body>

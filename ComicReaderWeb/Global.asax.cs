@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -23,15 +26,10 @@ namespace ComicReaderWeb
                 "{controller}/{action}/{id}", // URL with parameters
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
             );
-
             routes.MapRoute(
                 "Comic", // Route name
-                "{controller}/{action}/{folder}/{file}/{page}/{*size}", // URL with parameters
-                new { controller = "Comic", action = "Read", 
-                folder = UrlParameter.Optional, 
-                file = UrlParameter.Optional, 
-                page = UrlParameter.Optional, 
-                size = UrlParameter.Optional } // Parameter defaults
+                "{controller}/{action}/{id}", // URL with parameters
+                new { controller = "Comic", action = "Comic", id = UrlParameter.Optional } // Parameter defaults
             );
 
         }
