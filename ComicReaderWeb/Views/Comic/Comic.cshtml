@@ -18,7 +18,7 @@
     <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
 </head>
 <body>
-    <div id="header">@Html.ActionLink("Home", "Index", "Home")</div>
+    <div id="header">@Html.ActionLink("Home", "Index", "Home", new { @page = Session["currentPageKey"] },null)</div>
     <div id="page">
         <div id="prevButton">
             @Html.ActionLink("Previous", "Read", new { @folder = comic.requestedFolder, @file = comic.requestedFile, @page = comic.Previous }, null)

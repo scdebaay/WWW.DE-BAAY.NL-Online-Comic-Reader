@@ -20,15 +20,15 @@ namespace ComicReaderWeb
 
             routes.MapRoute(
                 "Comic", // Route name
-                "Comic/Read/{folder}/{file}/{page}", //{*size}", // URL with parameters
+                "Comic/Read/{folder}/{file}/{page}/{*size}", // URL with parameters
                 new
                 {
                     controller = "Comic",
                     action = "Read",
                     folder = "",
                     file = "",
-                    page = "0"//,
-                    //size = UrlParameter.Optional
+                    page = "0",//,
+                    size = UrlParameter.Optional
                 } // Parameter defaults
             );
 

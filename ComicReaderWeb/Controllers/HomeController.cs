@@ -11,35 +11,22 @@ namespace ComicReaderWeb.Controllers
         // GET: /Home/
         public ActionResult Index(int? page)
         {
+            int currentPage = 1;
             if (Session["currentPageKey"] == null)
             {
                 Session["currentPageKey"] = 1;
             }
             else
             {
-                if (page == null) //returning from Comic to current Page, page is noet set, thus null
+                if (page == null) //returning from Comic to current Page, page is not set, thus null
                 {
-                    int currentPageJump;
-                    System.Int32.TryParse(Session["currentPageKey"].ToString(), out currentPageJump);
-                    page = currentPageJump;
+                    System.Int32.TryParse(Session["currentPageKey"].ToString(), out currentPage);
                 }
                 else
                 {
                     Session["currentPageKey"] = page;
+                    System.Int32.TryParse(Session["currentPageKey"].ToString(), out currentPage);
                 }                
-            }
-            int currentPage;
-            System.Int32.TryParse(Session["currentPageKey"].ToString(), out currentPage);
-            int newPage = page ?? 1;
-            if (currentPage > newPage && currentPage >= 1)
-            {
-                currentPage--;
-                Session["currentPageKey"] = currentPage;
-            }
-            if (currentPage < newPage)
-            {
-                currentPage++;
-                Session["currentPageKey"] = currentPage;
             }
             ComicPage comicpage = new ComicPage(config, currentPage);
             ViewBag.Table = comicpage.ResultTables;

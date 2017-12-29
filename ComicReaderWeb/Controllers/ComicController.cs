@@ -20,7 +20,7 @@ namespace ComicReaderWeb.Controllers
             int pageInt;
             if (String.IsNullOrEmpty(page))
             {
-                comic.page = 0;                
+                comic.page = 0;
             }
             else
             {
@@ -28,12 +28,21 @@ namespace ComicReaderWeb.Controllers
                 comic.page = pageInt;
             }
 
-            int sizeInt;
-            if (!String.IsNullOrEmpty(size))
+            if (String.IsNullOrEmpty(size))
             {
-                Int32.TryParse(size, out sizeInt);
-                comic.size = sizeInt;
+                if (Session["currentSizeKey"] == null)
+                {
+                    Session["currentSizeKey"] = config.defaultComicSize;
+                }
+                size = Session["currentSizeKey"].ToString();
             }
+            else
+            {
+                Session["currentSizeKey"] = size;
+            }
+            int sizeInt;
+            Int32.TryParse(size, out sizeInt);
+            comic.size = sizeInt;
 
             string pageRequest = "&page=" + comic.page.ToString();
             string imageSourceParams = pageRequest + "&size=" + comic.size;
