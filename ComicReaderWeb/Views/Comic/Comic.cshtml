@@ -5,11 +5,10 @@
 @{
     var comic = new ComicReaderWeb.Models.Comic()
     {
-        sizeparam = Model.sizeparam,
         size = Model.size,
         page = Model.page,
-        pageparam = Model.pageparam,
-        requestedfile = Model.requestedfile
+        requestedFolder = Model.requestedFolder,
+        requestedFile = Model.requestedFile
     };
 }
 <!DOCTYPE html>
@@ -22,13 +21,13 @@
     <div id="header">@Html.ActionLink("Home", "Index", "Home")</div>
     <div id="page">
         <div id="prevButton">
-            @Html.ActionLink("Previous", "Read", "Comic", new { file = comic.requestedfile, @page = comic.Previous }, null)
+            @Html.ActionLink("Previous", "Read", new { @folder = comic.requestedFolder, @file = comic.requestedFile, @page = comic.Previous }, null)
         </div>
         <div id="content">
             <img width="@comic.size"alt="Comic" src="@ViewBag.ImageSource" />
         </div>
         <div id="nextButton">
-            @Html.ActionLink("Next", "Read", "Comic", new { file = comic.requestedfile, page = comic.Next }, null)
+            @Html.ActionLink("Next", "Read", new { @folder = comic.requestedFolder, @file = comic.requestedFile, @page = comic.Next }, null)
         </div>
     </div>
 </body>

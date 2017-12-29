@@ -15,7 +15,8 @@ namespace ComicReaderWeb.Controllers
         public ActionResult Read(string folder, string file, string page, string size)
         {
             Comic comic = new Comic();
-            comic.requestedfile = folder + "\\" + file;
+            comic.requestedFolder = folder;
+            comic.requestedFile = file;
             int pageInt;
             if (String.IsNullOrEmpty(page))
             {
@@ -34,31 +35,10 @@ namespace ComicReaderWeb.Controllers
                 comic.size = sizeInt;
             }
 
-            string pageRequest = comic.pageparam + comic.page.ToString();
-            string imageSourceParams = pageRequest + comic.sizeparam + comic.size;
-            ViewBag.ImageSource = config.ApiLocation + "?file=" + @comic.requestedfile + imageSourceParams;
+            string pageRequest = "&page=" + comic.page.ToString();
+            string imageSourceParams = pageRequest + "&size=" + comic.size;
+            ViewBag.ImageSource = config.ApiLocation + "?file=" + comic.requestedFolder + "/" + @comic.requestedFile + imageSourceParams;
             return View("Comic", comic);
         }
-
-        [HttpGet]
-        public ActionResult ComicPrevious(Comic comic)
-        {
-            comic.page--;
-            string pageRequest = comic.pageparam + comic.page.ToString();
-            string imageSourceParams = pageRequest + comic.sizeparam + comic.size;
-            ViewBag.ImageSource = config.ApiLocation + "?file=" + @comic.requestedfile + imageSourceParams;
-            return View("Comic", comic);
-        }
-
-        [HttpGet]
-        public ActionResult ComicNext(Comic comic)
-        {
-            comic.page++;
-            string pageRequest = comic.pageparam + comic.page.ToString();
-            string imageSourceParams = pageRequest + comic.sizeparam + comic.size;
-            ViewBag.ImageSource = config.ApiLocation + "?file=" + @comic.requestedfile + imageSourceParams;
-            return View("Comic", comic);
-        }
-
     }
 }

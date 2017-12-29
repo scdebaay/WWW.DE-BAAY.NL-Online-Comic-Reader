@@ -19,19 +19,29 @@ namespace ComicReaderWeb
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                "Default", // Route name
-                "{controller}/{action}/{id}", // URL with parameters
-                new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
+                "Comic", // Route name
+                "Comic/Read/{folder}/{file}/{page}", //{*size}", // URL with parameters
+                new
+                {
+                    controller = "Comic",
+                    action = "Read",
+                    folder = "",
+                    file = "",
+                    page = "0"//,
+                    //size = UrlParameter.Optional
+                } // Parameter defaults
             );
 
             routes.MapRoute(
-                "Comic", // Route name
-                "{controller}/{action}/{folder}/{file}/{page}/{*size}", // URL with parameters
-                new { controller = "Comic", action = "Read", 
-                folder = UrlParameter.Optional, 
-                file = UrlParameter.Optional, 
-                page = UrlParameter.Optional, 
-                size = UrlParameter.Optional } // Parameter defaults
+                "Home", // Route name
+                "Home/Index/{page}", // URL with parameters
+                new { controller = "Home", action = "Index", page = "1" } // Parameter defaults
+            );
+
+            routes.MapRoute(
+                "Default", // Route name
+                "{controller}/{action}/{id}", // URL with parameters
+                new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
             );
 
         }

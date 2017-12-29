@@ -15,9 +15,7 @@ namespace ComicReaderWeb.Models
             int defaultComicSizeInt;
             Int32.TryParse(config.defaultComicSize, out defaultComicSizeInt);
             this.defaultsize = defaultComicSizeInt;
-            this.sizeparam = "&size=";
             this.page = 0;
-            this.pageparam = "&page=";
             if (defaultsize < size)
             {
                 this.size = size;
@@ -28,19 +26,25 @@ namespace ComicReaderWeb.Models
             }
         }
         private int defaultsize { get; set; }
-        public string sizeparam { get; set; }
         public int size { get; set; }
         public int page { get; set; }
         public int Previous { get {
-                return this.page - 1;
+                if (this.page <= 0)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return this.page - 1;
+                }
             }
         }
         public int Next { get {
                 return this.page + 1;
             }
         }
-        public string pageparam { get; set;}
-        public string requestedfile { get; set; }                    
+        public string requestedFolder { get; set; }
+        public string requestedFile { get; set; }                    
     }
 
 }
