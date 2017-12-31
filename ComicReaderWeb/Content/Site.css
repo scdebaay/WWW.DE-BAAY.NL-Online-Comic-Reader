@@ -3,7 +3,7 @@ body
     font-size: .85em;
     font-family: "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
     color: #232323;
-    background-color: #fff;
+    background-color: #aaa;
 }
 
 header,
@@ -13,58 +13,95 @@ section {
     display: block;
 }
 
-#header
+#ComicPage
 {
-    text-align: center;
-    
+    display: grid;
+    grid-template-columns: 25px max-content max-content 25px;
+    grid-template-rows: auto 45px;
+    grid-template-areas:
+        ". Table Table ."
+        ". prevPage nextPage ."
     }
-    
-#page
-{
-    width: auto;
-    display: table;
-    }
-    
-#prevButton
-{
-    float: left;
+
+#Table {
+    grid-area: Table;
 }
 
-#content
-{
-    float: left;
-    }    
-    
-#nextButton
-{
-    float: left;
+#prevPage {
+    grid-area: prevPage;
+    align-self: center;
+}
+
+#nextPage {
+    grid-area: nextPage;
+    align-self: center;
+}
+
+    #nextPage a, #prevPage a {
+        height: 50px;
+        display: block;
+        background-color: #DDDDDD;
+        align-self: center;
     }
-    
-#prevButton a,
-#nextButton a
-{
+
+#Comic {
+    display: grid;
+    grid-template-columns: 25px 50px min-content 50px 25px;
+    grid-template-rows: 45px auto 45px;
+    grid-template-areas: 
+        ". ZoomOut header ZoomIn ."
+        ". prevButton content nextButton ."
+        ". prevButton content nextButton ."
+}
+
+#ZoomOut {
+    grid-area:ZoomOut;
+}
+
+#ZoomIn {
+    grid-area: ZoomIn;
+}
+
+#ZoomOut a,
+#ZoomIn a {
     display: block;
-    height: 450px;
+    min-height: 45px;
     background-color: #DDDDDD
-    }
-    
-#prevPage a,
-#nextPage a
-{
-    display: block;
-    height: 30px;
-    width: 200px;
-    border-width: 2px;
-    border-color: White;
-    background-color: #DDDDDD
-    }
-#prevPage a
-{
-    float: left;
-    }    
-#nextPage a
-{
-    float: right;
+}
+
+#header {
+    grid-area: header;
+    justify-self: center;
+    align-self: center;
+}
+
+#header a {
+        display: block;
+        min-height: 45px;
+        min-width: inherit;
+        background-color: #DDDDDD;
+}
+
+#prevButton {
+    grid-area: prevButton;
+    align-self: center;
+}
+
+#content {
+    grid-area: content;
+    justify-self: center;
+}
+
+#nextButton {
+    grid-area: nextButton;
+    align-self: center;
+}
+
+    #prevButton a,
+    #nextButton a {
+        display: block;
+        min-height: 450px;
+        background-color: #DDDDDD
     }
 
 /* Styles for basic forms
