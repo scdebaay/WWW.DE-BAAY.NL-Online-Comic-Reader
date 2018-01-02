@@ -39,17 +39,17 @@
 </head>
 <body>
     <div id="Comic">
-        <div id="ZoomOut"><a href="#" onClick="return ZoomOut();">Zoom Out</a></div>
+        <div id="ZoomOut"><a href="#" onClick="return ZoomOut();">-</a></div>
         <div id="header">@Html.ActionLink("Home", "Index", "Home", new { @page = Session["currentPageKey"] }, null)</div>
-        <div id="ZoomIn"><a href="#" onClick="return ZoomIn();">Zoom In</a></div>
+        <div id="ZoomIn"><a href="#" onClick="return ZoomIn();">+</a></div>
         <div id="prevButton">
-            @Html.ActionLink("Previous", "Read", new { @folder = comic.requestedFolder, @file = comic.requestedFile, @page = comic.Previous }, null)
+            @Html.ActionLink("<", "Read", new { @folder = comic.requestedFolder, @file = comic.requestedFile, @page = comic.Previous }, null)
         </div>
         <div id="content">
             <img width="@comic.size" alt="Comic" src="@ViewBag.ImageSource" id="comic" />
         </div>
         <div id="nextButton">
-            @Html.ActionLink("Next", "Read", new { @folder = comic.requestedFolder, @file = comic.requestedFile, @page = comic.Next }, null)
+            @Html.ActionLink(">", "Read", new { @folder = comic.requestedFolder, @file = comic.requestedFile, @page = comic.Next }, null)
         </div>
     </div>
 </body>

@@ -7,38 +7,37 @@
   <xsl:param name="apiLocation"/>
 
   <!--Content table generation -->
-  
+
   <xsl:template match="/">
-    <table>    
-      <th>Comics available</th>
+    <div id="ComicTable">
       <xsl:apply-templates/>
-    </table>
+    </div>
   </xsl:template>
 
   <xsl:template match="file">
-    <tr>
-      <td>
-        <img alt="thumbnail">
-          <xsl:attribute name="src">
-            <xsl:value-of select="$apiLocation"/>
-            <xsl:text>?file=</xsl:text>
-            <xsl:value-of select="@path"/>
-            <xsl:text>&amp;page=0&amp;size=50</xsl:text>
-          </xsl:attribute>
-        </img>
-      </td>
-      <td>
-        <a>
-          <xsl:attribute name="href">
-            <xsl:value-of select="$requestUrl"/>
-            <xsl:text>Comic/Read</xsl:text>
-            <xsl:value-of select="@path"/>
-            <xsl:text>/0</xsl:text>
-          </xsl:attribute>
+    <div class="ComicCell">
+      <a>
+        <xsl:attribute name="href">
+          <xsl:value-of select="$requestUrl"/>
+          <xsl:text>Comic/Read</xsl:text>
+          <xsl:value-of select="@path"/>
+          <xsl:text>/0</xsl:text>
+        </xsl:attribute>
+        <p class="ComicThumbnail">
+          <img alt="thumbnail">
+            <xsl:attribute name="src">
+              <xsl:value-of select="$apiLocation"/>
+              <xsl:text>?file=</xsl:text>
+              <xsl:value-of select="@path"/>
+              <xsl:text>&amp;page=0&amp;size=150</xsl:text>
+            </xsl:attribute>
+          </img>
+        </p>
+        <p class="ComicLink">
           <xsl:value-of select="@name"/>
-        </a>
-      </td>
-    </tr>
+        </p>
+      </a>
+    </div>
   </xsl:template>
 
 </xsl:stylesheet>

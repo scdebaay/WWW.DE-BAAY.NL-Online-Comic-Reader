@@ -16,14 +16,15 @@
 </head>
 <body>
     <div id="ComicPage">
-        <div id="Table">
+        <div id="ComicHeader">Comics available</div>
+        <div id="TableDiv">
             @ViewBag.Table
         </div>
         <div id="prevPage">
-            @Html.ActionLink("Previous page", "Index", "Home", new { @page = comicPage.previousPage },null)
+            @Html.ActionLink("<", "Index", "Home", new { @page = comicPage.previousPage }, null)
         </div>
         <div id="nextPage">
-            @Html.ActionLink("Next page", "Index", "Home", new { @page = comicPage.nextPage }, null)
+            @Html.ActionLink(">", "Index", "Home", new { @page = comicPage.nextPage }, null)
         </div>
     </div>
 </body>
