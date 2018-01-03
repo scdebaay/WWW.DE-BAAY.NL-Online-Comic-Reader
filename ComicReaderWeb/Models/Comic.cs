@@ -48,7 +48,11 @@ namespace ComicReaderWeb.Models
             }
         }
         public string requestedFolder { get; set; }
-        public string requestedFile { get; set; }                    
+        public string requestedFile { get; set; }
+        public string ComicName { get {
+                return requestedFile.Substring(0, requestedFile.Length - 4);
+            }
+        }
     }
 
 }
