@@ -1,7 +1,6 @@
-body
-{
+body {
     font-size: .85em;
-    font-family: "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
+    font-family: Muli, Sans-Serif;
     color: #232323;
     background-color: #fff;
 }
@@ -13,117 +12,209 @@ section {
     display: block;
 }
 
-#header
-{
-    text-align: center;
-    
-    }
-    
-#page
-{
-    width: auto;
-    display: table;
-    }
-    
-#prevButton
-{
-    float: left;
+a {
+    color: black;
+    text-decoration: none;
 }
 
-#content
-{
-    float: left;
-    }    
-    
-#nextButton
-{
-    float: left;
+#ComicPage {
+    display: grid;
+    grid-template-columns: 25px max-content 25px;
+    grid-template-rows: 50px auto 45px;
+    grid-template-areas: ". ComicHeader ." ". Table ." "prevPage . nextPage"
+}
+
+#TableDiv {
+    grid-area: Table;
+    display: grid;
+}
+
+#ComicTable {
+    grid-area: ComicTable;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 3px;
+}
+
+@media screen and (min-width: 736px) {
+    #ComicTable {
+        grid-area: ComicTable;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-column-gap: 10px;
     }
-    
-#prevButton a,
-#nextButton a
-{
+}
+
+#ComicHeader {
+    grid-area: ComicHeader;
+    text-align: center;
+    font-size: xx-large;
+}
+
+.ComicCell {
+}
+
+.ComicThumbnail, .ComicLink {
     display: block;
-    height: 450px;
-    background-color: #DDDDDD
+}
+
+.ComicLink {
+    background-color: darkred;
+    color: white;
+}
+
+    .ComicThumbnail img {
+        margin: auto;
     }
-    
-#prevPage a,
-#nextPage a
-{
-    display: block;
-    height: 30px;
-    width: 200px;
-    border-width: 2px;
-    border-color: White;
-    background-color: #DDDDDD
+
+.ComicCell a {
+    color: black;
+    text-decoration: none;
+    text-align: center;
+}
+
+#prevPage {
+    grid-area: prevPage;
+}
+
+#nextPage {
+    grid-area: nextPage;
+}
+
+    #nextPage a, #prevPage a {
+        color: white;
+        font-size: xx-large;
+        height: 50px;
+        background-color: darkred;
+        text-align: center;
+        padding: 5px;
     }
-#prevPage a
-{
-    float: left;
-    }    
-#nextPage a
-{
-    float: right;
+
+#Comic {
+    display: grid;
+    grid-template-columns: 25px 50px min-content 50px 25px;
+    grid-template-rows: 45px auto 45px;
+    grid-column-gap: 5px;
+    grid-row-gap: 5px;
+    grid-template-areas: 
+        ". ZoomOut header ZoomIn ." 
+        ". prevButton content nextButton ." 
+        ". prevButton content nextButton ."
+}
+
+#ZoomOut {
+    grid-area: ZoomOut;
+}
+
+#ZoomIn {
+    grid-area: ZoomIn;
+}
+
+    #ZoomOut a,
+    #ZoomIn a {
+        color: white;
+        font-size: xx-large;
+        display: block;
+        min-height: 45px;
+        background-color: darkred;
+        text-align: center;
+    }
+
+#header {
+    grid-area: header;
+    justify-self: center;
+    align-self: center;
+}
+
+    #header a {
+        color: white;
+        font-size: xx-large;
+        display: block;
+        min-height: 45px;
+        min-width: inherit;
+        background-color: darkred;
+        padding-left: 45px;
+        padding-right: 45px;
+    }
+
+#prevButton {
+    grid-area: prevButton;
+    align-self: center;
+}
+
+#content {
+    grid-area: content;
+    justify-self: center;
+}
+
+#nextButton {
+    grid-area: nextButton;
+    align-self: center;
+}
+
+    #prevButton a,
+    #nextButton a {
+        font-size: xx-large;
+        color: white;
+        display: block;
+        min-height: 450px;
+        background-color: darkred;
+        padding-top: 450px;
+        padding-left: 10px;
+    }
+
+    #nextButton a {
+        text-align: right;
+        padding-right: 10px;
     }
 
 /* Styles for basic forms
 -----------------------------------------------------------*/
 
-fieldset 
-{
-    border:1px solid #ddd;
-    padding:0 1.4em 1.4em 1.4em;
-    margin:0 0 1.5em 0;
+fieldset {
+    border: 1px solid #ddd;
+    padding: 0 1.4em 1.4em 1.4em;
+    margin: 0 0 1.5em 0;
 }
 
-legend 
-{
-    font-size:1.2em;
+legend {
+    font-size: 1.2em;
     font-weight: bold;
 }
 
-textarea 
-{
+textarea {
     min-height: 75px;
 }
 
-.editor-label 
-{
+.editor-label {
     margin: 1em 0 0 0;
 }
 
-.editor-field 
-{
-    margin:0.5em 0 0 0;
+.editor-field {
+    margin: 0.5em 0 0 0;
 }
 
 
 /* Styles for validation helpers
 -----------------------------------------------------------*/
-.field-validation-error
-{
+.field-validation-error {
     color: #ff0000;
 }
 
-.field-validation-valid
-{
+.field-validation-valid {
     display: none;
 }
 
-.input-validation-error
-{
+.input-validation-error {
     border: 1px solid #ff0000;
     background-color: #ffeeee;
 }
 
-.validation-summary-errors
-{
+.validation-summary-errors {
     font-weight: bold;
     color: #ff0000;
 }
 
-.validation-summary-valid
-{
+.validation-summary-valid {
     display: none;
 }

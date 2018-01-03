@@ -3,25 +3,28 @@
     Layout = null;
 }
 @{
-    var comic = new ComicReaderWeb.Models.ComicPage(Model.conf, Model.currentPage)
+    var comicPage = new ComicReaderWeb.Models.ComicPage(Model.conf, Model.currentPage)
     {};
 }
 <!DOCTYPE html>
 <html>
 <head>
     <title>Index</title>
+    <meta name="viewport" content="width-device-width, initial-scale=1.0" />
     <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+    <title>Solino's Comic Cloud</title>
 </head>
 <body>
-    <div id="page">
-        <div>
+    <div id="ComicPage">
+        <div id="ComicHeader">Comics available</div>
+        <div id="TableDiv">
             @ViewBag.Table
         </div>
         <div id="prevPage">
-            @Html.ActionLink("Previous page", "IndexPrevious", "Home", new { @page = comic.currentPage },null)
+            @Html.ActionLink("<", "Index", "Home", new { @page = comicPage.previousPage }, null)
         </div>
         <div id="nextPage">
-            @Html.ActionLink("Next page", "IndexNext", "Home", new { @page = comic.currentPage }, null)
+            @Html.ActionLink(">", "Index", "Home", new { @page = comicPage.nextPage }, null)
         </div>
     </div>
 </body>
