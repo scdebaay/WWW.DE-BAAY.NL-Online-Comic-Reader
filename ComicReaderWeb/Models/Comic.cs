@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace ComicReaderWeb.Models
 {
@@ -11,23 +8,29 @@ namespace ComicReaderWeb.Models
 
         public Comic()
         {
+            //Initialize Comic object by calling the current configuration. We need the default size set in the configuration.
             WebConfiguration config = new WebConfiguration(System.Web.HttpContext.Current);
-            int defaultComicSizeInt;
-            Int32.TryParse(config.defaultComicSize, out defaultComicSizeInt);
-            this.defaultsize = defaultComicSizeInt;
-            this.page = 0;
+
+            //If current value for size property is higher than the defaultSize from the config, size property is set to the value input.
             if (defaultsize < size)
             {
                 this.size = size;
             }
-            else
+            else //The size is smaller than the default value and default value takes precedence.
             {
                 this.size = defaultsize;
             }
+            //Initialize integer to parse the defaultSize into.
+            int defaultComicSizeInt;
+            Int32.TryParse(config.defaultComicSize, out defaultComicSizeInt);
+            this.defaultsize = defaultComicSizeInt;
+            //Initialize page property to 0. Can be set externally.
+            this.page = 0;
         }
         private int defaultsize { get; set; }
         public int size { get; set; }
         public int page { get; set; }
+        //Derive Previous property from page and totalPages property. No page lower than 1.
         public int Previous { get {
                 if (this.page <= 0)
                 {
@@ -39,6 +42,7 @@ namespace ComicReaderWeb.Models
                 }
             }
         }
+        //Derive Next property from page. There is no way of determining the total number of pages in a comic yet.
         public int Next { get {
                 return this.page + 1;
             }
