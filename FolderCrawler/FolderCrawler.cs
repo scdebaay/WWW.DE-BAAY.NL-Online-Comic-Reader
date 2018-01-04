@@ -16,8 +16,10 @@ namespace FolderCrawler
             {            
             foreach (var file in dir.GetFiles("*", SearchOption.AllDirectories))
             {
-                fileInfos.Add(file);
-            }
+                    if (!file.Attributes.HasFlag(FileAttributes.Hidden) | !file.Attributes.HasFlag(FileAttributes.System)) { 
+                        fileInfos.Add(file);
+                    }
+                }
             }
                 catch (UnauthorizedAccessException)
             {}            
