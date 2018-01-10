@@ -22,6 +22,13 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.ComicEngine
             return new Comic(url.AbsolutePath, new DownloadStrategy(url));
         }
 
+        /// <summary>
+        /// The Comic is normally loaded from file. No URL loading is implemented at this time.
+        /// A Comic object is created containing the pages available in the archive.
+        /// Use the CurrentPage property to create a bitmap using the page parameter.
+        /// </summary>
+        /// <param name="file">Filepath and file to be loaded.</param>
+        /// <returns></returns>
         public static Comic LoadFromFile(FileInfo file)
         {
             return new Comic(file.Name, new FileInfoStrategy(file));

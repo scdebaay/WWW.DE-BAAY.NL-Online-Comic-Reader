@@ -9,6 +9,19 @@ namespace FolderCrawler
 {
     public partial class FolderCrawler
     {
+        /// <summary>
+        /// Iterate through mediaFolder subfolders and convert directory listing into XML format.
+        /// Result contains 
+        /// -Folder name. 
+        /// -Total number of files available. 
+        /// -Total number of pages available based on the number of file per page (pageLimit).
+        /// -CurrentPage.
+        /// </summary>
+        /// <param name="dir">Folder to be processed</param>
+        /// <param name="mediafolder">Mediafolder to be set as root for iteration. Will not iterate outside this folder.</param>
+        /// <param name="pageLimit">Set the number of files per page being returned</param>
+        /// <param name="page">The page we are looking at.</param>
+        /// <returns></returns>
         public static XElement GetDirectoryXml(DirectoryInfo dir, DirectoryInfo mediafolder, int? pageLimit, int? page)
         {
             List<FileInfo> fileInfos = new List<FileInfo>();
