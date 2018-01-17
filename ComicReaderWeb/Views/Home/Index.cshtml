@@ -4,7 +4,7 @@
 }
 @{
     var comicPage = new ComicReaderWeb.Models.ComicPage(Model.conf, Model.currentPage)
-    {};
+    { };
 }
 <!DOCTYPE html>
 <html>
@@ -22,6 +22,43 @@
         </div>
         <div id="prevPage">
             @Html.ActionLink("<", "Index", "Home", new { @page = comicPage.previousPage }, null)
+        </div>
+        <div id="paging">
+            <ul id="pagingLinks">
+            @if (comicPage.currentPage != 1)
+            { 
+                <li>@Html.ActionLink("First", "Index", "Home", new { @page = 1 }, null)</li>
+            }
+            @if (comicPage.currentPage > 3)
+            {
+                <li>@Html.ActionLink( (comicPage.currentPage - 3).ToString(), "Index", "Home", new { @page = comicPage.currentPage - 3 }, null)</li>
+            }
+            @if (comicPage.currentPage > 2)
+            {
+                <li>@Html.ActionLink((comicPage.currentPage - 2).ToString(), "Index", "Home", new { @page = comicPage.currentPage - 2 }, null)</li>
+            }
+            @if (comicPage.currentPage > 1)
+            { 
+                <li>@Html.ActionLink((comicPage.currentPage - 1).ToString(), "Index", "Home", new { @page = comicPage.currentPage - 1 }, null)</li>
+            }
+            <li>Page @comicPage.currentPage of @comicPage.totalPages</li>
+            @if (comicPage.currentPage + 1 < comicPage.totalPages)
+            { 
+                <li>@Html.ActionLink((comicPage.currentPage + 1).ToString(), "Index", "Home", new { @page = comicPage.currentPage + 1 }, null)</li>
+            }
+            @if (comicPage.currentPage + 2 < comicPage.totalPages)
+            {
+                <li>@Html.ActionLink((comicPage.currentPage + 2).ToString(), "Index", "Home", new { @page = comicPage.currentPage + 2 }, null)</li>
+            }
+            @if (comicPage.currentPage + 3 < comicPage.totalPages)
+            {
+                <li>@Html.ActionLink((comicPage.currentPage + 3).ToString(), "Index", "Home", new { @page = comicPage.currentPage + 3 }, null)</li>
+            }
+            @if (comicPage.currentPage != comicPage.totalPages)
+            { 
+                <li>@Html.ActionLink("Last", "Index", "Home", new { @page = comicPage.totalPages}, null)</li>
+            }
+            </ul>
         </div>
         <div id="nextPage">
             @Html.ActionLink(">", "Index", "Home", new { @page = comicPage.nextPage }, null)

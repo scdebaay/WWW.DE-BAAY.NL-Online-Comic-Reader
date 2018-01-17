@@ -20,8 +20,12 @@ a {
 #ComicPage {
     display: grid;
     grid-template-columns: 25px max-content 25px;
-    grid-template-rows: 50px auto 45px;
-    grid-template-areas: ". ComicHeader ." ". Table ." "prevPage . nextPage"
+    grid-template-rows: 50px auto 50px;
+    grid-template-areas: ". ComicHeader ." ". Table ." "prevPage paging nextPage"
+}
+
+#paging {
+    grid-area: paging;
 }
 
 #TableDiv {
@@ -100,19 +104,36 @@ a {
     padding: 5px;
 }
 
-
-
-#Comic {
-    display: grid;
-    grid-template-columns: 50px min-content 50px;
-    grid-template-rows: 45px auto 45px;
-    grid-column-gap: 5px;
-    grid-row-gap: 5px;
-    grid-template-areas: 
-        "ZoomOut header ZoomIn" 
-        "prevButton content nextButton" 
-        "prevButton content nextButton"
+#pagingLinks {
+    text-align: center;
+    margin-top: -2px;
+    margin-left: -32px;
+    margin-right: 3px;
 }
+
+#pagingLinks > li {
+    display: inline-block;
+    color: white;
+    text-decoration: none;
+    font-size: smaller;
+    background-color: darkred;
+    text-align: center;
+    padding: 5px;
+    margin: -1px;
+}
+
+li > a {
+    color: white;
+    font-size: smaller;
+}
+ #Comic {
+        display: grid;
+        grid-template-columns: 50px min-content 50px;
+        grid-template-rows: 45px auto 50px;
+        grid-column-gap: 5px;
+        grid-row-gap: 5px;
+        grid-template-areas: "ZoomOut header ZoomIn" "prevButton content nextButton" "prevButton content nextButton"
+    }
 
 @media screen and (min-width: 736px) {
     #Comic {
@@ -125,6 +146,38 @@ a {
             ". ZoomOut header ZoomIn ." 
             ". prevButton content nextButton ." 
             ". prevButton content nextButton ."
+    }
+
+    #ComicPage {
+        display: grid;
+        grid-template-columns: 25px max-content 25px;
+        grid-template-rows: 50px auto 50px;
+        grid-template-areas: ". ComicHeader ." ". Table ." "prevPage paging nextPage"
+    }
+
+    #paging {
+        grid-area: paging;
+    }
+
+    #pagingLinks {
+        text-align: center;
+        margin-top: -2px;
+    }
+
+        #pagingLinks > li {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            font-size: x-large;
+            background-color: darkred;
+            text-align: center;
+            padding: 9px;
+            margin: -1px;
+        }
+
+    li > a {
+        color: white;
+        font-size: x-large;
     }
 }
 
