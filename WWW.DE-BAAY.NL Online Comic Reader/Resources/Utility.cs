@@ -10,12 +10,6 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
 {
     public static class Utility
     {
-        //public static Dispatcher Dispatcher
-        //{
-        //    get;
-        //    set;
-        //}
-        
         public static IEnumerable<T> Flatten<T>(this IEnumerable<IEnumerable<T>> items)
         {
             foreach (IEnumerable<T> group in items)

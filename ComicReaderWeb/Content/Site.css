@@ -20,8 +20,12 @@ a {
 #ComicPage {
     display: grid;
     grid-template-columns: 25px max-content 25px;
-    grid-template-rows: 50px auto 45px;
-    grid-template-areas: ". ComicHeader ." ". Table ." "prevPage . nextPage"
+    grid-template-rows: 50px auto 50px;
+    grid-template-areas: ". ComicHeader ." ". Table ." "prevPage paging nextPage"
+}
+
+#paging {
+    grid-area: paging;
 }
 
 #TableDiv {
@@ -58,14 +62,23 @@ a {
     display: block;
 }
 
+.ComicThumbnail {
+    min-height: 250px;
+    max-height: 250px;
+}
 .ComicLink {
     background-color: darkred;
     color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+    max-height: 45px;
 }
 
-    .ComicThumbnail img {
-        margin: auto;
-    }
+.ComicThumbnail img {
+    margin: auto;
+}
 
 .ComicCell a {
     color: black;
@@ -81,25 +94,91 @@ a {
     grid-area: nextPage;
 }
 
-    #nextPage a, #prevPage a {
-        color: white;
-        font-size: xx-large;
-        height: 50px;
-        background-color: darkred;
-        text-align: center;
-        padding: 5px;
+#nextPage a, 
+#prevPage a {
+    color: white;
+    font-size: xx-large;
+    height: 50px;
+    background-color: darkred;
+    text-align: center;
+    padding: 5px;
+}
+
+#pagingLinks {
+    text-align: center;
+    margin-top: -2px;
+    margin-left: -32px;
+    margin-right: 3px;
+}
+
+#pagingLinks > li {
+    display: inline-block;
+    color: white;
+    text-decoration: none;
+    font-size: smaller;
+    background-color: darkred;
+    text-align: center;
+    padding: 5px;
+    margin: -1px;
+}
+
+li > a {
+    color: white;
+    font-size: smaller;
+}
+ #Comic {
+        display: grid;
+        grid-template-columns: 50px min-content 50px;
+        grid-template-rows: 45px auto 50px;
+        grid-column-gap: 5px;
+        grid-row-gap: 5px;
+        grid-template-areas: "ZoomOut header ZoomIn" "prevButton content nextButton" "prevButton content nextButton"
     }
 
-#Comic {
-    display: grid;
-    grid-template-columns: 25px 50px min-content 50px 25px;
-    grid-template-rows: 45px auto 45px;
-    grid-column-gap: 5px;
-    grid-row-gap: 5px;
-    grid-template-areas: 
-        ". ZoomOut header ZoomIn ." 
-        ". prevButton content nextButton ." 
-        ". prevButton content nextButton ."
+@media screen and (min-width: 736px) {
+    #Comic {
+        display: grid;
+        grid-template-columns: 25px 50px min-content 50px 25px;
+        grid-template-rows: 45px auto 45px;
+        grid-column-gap: 5px;
+        grid-row-gap: 5px;
+        grid-template-areas: 
+            ". ZoomOut header ZoomIn ." 
+            ". prevButton content nextButton ." 
+            ". prevButton content nextButton ."
+    }
+
+    #ComicPage {
+        display: grid;
+        grid-template-columns: 25px max-content 25px;
+        grid-template-rows: 50px auto 50px;
+        grid-template-areas: ". ComicHeader ." ". Table ." "prevPage paging nextPage"
+    }
+
+    #paging {
+        grid-area: paging;
+    }
+
+    #pagingLinks {
+        text-align: center;
+        margin-top: -2px;
+    }
+
+        #pagingLinks > li {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            font-size: x-large;
+            background-color: darkred;
+            text-align: center;
+            padding: 9px;
+            margin: -1px;
+        }
+
+    li > a {
+        color: white;
+        font-size: x-large;
+    }
 }
 
 #ZoomOut {
@@ -110,15 +189,15 @@ a {
     grid-area: ZoomIn;
 }
 
-    #ZoomOut a,
-    #ZoomIn a {
-        color: white;
-        font-size: xx-large;
-        display: block;
-        min-height: 45px;
-        background-color: darkred;
-        text-align: center;
-    }
+#ZoomOut a,
+#ZoomIn a {
+    color: white;
+    font-size: xx-large;
+    display: block;
+    min-height: 45px;
+    background-color: darkred;
+    text-align: center;
+}
 
 #header {
     grid-area: header;
@@ -126,16 +205,16 @@ a {
     align-self: center;
 }
 
-    #header a {
-        color: white;
-        font-size: xx-large;
-        display: block;
-        min-height: 45px;
-        min-width: inherit;
-        background-color: darkred;
-        padding-left: 45px;
-        padding-right: 45px;
-    }
+#header a {
+    color: white;
+    font-size: xx-large;
+    display: block;
+    min-height: 45px;
+    min-width: inherit;
+    background-color: darkred;
+    padding-left: 45px;
+    padding-right: 45px;
+}
 
 #prevButton {
     grid-area: prevButton;
@@ -152,21 +231,21 @@ a {
     align-self: center;
 }
 
-    #prevButton a,
-    #nextButton a {
-        font-size: xx-large;
-        color: white;
-        display: block;
-        min-height: 450px;
-        background-color: darkred;
-        padding-top: 450px;
-        padding-left: 10px;
-    }
+#prevButton a,
+#nextButton a {
+    font-size: xx-large;
+    color: white;
+    display: block;
+    min-height: 450px;
+    background-color: darkred;
+    padding-top: 450px;
+    padding-left: 10px;
+}
 
-    #nextButton a {
-        text-align: right;
-        padding-right: 10px;
-    }
+#nextButton a {
+    text-align: right;
+    padding-right: 10px;
+}
 
 /* Styles for basic forms
 -----------------------------------------------------------*/

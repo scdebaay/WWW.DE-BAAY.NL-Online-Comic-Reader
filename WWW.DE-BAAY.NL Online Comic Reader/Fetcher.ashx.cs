@@ -1,16 +1,12 @@
-﻿using System;
-using System.Web;
-using System.Web.Configuration;
-using System.IO;
+﻿using System.Web;
 using WWW.DE_BAAY.NL_Online_Comic_Reader.Resources;
-using WWW.DE_BAAY.NL_Online_Comic_Reader.ComicEngine;
-using System.Drawing;
 
 namespace WWW.DE_BAAY.NL_Online_Comic_Reader
 {
     /// <summary>
-    /// Summary description for Comic
-    /// </summary>
+    /// Initial call for the handler. Requests are passed on to the API Call object in the resources folder for further processing.
+    /// This is standard handler implementation.
+    /// <summary>
     public class Fetcher : IHttpHandler
     {
 

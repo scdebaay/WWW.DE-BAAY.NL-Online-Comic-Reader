@@ -51,9 +51,9 @@ namespace ComicReaderWeb.Controllers
                 Session["currentSizeKey"] = comic.size;
             }
             
-            string pageRequest = "&page=" + comic.page.ToString() + "&size=" + comic.size; //Build the pageRequest to be passed to the API.
-            //Set the ImageSource property to the API location requesting the currentPage
-            ViewBag.ImageSource = config.ApiLocation + "?file=" + comic.requestedFolder + "/" + comic.requestedFile + pageRequest;
+            string pageRequestParams = "&page=" + comic.page.ToString() + "&size=" + comic.size; //Build the pageRequest to be passed to the API.
+            //Set the ImageSource property to the API location requesting the Comic with current page and size parameters.
+            ViewBag.ImageSource = config.ApiLocation + "?file=" + comic.requestedFolder + "/" + comic.requestedFile + pageRequestParams;
             return View("Comic", comic); //Also pass Comic model to view to have all paramters available.
         }
     }

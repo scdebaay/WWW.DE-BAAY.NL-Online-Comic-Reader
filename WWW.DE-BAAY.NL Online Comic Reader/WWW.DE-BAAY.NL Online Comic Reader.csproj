@@ -118,6 +118,7 @@
     <Content Include="Fetcher.ashx" />
     <None Include="ComicEngine.cd" />
     <None Include="Properties\PublishProfiles\LocalSystem.pubxml" />
+    <None Include="Properties\PublishProfiles\PreRelease.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="cachePath\" />

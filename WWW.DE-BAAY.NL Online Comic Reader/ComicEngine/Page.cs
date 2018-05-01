@@ -1,10 +1,7 @@
-﻿using System;
+﻿using SharpCompress.Archive;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Drawing;
-using System.Drawing.Imaging;
-using SharpCompress.Archive;
 using System.IO;
 using WWW.DE_BAAY.NL_Online_Comic_Reader.ImageEngine;
 
@@ -82,6 +79,11 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.ComicEngine
             }
         }
 
+        /// <summary>
+        /// If the size parameter is present, resize the bitmap using the size int as width.
+        /// </summary>
+        /// <param name="size">Int to be used as the width if the resized bitmap.</param>
+        /// <returns></returns>
         public Bitmap ReSizePage(int size)
         {
             ExtractIfRequired();
@@ -89,30 +91,7 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.ComicEngine
             return bi;
         }
 
-        //Moved resizing into ComicEngine namespace.
-        //private Bitmap CreateImage(Stream stream, int? size)
-        //{
-        //    try
-        //    {
-        //        Bitmap bi = new Bitmap(stream);
-        //        int cx = size ?? bi.Width;
-        //        decimal temp = (decimal)(bi.Height * (cx / (float)bi.Width));
-        //        int cy = (int)Math.Round(temp);
-
-        //        Size newsize = new Size(cx, cy);
-        //        Image result = new Bitmap(bi, newsize);
-        //        using (Graphics g = Graphics.FromImage(result))
-        //            g.DrawImage(result, 0, 0, cx, cy);
-        //        return (Bitmap)result;
-
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Exception = e.ToString();
-        //        HasError = true;
-        //        return null;
-        //    }
-        //}
+        //Moved resizing into ImageEngine namespace.
 
         internal void RefreshImage()
         {

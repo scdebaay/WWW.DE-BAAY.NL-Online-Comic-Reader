@@ -1,22 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Drawing;
-using System.Drawing.Imaging;
+﻿using System.Drawing.Imaging;
 using System.IO;
-using System.Net;
 
 namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
 {
     public class ContType
     {
+        /// <summary>
+        /// A path and filename are passed into the constructor.
+        /// </summary>
+        /// <param name="file">path and filename of which the type is to be determined</param>
         public ContType(string file)
         {
             this.Extension = Path.GetExtension(file);
             GetType(Extension); 
         }
-        
+
+        /// <summary>
+        /// The ContType properties are set based on the file extension
+        /// </summary>
+        /// <param name="type">The extension of the file being processed</param>
         private void GetType(string type)
         {
             string contentType = "";
