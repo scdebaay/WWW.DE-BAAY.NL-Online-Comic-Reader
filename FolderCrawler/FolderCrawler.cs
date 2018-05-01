@@ -25,22 +25,22 @@ namespace FolderCrawler
         {
             // Data structure to hold names of subfolders to be
             // examined for files.
-            Stack<DirectoryInfo> dirs = new Stack<DirectoryInfo>(20);
+            Stack<DirectoryInfo> dirStack = new Stack<DirectoryInfo>(20);
             List<FileInfo> fileInfos = new List<FileInfo>();
 
             if (!System.IO.Directory.Exists(dir.FullName))
             {
                 throw new ArgumentException();
             }
-            dirs.Push(dir);
+            dirStack.Push(dir);
 
-            while (dirs.Count > 0)
+            while (dirStack.Count > 0)
             {
-                DirectoryInfo currentDir = dirs.Pop();
-                string[] subDirs;
+                DirectoryInfo currentDir = dirStack.Pop();
+                DirectoryInfo[] subDirs;
                 try
                 {
-                    subDirs = System.IO.Directory.GetDirectories(currentDir.FullName);
+                    subDirs = currentDir.GetDirectories();
                 }
                 // An UnauthorizedAccessException exception will be thrown if we do not have
                 // discovery permission on a folder or file. It may or may not be acceptable 
@@ -51,46 +51,50 @@ namespace FolderCrawler
                 // choice of which exceptions to catch depends entirely on the specific task 
                 // you are intending to perform and also on how much you know with certainty 
                 // about the systems on which this code will run.
-                catch (UnauthorizedAccessException e)
+                catch (UnauthorizedAccessException)
                 {
-                    Console.WriteLine(e.Message);
                     continue;
                 }
-                catch (System.IO.DirectoryNotFoundException e)
+                catch (DirectoryNotFoundException)
                 {
-                    Console.WriteLine(e.Message);
                     continue;
                 }
+                //Uncomment for troubleshooting
+                //catch (Exception e)
+                //{
+                //    Exception Error = new Exception("Error",e);
+                //    throw Error;
+                //}
 
-                //string[] files = null;
                 try
                 {
-                    //files = System.IO.Directory.GetFiles(currentDir);
+                    List<FileInfo> fileList = new List<FileInfo>();
                     foreach (var file in currentDir.GetFiles("*"))
                     {
                         if (!file.Attributes.HasFlag(FileAttributes.Hidden) | !file.Attributes.HasFlag(FileAttributes.System))
                         {
-                            fileInfos.Add(file);
+                            fileList.Add(file);
                         }
                     }
+                    fileList.Reverse();
+                    foreach (var comic in fileList)
+                    {
+                        fileInfos.Add(comic);
+                    }
                 }
-                catch (UnauthorizedAccessException e)
+                catch (UnauthorizedAccessException)
                 {
-
-                    //Console.WriteLine(e.Message);
                     continue;
                 }
-                catch (System.IO.DirectoryNotFoundException e)
+                catch (DirectoryNotFoundException)
                 {
-                    //Console.WriteLine(e.Message);
                     continue;
                 }
                 // Push the subdirectories onto the stack for traversal.
                 // This could also be done before handing the files.
-                foreach (string str in subDirs)
+                foreach (DirectoryInfo dirInfo in subDirs)
                 {
-                    DirectoryInfo dirInfo = new DirectoryInfo(str);
-                    dirs.Push(dirInfo);
+                    dirStack.Push(dirInfo);
                 }
             }
             fileInfos.Reverse();
