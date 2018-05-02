@@ -122,7 +122,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Comic.cs" />
+    <Compile Include="Models\ComicList.cs" />
     <Compile Include="Models\ComicPage.cs" />
+    <Compile Include="Models\StaticWebConfguration.cs" />
     <Compile Include="Models\WebConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

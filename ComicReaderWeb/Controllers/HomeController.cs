@@ -6,8 +6,9 @@ namespace ComicReaderWeb.Controllers
 {
     public class HomeController : Controller
     {
-        //Initialize application by creating a configuration object.
-        WebConfiguration config = new WebConfiguration(System.Web.HttpContext.Current);
+        //Initialize application by creating a configuration object and a Comic List that will be used for this session.
+        static WebConfiguration config = new WebConfiguration(System.Web.HttpContext.Current);
+        ComicList comicList = new ComicList(config);
         //
         // GET: /Home/
         public ActionResult Index(int? page)
@@ -31,8 +32,8 @@ namespace ComicReaderWeb.Controllers
                     System.Int32.TryParse(Session["currentPageKey"].ToString(), out currentPage);
                 }                
             }
-            //Call the ComicPage model using the configuration object and the currentPage property.
-            ComicPage comicpage = new ComicPage(config, currentPage);
+            //Call the ComicPage model using the configuration object, the comic list object and the currentPage property.
+            ComicPage comicpage = new ComicPage(config, comicList, currentPage);
             //Pass the ComicPage object result table, containing a partial html div detailing available comics
             ViewBag.Table = comicpage.ResultTables;
             //return the view and the ComicPage object to the view. ComicPage object is needed in view to pass current object parameters as currentPage.
