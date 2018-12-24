@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Hosting;
+using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using System.Xml.Xsl;
@@ -48,7 +49,7 @@ namespace ComicReaderWeb.Models
             //Build the comicList to pass to the XslStylesheet.
             XPathDocument XDoccomicList = new XPathDocument(result);
             //Transform the comicList and set ResultTables property with the result.
-            XslCompiledTransform transform = new XslCompiledTransform();
+            XslCompiledTransform transform = new XslCompiledTransform(true);
             var trans = HostingEnvironment.MapPath(@"~\Views\Home\FolderTable.xslt");
             transform.Load(trans);
             transform.Transform(XDoccomicList, argList, resultTable);
@@ -107,13 +108,30 @@ namespace ComicReaderWeb.Models
         //Parse the result with pageLimit and currentPage parameters to enable paged browsing of the ComicPages.
         private XElement preResult(XDocument result, int pageLimit, int currentPage)
         {
-            var preResult = new XElement("folder");
-            XElement[] allFileElements = result.XPathSelectElements("//file").ToArray();
+            //Extract all attribute values from incoming XDocument
+            var preResultName = result.Root.Attribute("name").Value.ToString();
+            var preResultFiles = result.Root.Attribute("files").Value.ToString();
+            var preResultTotalPages = result.Root.Attribute("totalPages").Value.ToString();
+            var preResultCurrentPage = result.Root.Attribute("currentPage").Value.ToString();
+            var preResultNameSpace = result.Root.Attribute("xmlns").Value.ToString();
+            //Define Namespace manager to be used to construct the XDocument to return to the caller
+            XmlNamespaceManager r = new XmlNamespaceManager(new NameTable());
+            r.AddNamespace("debaay", preResultNameSpace);
+
+            //Construct the XDocument
+            var preResult = new XElement("folder", 
+                new XAttribute("name",preResultName),
+                new XAttribute("files", preResultFiles),
+                new XAttribute("totalPages", preResultTotalPages),
+                new XAttribute("currentPage", preResultCurrentPage),
+                new XAttribute(XNamespace.Xmlns + "debaay", preResultNameSpace));
+            XElement[] allFileElements = result.XPathSelectElements("//debaay:file",r).ToArray();
             XElement[] selectedFiles = allFileElements.Skip((currentPage - 1) * pageLimit).Take(pageLimit).ToArray();
             foreach (var file in selectedFiles)
             {
                 preResult.Add(file);
             }
+            //Return the result
             return preResult;
         }
     }

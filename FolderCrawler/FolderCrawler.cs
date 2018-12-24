@@ -118,7 +118,16 @@ namespace FolderCrawler
                     continue;
                 }
             }
+            SetDefaultXmlNamespace(info , "http://www.de-baay.nl/ComicCloud");
             return info;
+        }
+
+        public static void SetDefaultXmlNamespace(XElement xelem, XNamespace xmlns)
+        {
+            if (xelem.Name.NamespaceName == string.Empty)
+                xelem.Name = xmlns + xelem.Name.LocalName;
+            foreach (var e in xelem.Elements())
+                SetDefaultXmlNamespace(e, xmlns);
         }
 
         private static string GetRelativePath(FileInfo file, DirectoryInfo dir, DirectoryInfo mediafolder)

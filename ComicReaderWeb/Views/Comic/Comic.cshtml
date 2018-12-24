@@ -1,6 +1,6 @@
 ﻿@model ComicReaderWeb.Models.Comic
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_ComicLayout.cshtml";
 }
 @{
     var comic = new ComicReaderWeb.Models.Comic()
@@ -11,46 +11,32 @@
         requestedFile = Model.requestedFile
     };
 }
-<!DOCTYPE html>
-<html>
-<head>
-    <title>@comic.ComicName</title>
-    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
-    <script type="text/javascript">
-        function ZoomOut() {
-            var ZoomOut = @comic.size-100;
-            var url = window.location.href;
-            if (url.indexOf("?") > 0) {
-                url = url.substring(0, url.indexOf("?"));
-            }
-            var url = url + "?size=" + ZoomOut;
-            window.location.replace(url);
-        }
-        function ZoomIn() {
-            var ZoomOut = @comic.size+100;
-            var url = window.location.href;
-            if (url.indexOf("?") > 0) {
-                url = url.substring(0, url.indexOf("?"));
-            }
-            var url = url + "?size=" + ZoomOut;
-            window.location.replace(url);
-        }
-    </script>
-</head>
-<body>
+    <!--Header-->
+    <div id="SiteHeader">
+        <div id="Logo">
+            <img src="@Url.Content("~/Content/Images/LogoSolinoRound.svg")" height="100px" width="100px" />
+        </div>
+        <div id="TitleDiv">
+            <div id="Title">Solino de Baay</div>
+            <div id="SubTitle">A nice collection of Comics</div>
+        </div>
+    </div>
+    <div id="MenuBar"></div>
+    <!--Content-->
     <div id="Comic">
-        <div id="ZoomOut"><a href="#" onClick="return ZoomOut();">-</a></div>
+        <div id="ZoomOut"><a href="#" onClick="return ZoomOut('@(comic.size)');">-</a></div>
         <div id="header">@Html.ActionLink("Home", "Index", "Home", new { @page = Session["currentPageKey"] }, null)</div>
-        <div id="ZoomIn"><a href="#" onClick="return ZoomIn();">+</a></div>
+        <div id="ZoomIn"><a href="#" onClick="return ZoomIn('@(comic.size)');">+</a></div>
         <div id="prevButton">
             @Html.ActionLink("<", "Read", new { @folder = comic.requestedFolder, @file = comic.requestedFile, @page = comic.Previous }, null)
         </div>
         <div id="content">
-            <img width="@comic.size" alt="Comic" src="@ViewBag.ImageSource" id="comic" />
+            <img width="@comic.size" alt="Comic" src="@ViewBag.ImageSource" id="ComicLeaf" />
         </div>
         <div id="nextButton">
             @Html.ActionLink(">", "Read", new { @folder = comic.requestedFolder, @file = comic.requestedFile, @page = comic.Next }, null)
         </div>
     </div>
-</body>
-</html>
+    <div id="ComicBottomMargin"></div>
+    <!--Footer-->
+    <div id="Footer"></div>

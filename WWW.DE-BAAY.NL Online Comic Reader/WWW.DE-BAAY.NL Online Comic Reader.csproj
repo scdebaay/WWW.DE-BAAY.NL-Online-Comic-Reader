@@ -117,8 +117,9 @@
   <ItemGroup>
     <Content Include="Fetcher.ashx" />
     <None Include="ComicEngine.cd" />
+    <None Include="Properties\PublishProfiles\API PreRelease.pubxml" />
     <None Include="Properties\PublishProfiles\LocalSystem.pubxml" />
-    <None Include="Properties\PublishProfiles\PreRelease.pubxml" />
+    <None Include="Properties\PublishProfiles\Reader PreRelease.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="cachePath\" />

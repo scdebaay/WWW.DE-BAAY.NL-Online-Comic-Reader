@@ -187,7 +187,10 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
                                 }
                                 //Create a DirectoryInfo object using the requestedDir to create an XML directory listing.
                                 DirectoryInfo dir = new DirectoryInfo(requestedDir);
-                                XDocument xmlFolderResult = new XDocument(FolderCrawler.FolderCrawler.GetDirectoryXml(dir, dir, this.pageLimit, this.page));
+                                XDocument xmlFolderResult = new XDocument(
+                                    new XDeclaration("1.0", "utf-8", "yes"),
+                                    FolderCrawler.FolderCrawler.GetDirectoryXml(dir, dir, this.pageLimit, this.page));
+                                
                                 //Write the resulting XML to the response.
                                 httpContext.Response.ContentType = "Application/xml";
                                 httpContext.Response.Write(xmlFolderResult);
