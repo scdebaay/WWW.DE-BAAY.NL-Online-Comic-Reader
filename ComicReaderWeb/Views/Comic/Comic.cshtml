@@ -28,13 +28,13 @@
         <div id="header">@Html.ActionLink("Home", "Index", "Home", new { @page = Session["currentPageKey"] }, null)</div>
         <div id="ZoomIn"><a href="#" onClick="return ZoomIn('@(comic.size)');">+</a></div>
         <div id="prevButton">
-            @Html.ActionLink("<", "Read", new { @folder = comic.requestedFolder, @file = comic.requestedFile, @page = comic.Previous }, null)
+            <a href="#" onClick="return PrevPage();"><</a>
         </div>
         <div id="content">
             <img width="@comic.size" alt="Comic" src="@ViewBag.ImageSource" id="ComicLeaf" />
         </div>
         <div id="nextButton">
-            @Html.ActionLink(">", "Read", new { @folder = comic.requestedFolder, @file = comic.requestedFile, @page = comic.Next }, null)
+            <a href="#" onClick="return NextPage();">></a>
         </div>
     </div>
     <div id="ComicBottomMargin"></div>
