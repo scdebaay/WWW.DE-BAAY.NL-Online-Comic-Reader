@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using System.Web;
-
+using System.Xml;
 
 namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
 {
@@ -125,5 +125,24 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
             context.Response.ContentType = new ContType(file).ContentType;
             return context;
         }
+
+        public static XmlDocument ToXmlDocument(this XDocument xDocument)
+        {
+            var xmlDocument = new XmlDocument();
+            using (var xmlReader = xDocument.CreateReader())
+            {
+                xmlDocument.Load(xmlReader);
+            }
+            return xmlDocument;
+        }
+
+        public static XDocument ToXDocument(this XmlDocument xmlDocument)
+        {
+            using (var nodeReader = new XmlNodeReader(xmlDocument))
+            {
+                nodeReader.MoveToContent();
+                return XDocument.Load(nodeReader);
+            }
+        }        
     }
 }
