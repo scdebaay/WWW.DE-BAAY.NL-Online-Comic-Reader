@@ -1,0 +1,26 @@
+﻿@model ComicReaderWeb.Models.Comic
+@{ 
+    var comic = new ComicReaderWeb.Models.Comic()
+    {
+        size = Model.size,
+        page = Model.page,
+        requestedFolder = Model.requestedFolder,
+        requestedFile = Model.requestedFile
+    };
+}
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@comic.ComicName</title>
+    @Html.Partial("~/Views/Shared/_HeaderLayout.cshtml")
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ZoomScript.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ComicPageBrowserScript.js")"></script>
+</head>
+<body>
+    @RenderBody()
+</body>
+</html>

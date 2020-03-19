@@ -1,0 +1,18 @@
+﻿@model ComicReaderWeb.Models.ComicPage
+@{
+    var comicPage = new ComicReaderWeb.Models.ComicPage(Model.conf, Model.comicList, Model.currentPage)
+    { };
+}
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Solino's Comic Cloud</title>
+    @Html.Partial("~/Views/Shared/_HeaderLayout.cshtml")
+</head>
+<body>
+    @RenderBody()
+</body>
+</html>

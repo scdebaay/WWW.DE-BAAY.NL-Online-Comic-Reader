@@ -1,49 +1,52 @@
 ﻿@model ComicReaderWeb.Models.ComicPage
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
 }
 @{
-    var comicPage = new ComicReaderWeb.Models.ComicPage(Model.conf, Model.currentPage)
+    var comicPage = new ComicReaderWeb.Models.ComicPage(Model.conf, Model.comicList, Model.currentPage)
     { };
 }
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Index</title>
-    <meta name="viewport" content="width-device-width, initial-scale=1.0" />
-    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
-    <title>Solino's Comic Cloud</title>
-</head>
-<body>
-    <div id="ComicPage">
-        <div id="ComicHeader">Comics available</div>
-        <div id="TableDiv">
-            @ViewBag.Table
-        </div>
-        <div id="prevPage">
-            @Html.ActionLink("<", "Index", "Home", new { @page = comicPage.previousPage }, null)
-        </div>
-        <div id="paging">
-            <ul id="pagingLinks">
+<!--Header-->
+<div id="SiteHeader">
+    <div id="Logo">
+        <img src="@Url.Content("~/Content/Images/LogoSolinoRound.svg")" />
+    </div>
+    <div id="TitleDiv">
+        <div id="Title">Solino de Baay</div>
+        <div id="SubTitle">A nice collection of Comics</div>
+    </div>
+</div>
+<div id="MenuBar"></div>
+<!--Content-->
+<div id="ComicPage">
+    <div id="ComicHeader">Comics available</div>
+    <div id="TableDiv">
+        @ViewBag.Table
+    </div>
+    <div id="prevPage">
+        @Html.ActionLink("<", "Index", "Home", new { @page = comicPage.previousPage }, null)
+    </div>
+    <div id="paging">
+        <ul id="pagingLinks">
             @if (comicPage.currentPage != 1)
-            { 
+            {
                 <li>@Html.ActionLink("First", "Index", "Home", new { @page = 1 }, null)</li>
             }
             @if (comicPage.currentPage > 3)
             {
-                <li>@Html.ActionLink( (comicPage.currentPage - 3).ToString(), "Index", "Home", new { @page = comicPage.currentPage - 3 }, null)</li>
+                <li>@Html.ActionLink((comicPage.currentPage - 3).ToString(), "Index", "Home", new { @page = comicPage.currentPage - 3 }, null)</li>
             }
             @if (comicPage.currentPage > 2)
             {
                 <li>@Html.ActionLink((comicPage.currentPage - 2).ToString(), "Index", "Home", new { @page = comicPage.currentPage - 2 }, null)</li>
             }
             @if (comicPage.currentPage > 1)
-            { 
+            {
                 <li>@Html.ActionLink((comicPage.currentPage - 1).ToString(), "Index", "Home", new { @page = comicPage.currentPage - 1 }, null)</li>
             }
             <li>Page @comicPage.currentPage of @comicPage.totalPages</li>
             @if (comicPage.currentPage + 1 < comicPage.totalPages)
-            { 
+            {
                 <li>@Html.ActionLink((comicPage.currentPage + 1).ToString(), "Index", "Home", new { @page = comicPage.currentPage + 1 }, null)</li>
             }
             @if (comicPage.currentPage + 2 < comicPage.totalPages)
@@ -55,14 +58,14 @@
                 <li>@Html.ActionLink((comicPage.currentPage + 3).ToString(), "Index", "Home", new { @page = comicPage.currentPage + 3 }, null)</li>
             }
             @if (comicPage.currentPage != comicPage.totalPages)
-            { 
-                <li>@Html.ActionLink("Last", "Index", "Home", new { @page = comicPage.totalPages}, null)</li>
+            {
+                <li>@Html.ActionLink("Last", "Index", "Home", new { @page = comicPage.totalPages }, null)</li>
             }
-            </ul>
-        </div>
-        <div id="nextPage">
-            @Html.ActionLink(">", "Index", "Home", new { @page = comicPage.nextPage }, null)
-        </div>
+        </ul>
     </div>
-</body>
-</html>
+    <div id="nextPage">
+        @Html.ActionLink(">", "Index", "Home", new { @page = comicPage.nextPage }, null)
+    </div>
+</div>
+<div id="PagingBar"></div>
+<div id="Footer"></div>

@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WWW.DE-BAAY.NL Online Comic Reader", "WWW.DE-BAAY.NL Online Comic Reader\WWW.DE-BAAY.NL Online Comic Reader.csproj", "{17CEE1E0-D25E-48DC-9995-F299FE5DBC19}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FolderCrawler", "FolderCrawler\FolderCrawler.csproj", "{D888A446-D5A6-4183-B932-471ECD78C945}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComicReaderWeb", "ComicReaderWeb\ComicReaderWeb.csproj", "{2E57B4A4-1A80-4F26-BEDF-BB973AC65855}"
 EndProject
 Global
@@ -19,10 +17,6 @@ Global
 		{17CEE1E0-D25E-48DC-9995-F299FE5DBC19}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17CEE1E0-D25E-48DC-9995-F299FE5DBC19}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17CEE1E0-D25E-48DC-9995-F299FE5DBC19}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D888A446-D5A6-4183-B932-471ECD78C945}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D888A446-D5A6-4183-B932-471ECD78C945}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D888A446-D5A6-4183-B932-471ECD78C945}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D888A446-D5A6-4183-B932-471ECD78C945}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2E57B4A4-1A80-4F26-BEDF-BB973AC65855}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2E57B4A4-1A80-4F26-BEDF-BB973AC65855}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E57B4A4-1A80-4F26-BEDF-BB973AC65855}.Release|Any CPU.ActiveCfg = Release|Any CPU

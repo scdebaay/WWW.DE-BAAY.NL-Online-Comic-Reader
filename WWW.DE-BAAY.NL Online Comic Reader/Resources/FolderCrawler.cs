@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using System.IO;
+using WWW.DE_BAAY.NL_Online_Comic_Reader.ComicEngine;
 
 namespace FolderCrawler
 {
@@ -107,11 +108,14 @@ namespace FolderCrawler
 
             foreach (var file in files)
             {
+                int totalpages = Comic.LoadFromFile(file).Pages.Count;
+
                 try
                 {
                     info.Add(new XElement("file",
                                  new XAttribute("name", file.Name),
-                                 new XAttribute("path", GetRelativePath(file, file.Directory, mediafolder))));
+                                 new XAttribute("path", GetRelativePath(file, file.Directory, mediafolder)),
+                                 new XAttribute("totalpages", totalpages)));
                 }
                 catch
                 {

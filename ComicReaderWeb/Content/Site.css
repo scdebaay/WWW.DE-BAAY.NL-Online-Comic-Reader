@@ -1,31 +1,129 @@
-body {
-    font-size: .85em;
-    font-family: Muli, Sans-Serif;
-    color: #232323;
-    background-color: #fff;
+@font-face {
+    font-family: 'Eras Light';
+    src: url('Fonts/ERASLGHT.TTF');
 }
 
-header,
-footer,
-nav,
-section {
-    display: block;
+@font-face {
+    font-family: 'Eras Medium';
+    src: url('Fonts/ERASMD.TTF');
+}
+
+@font-face {
+    font-family: 'Eras Demi';
+    src: url('Fonts/ERASDEMI.TTF');
+}
+
+@font-face {
+    font-family: 'Eras Bold';
+    src: url('Fonts/ERASBD.TTF');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-size: .85em;
+    font-family: 'Eras Light';
+    color: #232323;
+    background-color: #999999;
 }
 
 a {
-    color: black;
     text-decoration: none;
 }
 
+#SiteHeader {
+    background-color: #1A1A1A;
+    font-family: Eras Demi;
+    color: #FBB03B;
+    display: flex;
+    align-items: center;
+    height: 67.5px;
+    border-top: solid 7.5px #FBB03B;
+    width: 100%;
+}
+
+#Logo {
+    margin-left: 10px;
+}
+
+    #Logo > img {
+        width: 50px;
+        height: 50px;
+    }
+
+#TitleDiv {
+    margin-left: 25px;
+}
+
+#Title {
+    font-size: 36px;
+}
+
+#SubTitle {
+    font-size: 10px;
+    color: white;
+}
+
+#MenuBar {
+    width: 100%;
+    height: 40px;
+    background-color: #58595B;
+}
+
+@media screen and (min-width: 736px) {
+    #SiteHeader {
+        position: fixed;
+        background-color: #1A1A1A;
+        font-family: Eras Demi;
+        color: #FBB03B;
+        display: flex;
+        align-items: center;
+        height: 135px;
+        border-top: solid 15px #FBB03B;
+        margin-top: -150px;
+        width: 100%;
+    }
+
+    #Logo {
+        margin-left: 10px;
+    }
+
+        #Logo > img {
+            width: 100px;
+            height: 100px;
+        }
+
+    #TitleDiv {
+        margin-left: 50px;
+    }
+
+    #Title {
+        font-size: 72px;
+    }
+
+    #SubTitle {
+        font-size: 21px;
+        color: white;
+    }
+
+    #MenuBar {
+        width: 100%;
+        height: 40px;
+        background-color: #58595B;
+        margin-top: 150px;
+    }
+}
+
 #ComicPage {
+    margin-top: -40px;
     display: grid;
     grid-template-columns: 25px max-content 25px;
     grid-template-rows: 50px auto 50px;
-    grid-template-areas: ". ComicHeader ." ". Table ." "prevPage paging nextPage"
-}
-
-#paging {
-    grid-area: paging;
+    grid-template-areas: ". ComicHeader ." ". Table ." "prevPage paging nextPage";
+    margin-bottom: 17.5px;
 }
 
 #TableDiv {
@@ -45,17 +143,32 @@ a {
         grid-area: ComicTable;
         display: grid;
         grid-template-columns: repeat(5, 1fr);
-        grid-column-gap: 10px;
+        gap: 20px;
     }
 }
 
 #ComicHeader {
+    margin: 0px 0px 10px 0px;
     grid-area: ComicHeader;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Eras Medium';
+    color: white;
     font-size: xx-large;
+    background-color: #58595B;
+}
+
+@media screen and (min-width: 736px) {
+    .ComicCell {
+        box-shadow: 7.5px 10px 3px #1A1A1A;
+    }
 }
 
 .ComicCell {
+    background-color: #BBBDBF;
+    max-height: 265px;
+    padding: 5px;
 }
 
 .ComicThumbnail, .ComicLink {
@@ -63,11 +176,14 @@ a {
 }
 
 .ComicThumbnail {
+    display: flex;
+    justify-content: center;
     min-height: 250px;
     max-height: 250px;
 }
+
 .ComicLink {
-    background-color: darkred;
+    background-color: #58595B;
     color: white;
     white-space: nowrap;
     overflow: hidden;
@@ -86,82 +202,132 @@ a {
     text-align: center;
 }
 
+#paging {
+    grid-area: paging;
+    margin-top: 13px;
+}
+
+#PagingBar {
+    height: 25px;
+    width: 100%;
+    margin-top: -60px;
+    background-color: #58595B;
+}
+
+#prevPage, #nextPage {
+    grid-area: nextPage;
+    margin-top: 13px;
+}
+
 #prevPage {
     grid-area: prevPage;
 }
 
-#nextPage {
-    grid-area: nextPage;
-}
-
-#nextPage a, 
-#prevPage a {
-    color: white;
-    font-size: xx-large;
-    height: 50px;
-    background-color: darkred;
-    text-align: center;
-    padding: 5px;
-}
+    #nextPage a,
+    #prevPage a {
+        color: white;
+        font-size: small;
+        height: 30px;
+        background-color: #58595B;
+        text-align: center;
+        padding: 5px;
+    }
 
 #pagingLinks {
     text-align: center;
-    margin-top: -2px;
-    margin-left: -32px;
+    margin-top: -4px;
     margin-right: 3px;
 }
 
-#pagingLinks > li {
-    display: inline-block;
-    color: white;
-    text-decoration: none;
-    font-size: smaller;
-    background-color: darkred;
-    text-align: center;
-    padding: 5px;
-    margin: -1px;
-}
+    #pagingLinks > li {
+        display: inline-block;
+        color: white;
+        text-decoration: none;
+        font-size: small;
+        background-color: #58595B;
+        text-align: center;
+        padding: 5px;
+        margin: -1px;
+    }
 
 li > a {
     color: white;
-    font-size: smaller;
+    font-size: small;
 }
- #Comic {
-        display: grid;
-        grid-template-columns: 50px min-content 50px;
-        grid-template-rows: 45px auto 50px;
-        grid-column-gap: 5px;
-        grid-row-gap: 5px;
-        grid-template-areas: "ZoomOut header ZoomIn" "prevButton content nextButton" "prevButton content nextButton"
-    }
+
+#Footer {
+    height: 30px;
+    background-color: #1A1A1A;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    border-bottom: solid 5px #FBB03B;
+}
+
+#Comic {
+    display: grid;
+    grid-template-columns: 50px min-content 50px;
+    grid-template-rows: 40px auto 50px;
+    grid-column-gap: 5px;
+    grid-row-gap: 5px;
+    grid-template-areas: "ZoomOut header ZoomIn" "prevButton content nextButton" "prevButton content nextButton";
+    margin-top: -40px;
+}
 
 @media screen and (min-width: 736px) {
     #Comic {
+        margin-top: -40px;
         display: grid;
         grid-template-columns: 25px 50px min-content 50px 25px;
-        grid-template-rows: 45px auto 45px;
+        grid-template-rows: 40px auto 45px;
         grid-column-gap: 5px;
         grid-row-gap: 5px;
-        grid-template-areas: 
-            ". ZoomOut header ZoomIn ." 
-            ". prevButton content nextButton ." 
-            ". prevButton content nextButton ."
+        grid-template-areas: ". ZoomOut header ZoomIn ." ". prevButton content nextButton ." ". prevButton content nextButton ."
     }
 
     #ComicPage {
+        margin-top: -40px;
         display: grid;
         grid-template-columns: 25px max-content 25px;
         grid-template-rows: 50px auto 50px;
-        grid-template-areas: ". ComicHeader ." ". Table ." "prevPage paging nextPage"
+        grid-template-areas: ". ComicHeader ." ". Table ." "prevPage paging nextPage";
+        margin-bottom: 47px;
     }
 
     #paging {
         grid-area: paging;
+        margin-top: 20px;
+    }
+
+    #prevPage, #nextPage {
+        grid-area: nextPage;
+        margin-top: 20px;
+    }
+
+    #prevPage {
+        grid-area: prevPage;
+    }
+
+        #nextPage a,
+        #prevPage a {
+            color: white;
+            font-size: xx-large;
+            height: 50px;
+            background-color: #58595B;
+            text-align: center;
+            padding: 5px;
+        }
+
+    #PagingBar {
+        height: 50px;
+        width: 100%;
+        margin-top: -85px;
+        background-color: #58595B;
     }
 
     #pagingLinks {
         text-align: center;
-        margin-top: -2px;
     }
 
         #pagingLinks > li {
@@ -169,10 +335,9 @@ li > a {
             color: white;
             text-decoration: none;
             font-size: x-large;
-            background-color: darkred;
+            background-color: #58595B;
             text-align: center;
             padding: 9px;
-            margin: -1px;
         }
 
     li > a {
@@ -189,36 +354,41 @@ li > a {
     grid-area: ZoomIn;
 }
 
-#ZoomOut a,
-#ZoomIn a {
-    color: white;
-    font-size: xx-large;
-    display: block;
-    min-height: 45px;
-    background-color: darkred;
-    text-align: center;
-}
+    #ZoomOut a,
+    #ZoomIn a {
+        color: white;
+        font-size: xx-large;
+        display: block;
+        min-height: 45px;
+        text-align: center;
+    }
 
 #header {
+    font-family: 'Eras Medium';
     grid-area: header;
     justify-self: center;
     align-self: center;
 }
 
-#header a {
-    color: white;
-    font-size: xx-large;
-    display: block;
-    min-height: 45px;
-    min-width: inherit;
-    background-color: darkred;
-    padding-left: 45px;
-    padding-right: 45px;
+    #header a {
+        color: white;
+        font-size: xx-large;
+        display: block;
+        min-height: 45px;
+        min-width: inherit;
+        padding-left: 45px;
+        padding-right: 45px;
+    }
+
+#prevButton, #nextButton {
+    align-items: center;
+    display: table-cell;
+    vertical-align: middle;
 }
 
 #prevButton {
     grid-area: prevButton;
-    align-self: center;
+    background-color: #58595B;
 }
 
 #content {
@@ -228,23 +398,22 @@ li > a {
 
 #nextButton {
     grid-area: nextButton;
-    align-self: center;
+    background-color: #58595B;
 }
 
-#prevButton a,
-#nextButton a {
-    font-size: xx-large;
-    color: white;
-    display: block;
-    min-height: 450px;
-    background-color: darkred;
-    padding-top: 450px;
-    padding-left: 10px;
-}
+    #prevButton a,
+    #nextButton a {
+        font-size: xx-large;
+        color: white;
+        display: flex;
+        height: 100%;
+        background-color: #58595B;
+        align-items: center;
+        justify-content: center;
+    }
 
-#nextButton a {
-    text-align: right;
-    padding-right: 10px;
+#ComicBottomMargin {
+    height: 40px;
 }
 
 /* Styles for basic forms

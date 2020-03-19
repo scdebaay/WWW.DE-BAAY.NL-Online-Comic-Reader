@@ -1,4 +1,4 @@
-﻿using SharpCompress.Archive;
+﻿using SharpCompress.Archives;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -141,7 +141,7 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.ComicEngine
         {
             get
             {
-                return entry.FilePath;
+                return entry.Key;
             }
         }
         public byte[] ExtractBytes()
