@@ -28,7 +28,7 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.ComicEngine
                 downloader.DownloadProgressChanged += new DownloadProgressChangedEventHandler(downloader_DownloadProgressChanged);
                 downloader.OpenReadAsync(url);
             }
-            catch (Exception e)
+            catch
             {
                 //MessageBox.Show("Not supported or Bad url: " + url);
                 //ErrorDialog ed = new ErrorDialog(e.ToString());

@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using SharpCompress.Archive;
-using System.IO;
-using WWW.DE_BAAY.NL_Online_Comic_Reader.Resources;
+﻿using SharpCompress.Archives;
+using SharpCompress.Readers;
 using SharpCompress.Common;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using WWW.DE_BAAY.NL_Online_Comic_Reader.Resources;
 
 namespace WWW.DE_BAAY.NL_Online_Comic_Reader.ComicEngine
 {
     public class Comic : IDisposable
     {
-        public event EventHandler ComicLoadingCompleted;
+        //public event EventHandler ComicLoadingCompleted;
 
         private string title;
         private LoadingStrategy fileLoadingStrategy;
@@ -47,7 +47,7 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.ComicEngine
             {
                 fileLoadingStrategy.BeginLoad();
             }
-            catch (Exception e)
+            catch
             {
 
             }
@@ -372,17 +372,17 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.ComicEngine
             {
                 archive.Dispose();
             }
-            archive = ArchiveFactory.Open(stream, Options.KeepStreamsOpen);
+            archive = ArchiveFactory.Open(stream, new ReaderOptions());
             foreach (var entry in archive.Entries)
             {
-                if (!entry.IsDirectory && entry.FilePath.IsValidExtension())
+                if (!entry.IsDirectory && entry.Key.IsValidExtension())
                 {
                     Page page = new Page(entry);
                     pages.Add(page);
                 }
             }
 
-            var info = archive.Entries.Where(x => x.FilePath.Equals("comicinfo.xml",
+            var info = archive.Entries.Where(x => x.Key.Equals("comicinfo.xml",
                     StringComparison.InvariantCultureIgnoreCase)).SingleOrDefault();
             if (info != null)
             {

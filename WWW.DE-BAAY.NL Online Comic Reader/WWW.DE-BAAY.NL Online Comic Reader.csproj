@@ -60,8 +60,8 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="SharpCompress">
-      <HintPath>..\..\SharpCompress\Portable\SharpCompress.dll</HintPath>
+    <Reference Include="SharpCompress, Version=0.24.0.0, Culture=neutral, PublicKeyToken=afb0a02973931d96, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpCompress.0.24.0\lib\net45\SharpCompress.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Net" />
@@ -117,6 +117,7 @@
     <Compile Include="Resources\ApiConfiguration.cs" />
     <Compile Include="Resources\ContentType.cs" />
     <Compile Include="Resources\ContType.cs" />
+    <Compile Include="Resources\FolderCrawler.cs" />
     <Compile Include="Resources\Utility.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -129,12 +130,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="cachePath\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\FolderCrawler\FolderCrawler.csproj">
-      <Project>{D888A446-D5A6-4183-B932-471ECD78C945}</Project>
-      <Name>FolderCrawler</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
