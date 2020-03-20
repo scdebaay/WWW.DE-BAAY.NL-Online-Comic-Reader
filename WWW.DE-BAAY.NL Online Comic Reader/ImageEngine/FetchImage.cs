@@ -12,10 +12,9 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.ImageEngine
     public class FetchImage
     {
         string MediaPath = String.Empty;
-        public FetchImage(string imageFile, HttpContext context, ApiConfiguration config)
+        public FetchImage(string imageFile, HttpContext context)
         {
-            this.configuration = config;
-            MediaPath = this.configuration.serverPath + this.configuration.imageFolder + imageFile;
+            MediaPath = ApiConfiguration.ServerPath(imageFile) + ApiConfiguration.ImageFolder + imageFile;
             int? size = context.Request.QueryString["size"].ToInt();
             ImageType = new ContType(imageFile).ContentType;
             Bitmap image = new Bitmap(MediaPath);
@@ -53,7 +52,6 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.ImageEngine
             }
 
         }
-        private ApiConfiguration configuration { set; get; }
         public byte[] result { set; get; }
         public string ImageType { get; private set; }
         private ImageFormat ImageFormat

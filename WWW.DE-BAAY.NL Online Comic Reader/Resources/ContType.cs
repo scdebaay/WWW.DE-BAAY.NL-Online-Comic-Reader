@@ -29,38 +29,38 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
                     contentType = "Image/png";
                     this.ContentType = contentType;
                     this.Format = ImageFormat.Png;
-                    this.FolderType = "imageFolder";
+                    this.FolderType = "ImageFolder";
                     break;
                 case ".JPG":
                 case ".jpg":
                     contentType = "Image/jpg";
                     this.ContentType = contentType;
                     this.Format = ImageFormat.Jpeg;
-                    this.FolderType = "imageFolder";
+                    this.FolderType = "ImageFolder";
                     break;
                 case ".GIF":
                 case ".gif":
                     contentType = "Image/gif";
                     this.ContentType = contentType;
                     this.Format = ImageFormat.Gif;
-                    this.FolderType = "imageFolder";
+                    this.FolderType = "ImageFolder";
                     break;
                 case ".CBR":
                 case ".cbr":
                     contentType = "Application/x-cbr";
                     this.ContentType = contentType;
-                    this.FolderType = "comicFolder";
+                    this.FolderType = "ComicFolder";
                     break;
                 case ".CBZ":
                 case ".cbz":
                     contentType = "Application/x-cbr";
                     this.ContentType = contentType;
-                    this.FolderType = "comicFolder";
+                    this.FolderType = "ComicFolder";
                     break;
                 default:
                     contentType = "Text/plain";
                     this.ContentType = contentType;
-                    this.FolderType = "fileFolder";
+                    this.FolderType = "FileFolder";
                     break;
             }
 

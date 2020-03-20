@@ -12,11 +12,9 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.ComicEngine
         /// </summary>
         /// <param name="comicFile">The file requested, this only contains a relative path.</param>
         /// <param name="context">HttpContext object containing further Querystring paramters</param>
-        /// <param name="config">ApiConfiguration oject to determine the actual path for the requested comic.</param>
-        public FetchComic(string comicFile, HttpContext context, ApiConfiguration config)
+        public FetchComic(string comicFile, HttpContext context)
         {
-            this.configuration = config;
-            string MediaPath = this.configuration.serverPath + this.configuration.comicFolder + comicFile;
+            string MediaPath = ApiConfiguration.ServerPath(comicFile) + ApiConfiguration.ComicFolder + comicFile;
             int? page = context.Request.QueryString["page"].ToInt();
             int? size = context.Request.QueryString["size"].ToInt();
             FileInfo comicToLoad = new FileInfo(MediaPath);
@@ -67,7 +65,6 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.ComicEngine
             { return null; }
         }
         public string PageName { private set; get; }
-        private ApiConfiguration configuration { set; get; }
         public byte[] result { set; get;}
         public string PageType { private set; get; }
     }

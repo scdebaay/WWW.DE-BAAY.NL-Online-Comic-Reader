@@ -19,8 +19,6 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
         {
             this.httpContext = context;
             this.httpRequest = httpContext.Request;
-            //Based on the context an up-to-date configuration object is created with application parameters
-            this.configuration = new ApiConfiguration(context); 
         }
 
         /// <summary>
@@ -48,9 +46,8 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
                             //Ascertain whether the requested file exists.
                             this.RequestedfileName = httpContext.Request.QueryString["file"];
                             this.RequestedfileExists = false;
-                            this.Requestedfile = new FileInfo(configuration.serverPath + configuration.comicFolder + RequestedfileName);
-                            File.Exists(Requestedfile.FullName);
-                            this.RequestedfileExists = true;
+                            this.Requestedfile = new FileInfo( ApiConfiguration.ServerPath(RequestedfileName) + ApiConfiguration.ComicFolder + RequestedfileName);
+                            this.RequestedfileExists = File.Exists(Requestedfile.FullName);
                             //Attempt to determine the requested filetype based on extension. The type is set in the response.
                             //This should allow the browser to handle filetype accordingly.
                             Utility.DetermineRequestedFileType(httpContext, RequestedfileName);
@@ -59,7 +56,7 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
                                 //Trying to return the filetype as CBR, to be able to use response within CBR/CBZ aware apps.
                                 case "Application/x-cbr":
                                     //Create a FetchComic object which contains the requested page in byte format.
-                                    FetchComic responseComic = new FetchComic(RequestedfileName, httpContext, configuration);
+                                    FetchComic responseComic = new FetchComic(RequestedfileName, httpContext);
                                     httpContext.Response.Clear();
                                     httpContext.Response.ClearContent();
                                     httpContext.Response.ClearHeaders();
@@ -81,7 +78,7 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
                                 case "Image/jpg":
                                 case "Image/gif":
                                     //Create a FetchImage object which contains the requested image in byte format.
-                                    FetchImage responseImage = new FetchImage(RequestedfileName, httpContext, configuration);
+                                    FetchImage responseImage = new FetchImage(RequestedfileName, httpContext);
                                     httpContext.Response.Clear();
                                     httpContext.Response.ClearContent();
                                     httpContext.Response.ClearHeaders();
@@ -101,8 +98,8 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
                                 //If all else fails, the request the defaultFileType and defaultFile 
                                 //from the app configuration and pass it to the response
                                 default:
-                                    httpContext.Response.ContentType = configuration.defaultFileType;
-                                    httpContext.Response.WriteFile(configuration.defaultFile);
+                                    httpContext.Response.ContentType = ApiConfiguration.DefaultFileType;
+                                    httpContext.Response.WriteFile(ApiConfiguration.DefaultFile);
                                     break;
                             }
 
@@ -135,14 +132,14 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
                                     }
                                     else
                                     {
-                                        this.pageLimit = (int)configuration.pageLimit.ToInt();
+                                        this.pageLimit = ApiConfiguration.PageLimit;
                                     }
 
                                 }
                                 //PageLimit is not set, return the amount of items per page as configured in app settings.
                                 else
                                 {
-                                    this.pageLimit = (int)configuration.pageLimit.ToInt();
+                                    this.pageLimit = ApiConfiguration.PageLimit;
                                 }
                                 //Page is set, return the requested page, if the value can be parsed into an int.
                                 //Otherwise, send the first page.
@@ -168,22 +165,22 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
                                 switch (RequestedFolder)
                                 {
                                     case "comic":
-                                        requestedDir = configuration.comicFolder;
+                                        requestedDir = ApiConfiguration.ComicFolder;
                                         break;
                                     case "file":
-                                        requestedDir = configuration.fileFolder;
+                                        requestedDir = ApiConfiguration.FileFolder;
                                         break;
                                     case "media":
-                                        requestedDir = configuration.mediaFolder;
+                                        requestedDir = ApiConfiguration.MediaFolder;
                                         break;
                                     case "image":
-                                        requestedDir = configuration.imageFolder;
+                                        requestedDir = ApiConfiguration.ImageFolder;
                                         break;
                                     case "music":
-                                        requestedDir = configuration.musicFolder;
+                                        requestedDir = ApiConfiguration.MusicFolder;
                                         break;
                                     case "epub":
-                                        requestedDir = configuration.epubFolder;
+                                        requestedDir = ApiConfiguration.EpubFolder;
                                         break;
                                 }
                                 //Create a DirectoryInfo object using the requestedDir to create an XML directory listing.
@@ -221,12 +218,12 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
             //The call will always result in a valid Http response.
             else
             {
-                httpContext.Response.ContentType = this.configuration.defaultFileType;
-                httpContext.Response.WriteFile(this.configuration.defaultFile);
+                httpContext.Response.ContentType = ApiConfiguration.DefaultFileType;
+                httpContext.Response.WriteFile(ApiConfiguration.DefaultFile);
             }
         }
 
-        private ApiConfiguration configuration { set; get; }
+        //private ApiConfiguration configuration { set; get; }
         readonly HttpRequest httpRequest;
         readonly HttpContext httpContext;
         public bool RequestedfileExists { private set; get; }

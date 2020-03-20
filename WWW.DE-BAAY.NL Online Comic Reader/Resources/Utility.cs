@@ -78,6 +78,7 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
                 case ".jpg":
                 case ".jpeg":
                 case ".bmp":
+                case ".gif":
                     return true;
                 default:
                     return false;

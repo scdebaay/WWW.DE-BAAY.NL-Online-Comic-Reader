@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Web;
@@ -9,58 +10,76 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
     public class ApiConfiguration
     {
         /// <summary>
-        /// Constructor for the ApiConfiguration object
-        /// </summary>
-        /// <param name="context">HttpContext is passed in for processing</param>
-        public ApiConfiguration(HttpContext context)
+        /// Local backing field of type ApiConfiguration
+        /// </summary>        
+        private static ApiConfiguration _apiConfiguration;
+
+        /// <summary>
+        /// Public constructor for the ApiConfiguration singleton
+        /// </summary>        
+        public static ApiConfiguration Settings
         {
-            SetSettings();
-            //We need a defaultFileType to be passed back to the HttpResponse.
-            //This can be either based on the settings in the web.config or the request passed in.
-            string requestedFileName = context.Request.QueryString["file"];
-            ContType requestedFile = new ContType(this.defaultFileType);
-            if (requestedFileName != null)
+            get
             {
-                requestedFile = new ContType(requestedFileName);
-            }
-            else 
-            {
-                requestedFile = new ContType(this.defaultFileType);
-            }
-            this.defaultFileType = requestedFile.Extension;
-            //Based on the media type requested currentFolder is set to either comicFolder or imageFolder.
-            this.currentFolder = findFolder(requestedFile.FolderType);
-            //If the path is not relative to the Api App folder, serverPath property is set.
-            if (Path.IsPathRooted(currentFolder))
-            {
-                this.serverPath = String.Empty;
-            }
-            else
-            {
-                this.serverPath = HttpRuntime.AppDomainAppPath;
+                if (_apiConfiguration == null)
+                {
+                    _apiConfiguration = new ApiConfiguration();
+                }
+
+                return _apiConfiguration;
             }
         }
 
         /// <summary>
-        /// Iterate through the appSettings keys in the web.config and fill the ApiConfiguration properties.
+        /// Singleton accessor
         /// </summary>
-        private void SetSettings()
+        /// <param name="name">Will try to find the requested property in the WebConfugrationManager.Appsettings</param>
+        /// <returns>Emtpy string if setting key of type <name> is not found</name></returns>
+        public string this[string name]
         {
-            foreach (string key in WebConfigurationManager.AppSettings)
+            get
             {
-                if (WebConfigurationManager.AppSettings[key].ToString() != null)
-                {
-                    try
+
+                  try
                     {
-                        Type thistype = this.GetType();
-                        PropertyInfo prop = thistype.GetProperty(key);
-                        prop.SetValue(this, WebConfigurationManager.AppSettings[key].ToString(), null);
+                        return WebConfigurationManager.AppSettings[name].ToString();
                     }
-                    catch 
+                    catch
                     {
-                        continue;
+                        Debug.WriteLine($"Unable to retrieve setting '{name}'");
+                        return string.Empty;
                     }
-                }
+                
+            }
+        }
+
+        /// <summary>
+        /// Based on the requested file name the folder to browse is set. For now this can be either Comic or Image
+        /// </summary>
+        /// <param name="requestedFileName">Filename that was requested in the request being processed.</param>
+        /// <returns></returns>
+        public static string ServerPath(string requestedFileName)
+        {
+            ContType requestedFile;
+            if (requestedFileName != null)
+            {
+                requestedFile = new ContType(requestedFileName);
+            }
+            else
+            {
+                requestedFile = new ContType(DefaultFileType);
+            }
+            DefaultFileType = requestedFile.Extension;
+            //Based on the media type requested currentFolder is set to either comicFolder or imageFolder.
+            currentFolder = _apiConfiguration.FindFolder(requestedFile.FolderType);
+            //If the path is not relative to the Api App folder, serverPath property is set.
+            if (Path.IsPathRooted(currentFolder))
+            {
+                return String.Empty;
+            }
+            else
+            {
+                return HttpRuntime.AppDomainAppPath;
             }
         }
 
@@ -69,21 +88,20 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
         /// </summary>
         /// <param name="requestedFileFolder">Folder type is passed in and the path is returned.</param>
         /// <returns></returns>
-        private string findFolder(string requestedFileFolder)
+        private string FindFolder(string requestedFileFolder)
         {
-            return this.GetType().GetProperty(requestedFileFolder).GetValue(this, null).ToString();
+            return GetType().GetProperty(requestedFileFolder).GetValue(Settings[requestedFileFolder]).ToString();
         }
 
-        public string mediaFolder { private set; get; }
-        public string imageFolder { private set; get; }
-        public string musicFolder { private set; get; }
-        public string fileFolder { private set; get; }        
-        public string comicFolder { private set; get; }
-        public string epubFolder { private set; get; }
-        public string defaultFile { private set; get; }
-        public string pageLimit { private set; get; }
-        private string currentFolder;
-        public string defaultFileType { private set; get; }
-        public string serverPath { private set; get; }
+        public static string MediaFolder { get { return Settings["mediaFolder"]; } }
+        public static string ImageFolder { get { return Settings["imageFolder"]; } }
+        public static string MusicFolder { get { return Settings["musicFolder"]; } }
+        public static string FileFolder { get { return Settings["fileFolder"]; } }
+        public static string ComicFolder { get { return Settings["comicFolder"]; } }
+        public static string EpubFolder { get { return Settings["epubFolder"]; } }
+        public static string DefaultFile { get { return Settings["defaultFile"]; } }
+        public static int PageLimit { get { return int.Parse(Settings["pageLimit"]); } }
+        private static  string currentFolder;
+        public static string DefaultFileType { private set; get; }
     }
 }
