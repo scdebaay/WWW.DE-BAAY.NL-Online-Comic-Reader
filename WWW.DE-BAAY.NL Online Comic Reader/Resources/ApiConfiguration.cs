@@ -78,7 +78,7 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
             //If the path is not relative to the Api App folder, serverPath property is set.
             if (Path.IsPathRooted(currentFolder))
             {
-                return String.Empty;
+                return string.Empty;
             }
             else
             {
