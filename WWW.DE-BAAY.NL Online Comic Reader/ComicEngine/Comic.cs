@@ -1,6 +1,5 @@
 ﻿using SharpCompress.Archives;
 using SharpCompress.Readers;
-using SharpCompress.Common;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,16 +10,11 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.ComicEngine
 {
     public class Comic : IDisposable
     {
-        //public event EventHandler ComicLoadingCompleted;
-
+        //Start logger
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         private string title;
         private LoadingStrategy fileLoadingStrategy;
         private IArchive archive;
-
-        public static Comic LoadFromUri(Uri url)
-        {
-            return new Comic(url.AbsolutePath, new DownloadStrategy(url));
-        }
 
         /// <summary>
         /// The Comic is normally loaded from file. No URL loading is implemented at this time.
@@ -39,7 +33,7 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.ComicEngine
             Pages = new SortableObservableCollection<Page>();
             DeletedPages = new SortableObservableCollection<Page>();
             CurrentIndex = -1;
-            this.title = name;
+            title = name;
             fileLoadingStrategy = loadingStrategy;
             fileLoadingStrategy.ComicLoadingCompleted += new EventHandler(fileLoadingStrategy_ComicLoadingCompleted);
 
@@ -49,7 +43,7 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.ComicEngine
             }
             catch
             {
-
+                Logger.Error($"There was an error loading the comic {name}");
             }
 
         }
@@ -59,176 +53,7 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.ComicEngine
             OpenStream(fileLoadingStrategy.Stream);
         }
 
-        //void fileLoadingStrategy_ComicLoadingProgress(object sender, ComicLoadingProgressEventArgs e)
-        //{
-        //    if (ComicLoadingProgress != null)
-        //    {
-        //        ComicLoadingProgress(this, e);
-        //    }
-        //}
-
-        public bool CanSaveOriginalFile()
-        {
-            return (fileLoadingStrategy is DownloadStrategy);
-        }
-
-        #region Save/Export
-        //public void SaveOriginalFile()
-        //{
-        //    SaveFileDialog sfd = new SaveFileDialog();
-        //    sfd.DefaultExt = Extension;
-        //    sfd.Filter = Filter;
-
-        //    if (sfd.ShowDialog() ?? false)
-        //    {
-        //        fileLoadingStrategy.Stream.Position = 0;
-        //        using (Stream writeableStream = sfd.OpenFile())
-        //        {
-        //            fileLoadingStrategy.Stream.TransferTo(writeableStream);
-        //        }
-        //    }
-        //}
-
-        //public void ExportCBZ(Action completed)
-        //{
-        //    throw new NotImplementedException();
-        //    //SaveFileDialog sfd = new SaveFileDialog()
-        //    //{
-        //    //    DefaultExt = "cbz",
-        //    //    Filter = "CBZ files (*.cbz)|*.cbz|All files (*.*)|*.*",
-        //    //};
-        //    //if (sfd.ShowDialog() ?? false)
-        //    //{
-        //    //    if (!CheckUnloaded())
-        //    //    {
-        //    //        completed();
-        //    //        return;
-        //    //    }
-        //    //    BackgroundWorker bw = new BackgroundWorker();
-        //    //    bw.DoWork += (s, a) =>
-        //    //    {
-        //    //        ZipOutputStream stream = new ZipOutputStream(a.Argument as Stream);
-        //    //        try
-        //    //        {
-        //    //            stream.SetLevel(9);
-        //    //            GetValidPagesForExport().ForEach(p =>
-        //    //                {
-        //    //                    ZipEntry entry = new ZipEntry(p.Name);
-        //    //                    entry.CompressionMethod = CompressionMethod.Deflated;
-        //    //                    stream.PutNextEntry(entry);
-        //    //                    stream.Write(p.Bytes, 0, p.Bytes.Length);
-        //    //                });
-        //    //        }
-        //    //        catch (Exception e)
-        //    //        {
-        //    //            Utility.Dispatcher.BeginInvoke(() =>
-        //    //            {
-        //    //                ErrorDialog ed = new ErrorDialog(e.ToString());
-        //    //                ed.Show();
-        //    //            });
-        //    //        }
-        //    //        finally
-        //    //        {
-        //    //            Utility.Dispatcher.BeginInvoke(() =>
-        //    //            {
-        //    //                stream.Dispose();
-        //    //                completed();
-        //    //            });
-        //    //        }
-        //    //    };
-        //    //    bw.RunWorkerAsync(sfd.OpenFile());
-        //    //}
-        //}
-
-        //public void ExportPDF(Action completed)
-        //{
-        //    SaveFileDialog sfd = new SaveFileDialog()
-        //    {
-        //        DefaultExt = "pdf",
-        //        Filter = "PDF files (*.pdf)|*.pdf|All files (*.*)|*.*",
-        //    };
-        //    if (sfd.ShowDialog() ?? false)
-        //    {
-        //        if (!CheckUnloaded())
-        //        {
-        //            completed();
-        //            return;
-        //        }
-        //        BackgroundWorker bw = new BackgroundWorker();
-        //        bw.DoWork += (s, a) =>
-        //        {
-        //            Stream exportPDF = a.Argument as Stream;
-        //            Document pdf = new Document();
-        //            try
-        //            {
-        //                pdf.SetMargins(0, 0, 0, 0);
-
-        //                PdfWriter.GetInstance(pdf, exportPDF);
-        //                pdf.Open();
-
-        //                GetValidPagesForExport().ForEach(p =>
-        //                {
-        //                    iTextSharp.text.Image img = iTextSharp.text.Image.GetInstance(p.Bytes);
-        //                    pdf.SetPageSize(new iTextSharp.text.Rectangle(img.ScaledWidth, img.ScaledHeight));
-        //                    pdf.NewPage();
-        //                    pdf.Add(img);
-        //                });
-        //            }
-        //            catch (Exception e)
-        //            {
-        //                Utility.Dispatcher.BeginInvoke(() =>
-        //                {
-        //                    ErrorDialog ed = new ErrorDialog(e.ToString());
-        //                    ed.Show();
-        //                });
-        //            }
-        //            finally
-        //            {
-        //                Utility.Dispatcher.BeginInvoke(() =>
-        //                {
-        //                    pdf.Close();
-        //                    exportPDF.Dispose();
-        //                    completed();
-        //                });
-        //            }
-        //        };
-        //        bw.RunWorkerAsync(sfd.OpenFile());
-        //    }
-        //}
-
-        //private IEnumerable<Page> GetValidPagesForExport()
-        //{
-        //    Pages.ForEach(p => p.ExtractIfRequired());
-        //    return Pages.Where(p => !p.HasError);
-        //}
-
-        //private bool CheckUnloaded()
-        //{
-        //    if (Pages.Where(p => p.HasError).Any())
-        //    {
-        //        if (MessageBox.Show("Pages have image errors.  Continue?", "Continue?", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
-        //        {
-        //            return true;
-        //        }
-        //        return false;
-        //    }
-        //    return true;
-        //}
-
-        #endregion
-
         #region Loading
-        //private void OnComicLoadingProgress(string text, int? percent)
-        //{
-        //    if (ComicLoadingProgress != null)
-        //    {
-        //        ComicLoadingProgress(this, new ComicLoadingProgressEventArgs()
-        //        {
-        //            Text = text,
-        //            Percent = percent,
-        //        });
-        //    }
-        //}
 
         private void OnComicLoadingCompleted()
         {
@@ -237,28 +62,18 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.ComicEngine
                 Title = ComicInfo.Title;
                 Pages.Sort(0, Pages.Count, ComicInfo);
             }
-            //if (ComicLoadingCompleted != null)
-            //{
-            //    ComicLoadingCompleted(this, new EventArgs());
-            //}
         }
 
         private void OpenStream(Stream stream)
         {
-            //Utility.Dispatcher.BeginInvoke(() =>
-            //{
-            //    OnComicLoadingProgress("Reading File", null);
-            //});
             LoadFromStream(stream);
-            //Utility.Dispatcher.BeginInvoke(() =>
-            //{
+
             OnComicLoadingCompleted();
             if (CurrentIndex == -1)
             {
                 CurrentIndex++;
                 RefreshCurrentPage();
             }
-            //});
         }
 
         #endregion
@@ -274,7 +89,6 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.ComicEngine
             private set
             {
                 title = value;
-                //OnPropertyChanged("Title");
             }
         }
 
@@ -297,8 +111,6 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.ComicEngine
             set
             {
                 index = value;
-                //OnPropertyChanged("CurrentIndex");
-                //OnPropertyChanged("ViewingIndex");
             }
         }
 
@@ -335,7 +147,6 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.ComicEngine
                 if (value != null)
                 {
                     CurrentIndex = Pages.IndexOf(value);
-                    //OnPropertyChanged("CurrentPage");
                 }
             }
         }
@@ -345,7 +156,6 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.ComicEngine
             if (CurrentPage != null)
             {
                 CurrentPage.RefreshImage();
-                //OnPropertyChanged("CurrentPage");
             }
         }
 
@@ -386,11 +196,10 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.ComicEngine
                     StringComparison.InvariantCultureIgnoreCase)).SingleOrDefault();
             if (info != null)
             {
-                //Ignore comicinfo.xml for now
-                //MemoryStream ms = new MemoryStream();
-                //info.WriteTo(ms);
-                //ms.Seek(0, SeekOrigin.Begin);
-                //LoadComicInfo(ms);
+                MemoryStream ms = new MemoryStream();
+                info.WriteTo(ms);
+                ms.Seek(0, SeekOrigin.Begin);
+                LoadComicInfo(ms);
             }
 
             pages.Sort();

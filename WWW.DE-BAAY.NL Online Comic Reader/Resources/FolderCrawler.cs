@@ -4,11 +4,14 @@ using System.Linq;
 using System.Xml.Linq;
 using System.IO;
 using WWW.DE_BAAY.NL_Online_Comic_Reader.ComicEngine;
+using System.Diagnostics;
 
-namespace FolderCrawler
+namespace Resources
 {
-    public partial class FolderCrawler
+    public class FolderCrawler
     {
+        // Start logger
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         /// <summary>
         /// Iterate through mediaFolder subfolders and convert directory listing into XML format.
         /// Result contains 
@@ -54,10 +57,15 @@ namespace FolderCrawler
                 // about the systems on which this code will run.
                 catch (UnauthorizedAccessException)
                 {
+                    //Debug.WriteLine($"Access refused to : {currentDir.Name}");
+                    Logger.Error($"Access refused to : {currentDir.Name}");
                     continue;
                 }
                 catch (DirectoryNotFoundException)
                 {
+
+                    //Debug.WriteLine($"The folder was not found : {currentDir.Name}");
+                    Logger.Error($"The folder was not found : {currentDir.Name}");
                     continue;
                 }
                 //Uncomment for troubleshooting
@@ -85,10 +93,14 @@ namespace FolderCrawler
                 }
                 catch (UnauthorizedAccessException)
                 {
+                    //Debug.WriteLine($"File access refused to : {currentDir.Name}");
+                    Logger.Error($"File access refused to : {currentDir.Name}");
                     continue;
                 }
                 catch (DirectoryNotFoundException)
                 {
+                    //Debug.WriteLine($"The folder was not found while processing files: {currentDir.Name}");
+                    Logger.Error($"The folder was not found while processing files: {currentDir.Name}");
                     continue;
                 }
                 // Push the subdirectories onto the stack for traversal.
@@ -119,6 +131,8 @@ namespace FolderCrawler
                 }
                 catch
                 {
+                    //Debug.WriteLine($"Unable to find page count for: {file.Name}");
+                    Logger.Error($"Unable to find page count for: {file.Name}");
                     continue;
                 }
             }
@@ -126,7 +140,7 @@ namespace FolderCrawler
             return info;
         }
 
-        public static void SetDefaultXmlNamespace(XElement xelem, XNamespace xmlns)
+        private static void SetDefaultXmlNamespace(XElement xelem, XNamespace xmlns)
         {
             if (xelem.Name.NamespaceName == string.Empty)
                 xelem.Name = xmlns + xelem.Name.LocalName;

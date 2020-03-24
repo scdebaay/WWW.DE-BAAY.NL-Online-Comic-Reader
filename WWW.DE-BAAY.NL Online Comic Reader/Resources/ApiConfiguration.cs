@@ -9,6 +9,8 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
 {
     public class ApiConfiguration
     {
+        //Start logger
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         /// <summary>
         /// Local backing field of type ApiConfiguration
         /// </summary>        
@@ -46,8 +48,9 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
                     }
                     catch
                     {
-                        Debug.WriteLine($"Unable to retrieve setting '{name}'");
-                        return string.Empty;
+                        //Debug.WriteLine($"Unable to retrieve setting '{name}'");
+                        Logger.Error($"Unable to retrieve setting '{name}'");
+                    return string.Empty;
                     }
                 
             }

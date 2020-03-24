@@ -85,7 +85,6 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
             }
         }
 
-
         public static string SingleValue(this IEnumerable<XElement> elements, string node)
         {
             var e = elements.Where(x => x.Name == node).SingleOrDefault();
@@ -95,7 +94,6 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
             }
             return e.Value;
         }
-
 
         public static IEnumerable<string> MultiValue(this IEnumerable<XElement> elements, string node)
         {
@@ -111,6 +109,7 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
             }
             return attr.Value;
         }
+
         public static string GetAttributeValue(this ICollection<XAttribute> attributes, string attri)
         {
             var attr = attributes.SingleOrDefault(x => x.Name == attri);
@@ -121,10 +120,10 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
             return attr.Value;
         }
 
-        public static HttpContext DetermineRequestedFileType(HttpContext context, string file)
+        public static string DetermineRequestedFileType(string file)
         {
-            context.Response.ContentType = new ContType(file).ContentType;
-            return context;
+            var result = new ContType(file).ContentType;
+            return result;
         }
 
         public static XmlDocument ToXmlDocument(this XDocument xDocument)

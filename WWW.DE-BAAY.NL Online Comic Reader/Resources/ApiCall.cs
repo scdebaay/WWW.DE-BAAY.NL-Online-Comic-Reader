@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
+using Resources;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Web;
 using System.Xml.Linq;
@@ -10,6 +12,8 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
 {
     public class ApiCall
     {
+        //Start logger
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         /// <summary>
         /// Constructor: HttpContext object is fed in as a parameter and split into httpContext and Request.
         /// Context is used to call configuration object using the context parameters.
@@ -17,8 +21,8 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
         /// <param name="context">HttpContext oject passed on from the initial Fetcher object.</param>
         public ApiCall(HttpContext context)
         {
-            this.httpContext = context;
-            this.httpRequest = httpContext.Request;
+            httpContext = context;
+            httpRequest = context.Request;
         }
 
         /// <summary>
@@ -28,14 +32,14 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
         public void ProcessRequest()
         {
             //If a querystring was passed to the Fetcher object, it was passed into the ApiCall and we try to process it.
-            if (httpContext.Request.QueryString.Count != 0)
+            if (httpRequest.QueryString.HasKeys())
             {
                 //The querystring should be formatted as either:
                 //?file=<filepath><filename>&further parameters
                 //or
                 //?folder=<folderpath>&further parameters.
                 //These two types of requests determine further processing. The first querystring key is converted to one string.
-                string request = httpContext.Request.QueryString.AllKeys[0].ToString();
+                string request = httpRequest.QueryString.AllKeys[0].ToString();
 
                 switch (request)
                 {
@@ -44,69 +48,54 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
                         try
                         {
                             //Ascertain whether the requested file exists.
-                            this.RequestedfileName = httpContext.Request.QueryString["file"];
-                            this.RequestedfileExists = false;
-                            this.Requestedfile = new FileInfo( ApiConfiguration.ServerPath(RequestedfileName) + ApiConfiguration.ComicFolder + RequestedfileName);
-                            this.RequestedfileExists = File.Exists(Requestedfile.FullName);
+                            RequestedfileName = httpRequest.QueryString["file"];
+                            RequestedfileExists = false;
+                            Requestedfile = new FileInfo($"{ApiConfiguration.ServerPath(RequestedfileName)}{ApiConfiguration.ComicFolder}{RequestedfileName}");
+                            RequestedfileExists = File.Exists(Requestedfile.FullName);
                             //Attempt to determine the requested filetype based on extension. The type is set in the response.
                             //This should allow the browser to handle filetype accordingly.
-                            Utility.DetermineRequestedFileType(httpContext, RequestedfileName);
-                            switch (httpContext.Response.ContentType)
+                            httpContext.Response.ContentType = Utility.DetermineRequestedFileType(RequestedfileName);
+                            if (RequestedfileExists)
                             {
-                                //Trying to return the filetype as CBR, to be able to use response within CBR/CBZ aware apps.
-                                case "Application/x-cbr":
-                                    //Create a FetchComic object which contains the requested page in byte format.
-                                    FetchComic responseComic = new FetchComic(RequestedfileName, httpContext);
-                                    httpContext.Response.Clear();
-                                    httpContext.Response.ClearContent();
-                                    httpContext.Response.ClearHeaders();
-                                    httpContext.Response.Buffer = true;
-                                    httpContext.Response.ContentType = responseComic.PageType;
-                                    httpContext.Response.Cache.SetCacheability(System.Web.HttpCacheability.NoCache);
-                                    httpContext.Response.Cache.SetNoStore();
-                                    //This is failing for now:
-                                    //httpContext.Response.AddHeader("Content-Length", responseComic.result.GetLength(0).ToString());
-                                    //httpContext.Response.AddHeader("Content-Disposition", "attachment; filename=" + responseComic.PageName);
-                                    //httpContext.Response.AddHeader("Pragma", "public");
-                                    //Write the resulting page to the response stream.
-                                    httpContext.Response.BinaryWrite(responseComic.result);
-                                    httpContext.Response.Flush();
-                                    httpContext.Response.End();
-                                    break;
-                                //If an image of type png, jpg or gif was requested, fetch the image and write it to the repsonse stream.
-                                case "Image/png":
-                                case "Image/jpg":
-                                case "Image/gif":
-                                    //Create a FetchImage object which contains the requested image in byte format.
-                                    FetchImage responseImage = new FetchImage(RequestedfileName, httpContext);
-                                    httpContext.Response.Clear();
-                                    httpContext.Response.ClearContent();
-                                    httpContext.Response.ClearHeaders();
-                                    httpContext.Response.Buffer = true;
-                                    httpContext.Response.ContentType = responseImage.ImageType;
-                                    httpContext.Response.Cache.SetCacheability(System.Web.HttpCacheability.NoCache);
-                                    httpContext.Response.Cache.SetNoStore();
-                                    //This is failing for now:
-                                    //httpContext.Response.AddHeader("Content-Length", responseComic.result.GetLength(0).ToString());
-                                    //httpContext.Response.AddHeader("Content-Disposition", "attachment; filename=" + responseComic.PageName);
-                                    //httpContext.Response.AddHeader("Pragma", "public");
-                                    //Write the resulting image to the response stream.
-                                    httpContext.Response.BinaryWrite(responseImage.result);
-                                    httpContext.Response.Flush();
-                                    httpContext.Response.End();
-                                    break;
-                                //If all else fails, the request the defaultFileType and defaultFile 
-                                //from the app configuration and pass it to the response
-                                default:
-                                    httpContext.Response.ContentType = ApiConfiguration.DefaultFileType;
-                                    httpContext.Response.WriteFile(ApiConfiguration.DefaultFile);
-                                    break;
+                                switch (httpContext.Response.ContentType)
+                                {
+                                    //Trying to return the filetype as CBR, to be able to use response within CBR/CBZ aware apps.
+                                    case "Application/x-cbr":
+                                        //Grab essential parameters from the querystring to fetch the comic page
+                                        int? page = httpRequest.QueryString["page"].ToInt();
+                                        int? size = httpRequest.QueryString["size"].ToInt();
+                                        //Create a FetchComic object which contains the requested page in byte format.
+                                        FetchedComic responseComic = new FetchedComic(RequestedfileName, page, size);
+                                        SendResponse(responseComic.result, responseComic.PageType);
+                                        break;
+                                    //If an image of type png, jpg or gif was requested, fetch the image and write it to the repsonse stream.
+                                    case "Image/png":
+                                    case "Image/jpg":
+                                    case "Image/gif":
+                                        int? imagesize = httpRequest.QueryString["size"].ToInt();
+                                        //Create a FetchImage object which contains the requested image in byte format.
+                                        FetchedImage responseImage = new FetchedImage(RequestedfileName, imagesize);
+                                        SendResponse(responseImage.result, responseImage.ImageType);
+                                        break;
+                                    //If all else fails, the request the defaultFileType and defaultFile 
+                                    //from the app configuration and pass it to the response
+                                    default:
+                                        httpContext.Response.ContentType = ApiConfiguration.DefaultFileType;
+                                        httpContext.Response.WriteFile(ApiConfiguration.DefaultFile);
+                                        break;
+                                }
                             }
-
+                            else
+                            {
+                                Logger.Error($"File does not exist {RequestedfileName}");
+                            }
                         }
-                        catch
+                        catch (Exception ex)
                         {
-                            //No error handling for now. There is always a response.
+                            //Debug.WriteLine($"An error occurred in file processing: {ex.Message}");
+                            //Debug.WriteLine($"StackTeace: {ex.StackTrace}");
+                            Logger.Error($"An error occurred in file processing: {ex.Message}");
+                            Logger.Error($"StackTeace: {ex.StackTrace}");
                             break;
                         }
                         break;
@@ -118,50 +107,49 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
                             //A folder request will send a directory listing in XML format.
                             try
                             {
-                                this.RequestedFolder = httpContext.Request.QueryString["folder"].ToString();
+                                RequestedFolder = httpRequest.QueryString["folder"].ToString();
                                 //pageLimit is set. Return the amount of files in the listing per page as requested.
-                                if (httpContext.Request.QueryString["pageLimit"] != null)
+                                if (httpRequest.QueryString["pageLimit"] != null)
                                 {
                                     int limit;
-                                    string str_limit = httpContext.Request.QueryString["pageLimit"].ToString();
+                                    string str_limit = httpRequest.QueryString["pageLimit"].ToString();
                                     //If the pageLimit cannot be parsed into an int, then return the app configured value.
                                     //There must always be a response.
                                     if (int.TryParse(str_limit, out limit))
                                     {
-                                        this.pageLimit = limit;
+                                        pageLimit = limit;
                                     }
                                     else
                                     {
-                                        this.pageLimit = ApiConfiguration.PageLimit;
+                                        pageLimit = ApiConfiguration.PageLimit;
                                     }
-
                                 }
                                 //PageLimit is not set, return the amount of items per page as configured in app settings.
                                 else
                                 {
-                                    this.pageLimit = ApiConfiguration.PageLimit;
+                                    pageLimit = ApiConfiguration.PageLimit;
                                 }
                                 //Page is set, return the requested page, if the value can be parsed into an int.
                                 //Otherwise, send the first page.
-                                if (httpContext.Request.QueryString["page"] != null)
+                                if (httpRequest.QueryString["page"] != null)
                                 {
                                     int start = 0;
-                                    string str_start = httpContext.Request.QueryString["page"].ToString();
+                                    string str_start = httpRequest.QueryString["page"].ToString();
                                     if (int.TryParse(str_start, out start))
                                     {
-                                        this.page = start;
+                                        page = start;
                                     }
                                     else
                                     {
-                                        this.page = 1;
+                                        page = 1;
                                     }
                                 }
                                 //Page is not set, return the first page.
                                 else
                                 {
-                                    this.page = 1;
+                                    page = 1;
                                 }
-                                string requestedDir = String.Empty;
+                                string requestedDir = string.Empty;
                                 switch (RequestedFolder)
                                 {
                                     case "comic":
@@ -187,10 +175,10 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
                                 DirectoryInfo dir = new DirectoryInfo(requestedDir);
                                 XDocument XFolderResult = new XDocument(
                                     new XDeclaration("1.0", "utf-8", "yes"),
-                                    FolderCrawler.FolderCrawler.GetDirectoryXml(dir, dir, this.pageLimit, this.page));
-                                
+                                    FolderCrawler.GetDirectoryXml(dir, dir, pageLimit, page));
+
                                 //If the parameter JSON was provided, output formatted in JSON, else in XML.
-                                if (httpContext.Request.QueryString["json"] != null)
+                                if (httpRequest.QueryString["json"] != null)
                                 {
                                     var xmlFolderResult = XFolderResult.ToXmlDocument();
                                     string jsonFolderResult = JsonConvert.SerializeXmlNode(xmlFolderResult);
@@ -203,14 +191,26 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
                                 {
                                     //Write the resulting XML to the response.
                                     httpContext.Response.ContentType = "Application/xml";
-                                    httpContext.Response.Write(XFolderResult);                                    
+                                    httpContext.Response.Write(XFolderResult);
                                 }
                                 break;
                             }
-                            catch
+                            catch (Exception ex)
                             {
+                                //Debug.WriteLine($"An error occurred in folder processing: {ex.Message}");
+                                //Debug.WriteLine($"StackTeace: {ex.StackTrace}");
+                                Logger.Error($"An error occurred in folder processing: {ex.Message}");
+                                Logger.Error($"StackTeace: {ex.StackTrace}");
                                 break;
                             }
+                        }
+                    case "action":
+                        {
+                            if (httpRequest.QueryString["action"] == "version")
+                            {
+                                httpContext.Response.Write($"API Version: {typeof(ApiCall).Assembly.GetName().Name} version {typeof(ApiCall).Assembly.GetName().Version}");
+                            }                            
+                            break;
                         }
                 }
             }
@@ -223,18 +223,32 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
             }
         }
 
-        //private ApiConfiguration configuration { set; get; }
-        readonly HttpRequest httpRequest;
-        readonly HttpContext httpContext;
-        public bool RequestedfileExists { private set; get; }
-        public FileInfo Requestedfile { private set; get; }
-        public string RequestedfileType { private set; get; }
-        public string RequestedfileName { private set; get; }
-        public string RequestedFolder { private set; get; }
-        public int pageLimit { private set; get; }
-        public int page { private set; get; }
-        public HttpResponse response { private set; get; }
+        //Private function that takes in a bytearray and a filetype and sends that response to the browser.
+        private void SendResponse(byte[] processResult, string fileType)
+        {
+            httpContext.Response.Clear();
+            httpContext.Response.ClearContent();
+            httpContext.Response.ClearHeaders();
+            httpContext.Response.Buffer = true;
+            httpContext.Response.ContentType = fileType;
+            httpContext.Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            httpContext.Response.Cache.SetNoStore();
+            httpContext.Response.BinaryWrite(processResult); //Write the resulting page to the response stream.
+            httpContext.Response.Flush();
+            httpContext.Response.SuppressContent = true;  // Gets or sets a value indicating whether to send HTTP content to the client.
+            httpContext.ApplicationInstance.CompleteRequest(); //Better than using.End(). Avoids Exception.
+        }
 
+        private readonly HttpRequest httpRequest;
+        private readonly HttpContext httpContext;
+        private bool RequestedfileExists { set; get; }
+        private FileInfo Requestedfile { set; get; }
+        private string RequestedfileType { set; get; }
+        private string RequestedfileName { set; get; }
+        private string RequestedFolder { set; get; }
+        private int pageLimit { set; get; }
+        private int page { set; get; }
+        private HttpResponse response { set; get; }
     }
 
 

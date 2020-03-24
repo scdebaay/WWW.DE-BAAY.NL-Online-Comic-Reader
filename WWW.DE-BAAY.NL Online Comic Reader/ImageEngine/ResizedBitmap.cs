@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 
@@ -6,6 +7,8 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.ImageEngine
 {
     public static class ResizedBitmap
     {
+        //Start logger
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         /// <summary>
         /// Create a bitmap that uses an input stream and an int value to create a bitmap byte array where the width is set to the size int
         /// Aspect ratio of the image is repected.
@@ -36,6 +39,8 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.ImageEngine
             catch (Exception e)
             {
                 Exception = e.ToString();
+                //Debug.WriteLine($"Error while processing graphic");
+                Logger.Error($"Error while processing graphic");
                 HasError = true;
                 return null;
             }

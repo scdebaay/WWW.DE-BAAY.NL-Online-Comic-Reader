@@ -9,13 +9,12 @@ using System.IO;
 
 namespace WWW.DE_BAAY.NL_Online_Comic_Reader.ImageEngine
 {
-    public class FetchImage
+    public class FetchedImage
     {
-        string MediaPath = String.Empty;
-        public FetchImage(string imageFile, HttpContext context)
+        string MediaPath = string.Empty;
+        public FetchedImage(string imageFile, int? size)
         {
-            MediaPath = ApiConfiguration.ServerPath(imageFile) + ApiConfiguration.ImageFolder + imageFile;
-            int? size = context.Request.QueryString["size"].ToInt();
+            MediaPath = $"{ApiConfiguration.ServerPath(imageFile)}{ ApiConfiguration.ImageFolder}{imageFile}";            
             ImageType = new ContType(imageFile).ContentType;
             Bitmap image = new Bitmap(MediaPath);
             Result(image, size);
