@@ -93,9 +93,9 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
                         catch (Exception ex)
                         {
                             //Debug.WriteLine($"An error occurred in file processing: {ex.Message}");
-                            //Debug.WriteLine($"StackTeace: {ex.StackTrace}");
+                            //Debug.WriteLine($"StackTrace: {ex.StackTrace}");
                             Logger.Error($"An error occurred in file processing: {ex.Message}");
-                            Logger.Error($"StackTeace: {ex.StackTrace}");
+                            Logger.Error($"StackTrace: {ex.StackTrace}");
                             break;
                         }
                         break;
@@ -198,9 +198,9 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
                             catch (Exception ex)
                             {
                                 //Debug.WriteLine($"An error occurred in folder processing: {ex.Message}");
-                                //Debug.WriteLine($"StackTeace: {ex.StackTrace}");
+                                //Debug.WriteLine($"StackTrace: {ex.StackTrace}");
                                 Logger.Error($"An error occurred in folder processing: {ex.Message}");
-                                Logger.Error($"StackTeace: {ex.StackTrace}");
+                                Logger.Error($"StackTrace: {ex.StackTrace}");
                                 break;
                             }
                         }
