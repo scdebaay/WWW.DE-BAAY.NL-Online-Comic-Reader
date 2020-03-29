@@ -1,0 +1,135 @@
+﻿@page "/ComicListPage"
+@page "/ComicListPage/{currentComicListPage:int}"
+
+@using ComicReaderWebCore.Data
+@using ComicReaderWebCore.Models
+@inject ComicApiCallService ApiCallService
+@inject ComicStateProvider ComicStateProvider
+@inject ComicListStateProvider ComicListStateProvider
+@inject NavigationManager NavigationManager
+
+<h1>A nice collection of comics</h1>
+
+<p>This page displays all comics available on the site</p>
+
+@if (comiclist == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Thumbnail</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var comic in comiclist.Files)
+            {
+                <tr>
+                    <td>@comic.Title</td>
+                    <td>
+                        <img src="@comic.ThumbUrl" alt="ComicThumbnail" @onclick="(() => OpenComic(comic))" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button class="btn btn-primary" @onclick="FirstPage">First</button>
+    <button class="btn btn-primary" @onclick="PreviousPage">Previous page</button>
+    <button class="btn btn-primary" @onclick="NextPage">Next page</button>
+    <button class="btn btn-primary" @onclick="LastPage">Lastpage</button>
+}
+
+@code {
+    private ComicListModel comiclist;
+
+    [Parameter]
+    public int currentComicListPage { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (ComicListStateProvider.CurrentListPage == 1 && currentComicListPage > 1)
+        {
+            ComicListStateProvider.CurrentListPage = currentComicListPage;
+        }
+        else if ((ComicListStateProvider.CurrentListPage - 1) == (currentComicListPage - 1) || (ComicListStateProvider.CurrentListPage + 1) == (currentComicListPage + 1))
+        {
+            currentComicListPage = ComicListStateProvider.CurrentListPage;
+        }
+        else
+        {
+            ComicListStateProvider.CurrentListPage = currentComicListPage;
+        }
+        comiclist = await ApiCallService.GetFolderListAsync(ComicListStateProvider.CurrentListPage);
+    }
+
+    private async Task PreviousPage()
+    {
+        if (currentComicListPage <= 1)
+        {
+            comiclist = await ApiCallService.GetFolderListAsync(1);
+            NavigationManager.NavigateTo($"ComicListPage/{currentComicListPage}");
+        }
+        else
+        {
+            comiclist = await ApiCallService.GetFolderListAsync(currentComicListPage - 1);
+            currentComicListPage -= 1;
+            NavigationManager.NavigateTo($"ComicListPage/{currentComicListPage}");
+        }
+        ComicListStateProvider.CurrentListPage = currentComicListPage;
+        ComicListStateProvider.PageChangeEventArgs args = new ComicListStateProvider.PageChangeEventArgs();
+        args.Page = currentComicListPage;
+        ComicListStateProvider.OnComicListPageChanged(this, args);
+    }
+
+    private async Task NextPage()
+    {
+        if (currentComicListPage >= comiclist.TotalPages)
+        {
+            comiclist = await ApiCallService.GetFolderListAsync(comiclist.TotalPages);
+            NavigationManager.NavigateTo($"ComicListPage/{currentComicListPage}");
+        }
+        else
+        {
+            comiclist = await ApiCallService.GetFolderListAsync(currentComicListPage + 1);
+            currentComicListPage += 1;
+            NavigationManager.NavigateTo($"ComicListPage/{currentComicListPage}");
+        }
+        ComicListStateProvider.CurrentListPage = currentComicListPage;
+        ComicListStateProvider.PageChangeEventArgs args = new ComicListStateProvider.PageChangeEventArgs();
+        args.Page = currentComicListPage;
+        ComicListStateProvider.OnComicListPageChanged(this, args);
+    }
+
+    private async Task FirstPage()
+    {
+        comiclist = await ApiCallService.GetFolderListAsync(1);
+        currentComicListPage = 1;
+        NavigationManager.NavigateTo($"ComicListPage/{currentComicListPage}");
+        ComicListStateProvider.CurrentListPage = currentComicListPage;
+        ComicListStateProvider.PageChangeEventArgs args = new ComicListStateProvider.PageChangeEventArgs();
+        args.Page = currentComicListPage;
+        ComicListStateProvider.OnComicListPageChanged(this, args);
+    }
+
+    private async Task LastPage()
+    {
+
+        comiclist = await ApiCallService.GetFolderListAsync(comiclist.TotalPages);
+        currentComicListPage = comiclist.TotalPages;
+        NavigationManager.NavigateTo($"ComicListPage/{currentComicListPage}");
+        ComicListStateProvider.CurrentListPage = currentComicListPage;
+        ComicListStateProvider.PageChangeEventArgs args = new ComicListStateProvider.PageChangeEventArgs();
+        args.Page = currentComicListPage;
+        ComicListStateProvider.OnComicListPageChanged(this, args);
+    }
+
+    private void OpenComic(ComicModel comic)
+    {
+        ComicStateProvider.CurrentComic = comic;
+        NavigationManager.NavigateTo($"ComicPage/{comic.Path.ToString().Remove(0, 1)}/0");
+    }
+}

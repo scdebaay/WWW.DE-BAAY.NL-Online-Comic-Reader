@@ -1,0 +1,119 @@
+﻿@page "/ComicPage"
+@page "/ComicPage/{path}/{filename}"
+@page "/ComicPage/{path}/{filename}/{currentcomicpage:int}"
+@using ComicReaderWebCore.Data
+@inject ComicApiCallService ApiCallService
+@inject NavigationManager NavigationManager
+@inject ComicStateProvider ComicStateProvider
+@inject ComicListStateProvider ComicListStateProvider
+
+<h3>ComicPage</h3>
+<NavLink class="nav-link" href="@Href">
+    <span class="oi oi-list-rich" aria-hidden="true"></span> Comic list
+</NavLink>
+<img src="@comicPage" alt="ComicPage" />
+<button class="btn btn-primary" @onclick="ZoomOut">Zoom Out</button>
+<button class="btn btn-primary" @onclick="FirstPage">First</button>
+<button class="btn btn-primary" @onclick="PreviousPage">Previous page</button>
+<button class="btn btn-primary" @onclick="NextPage">Next page</button>
+<button class="btn btn-primary" @onclick="LastPage">Last page</button>
+<button class="btn btn-primary" @onclick="ZoomIn">Zoom In</button>
+
+@code {
+    [Parameter]
+    public string Path { get; set; }
+
+    [Parameter]
+    public string Filename { get; set; }
+
+    [Parameter]
+    public int CurrentComicPage { get; set; } = 0;
+
+    private int currentSize { get; set; }
+
+    private string comicPage { get; set; }
+
+    private string Href { get; set; }
+
+    protected override void OnInitialized()
+    {
+        if (ComicStateProvider.ComicsVisited.ContainsKey(ComicStateProvider.CurrentComic.Path))
+        {
+            CurrentComicPage = ComicStateProvider.ComicsVisited[ComicStateProvider.CurrentComic.Path];
+        }
+        else
+        {
+            ComicStateProvider.ComicsVisited.Add(ComicStateProvider.CurrentComic.Path, 0);
+        }
+
+        if (ComicStateProvider.PageSize != 0)
+        { currentSize = ComicStateProvider.PageSize; }
+        else
+        { currentSize = ApiCallService.DefaultComicSize; }
+        comicPage = $"{ApiCallService.ApiLocation}?file=\\{Path}\\{Filename}&page={CurrentComicPage}&size={currentSize}";
+
+        Href = $"ComicListPage/{ComicListStateProvider.CurrentListPage}";
+    }
+
+    private void PreviousPage()
+    {
+        if (CurrentComicPage <= 0)
+        {
+            NavigationManager.NavigateTo($"comicpage/{Path}/{Filename}/0");
+            comicPage = $"{ApiCallService.ApiLocation}?file=\\{Path}\\{Filename}&page=0&size={currentSize}";
+            ComicStateProvider.ComicsVisited[ComicStateProvider.CurrentComic.Path] = 0;
+        }
+        else
+        {
+            CurrentComicPage -= 1;
+            NavigationManager.NavigateTo($"comicpage/{Path}/{Filename}/{CurrentComicPage}");
+            comicPage = $"{ApiCallService.ApiLocation}?file=\\{Path}\\{Filename}&page={CurrentComicPage}&size={currentSize}";
+            ComicStateProvider.ComicsVisited[ComicStateProvider.CurrentComic.Path] = CurrentComicPage;
+        }
+    }
+
+    private void NextPage()
+    {
+        if (CurrentComicPage >= ComicStateProvider.CurrentComic.TotalPages)
+        {
+            NavigationManager.NavigateTo($"comicpage/{Path}/{Filename}/0");
+            comicPage = $"{ApiCallService.ApiLocation}?file=\\{Path}\\{Filename}&page=0&size={currentSize}";
+            ComicStateProvider.ComicsVisited[ComicStateProvider.CurrentComic.Path] = 0;
+        }
+        else
+        {
+            CurrentComicPage += 1;
+            NavigationManager.NavigateTo($"comicpage/{Path}/{Filename}/{CurrentComicPage}");
+            comicPage = $"{ApiCallService.ApiLocation}?file=\\{Path}\\{Filename}&page={CurrentComicPage}&size={currentSize}";
+            ComicStateProvider.ComicsVisited[ComicStateProvider.CurrentComic.Path] = CurrentComicPage;
+        }
+    }
+
+    private void FirstPage()
+    {
+        NavigationManager.NavigateTo($"comicpage/{Path}/{Filename}/0");
+        comicPage = $"{ApiCallService.ApiLocation}?file=\\{Path}\\{Filename}&page=0&size={currentSize}";
+        ComicStateProvider.ComicsVisited[ComicStateProvider.CurrentComic.Path] = 0;
+    }
+
+    private void LastPage()
+    {
+        NavigationManager.NavigateTo($"comicpage/{Path}/{Filename}/{ComicStateProvider.CurrentComic.TotalPages}");
+        comicPage = $"{ApiCallService.ApiLocation}?file=\\{Path}\\{Filename}&page={ComicStateProvider.CurrentComic.TotalPages}&size={currentSize}";
+        ComicStateProvider.ComicsVisited[ComicStateProvider.CurrentComic.Path] = ComicStateProvider.CurrentComic.TotalPages;
+    }
+
+    private void ZoomIn()
+    {
+        currentSize += 100;
+        comicPage = $"{ApiCallService.ApiLocation}?file=\\{Path}\\{Filename}&page={CurrentComicPage}&size={currentSize}";
+        ComicStateProvider.PageSize = currentSize;
+    }
+
+    private void ZoomOut()
+    {
+        currentSize -= 100;
+        comicPage = $"{ApiCallService.ApiLocation}?file=\\{Path}\\{Filename}&page={CurrentComicPage}&size={currentSize}";
+        ComicStateProvider.PageSize = currentSize;
+    }
+}
