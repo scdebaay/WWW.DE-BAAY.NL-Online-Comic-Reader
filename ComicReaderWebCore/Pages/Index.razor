@@ -1,7 +1,59 @@
 ﻿@page "/"
+@using ComicReaderWebCore.Data
+@inject ComicListStateProvider ComicListStateProvider
 
-<h1>Hello, world!</h1>
+<div id="ComicPage">
+    <div id="ComicHeader">Comics available</div>
+    <div id="TableDiv">
+        <h1>Hello, world!</h1>
 
-Welcome to your new app.
+        <p>Welcome to the Comic Cloud Web Reader.</p>
+        <p>
+            Proof of concept website where my collection of digital comics can be found.<rb/>
+            The site is based on Blazor pages and uses a self-developed API to stream comic pages from CBR/CBZ format.
+        </p>
+        <p>
+            The link below takes you to the comic list. You can browse the list (currently 118 pages).<br/>
+            Click on any comic to read the comic. The site should remember which comic is read and to which page you've gotten.<br/>
+            This data is session based, so may be lost when navigating away from the site for longer periods.
+        </p>
+        <p>
+            Have fun!
+        </p>
+        <h3>
+            <NavLink href="@Href">
+                To the comic list
+            </NavLink>
+        </h3>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+    </div>
+</div>
+<div id="PagingBar"></div>
+<div id="Footer"></div>
+
+@code {
+    protected override void OnInitialized()
+    {
+        if (ComicListStateProvider.CurrentListPage <= 1)
+        {
+            CurrentComicListPage = 1;
+        }
+        else
+        {
+            CurrentComicListPage = ComicListStateProvider.CurrentListPage;
+        }
+        ComicListStateProvider.CurrentListPage = CurrentComicListPage;
+        Href = $"ComicListPage/{CurrentComicListPage}";
+        ComicListStateProvider.ComicListPageChanged += HandlePageChange;
+    }
+
+    public int CurrentComicListPage { get; set; }
+    private string Href { get; set; }
+
+    private void HandlePageChange(object sender, ComicListStateProvider.PageChangeEventArgs e)
+    {
+        Href = $"ComicListPage/{e.Page}";
+        InvokeAsync(StateHasChanged);
+    }
+}
+

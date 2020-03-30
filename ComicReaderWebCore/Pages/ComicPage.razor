@@ -6,18 +6,31 @@
 @inject NavigationManager NavigationManager
 @inject ComicStateProvider ComicStateProvider
 @inject ComicListStateProvider ComicListStateProvider
-
-<h3>ComicPage</h3>
-<NavLink class="nav-link" href="@Href">
-    <span class="oi oi-list-rich" aria-hidden="true"></span> Comic list
-</NavLink>
-<img src="@comicPage" alt="ComicPage" />
-<button class="btn btn-primary" @onclick="ZoomOut">Zoom Out</button>
-<button class="btn btn-primary" @onclick="FirstPage">First</button>
-<button class="btn btn-primary" @onclick="PreviousPage">Previous page</button>
-<button class="btn btn-primary" @onclick="NextPage">Next page</button>
-<button class="btn btn-primary" @onclick="LastPage">Last page</button>
-<button class="btn btn-primary" @onclick="ZoomIn">Zoom In</button>
+<!--Content-->
+<div id="Comic">
+    <div id="ZoomOut"><div class="paging" @onclick="ZoomOut">-</div></div>
+    <div id="header">
+        <NavLink class="nav-link" href="@Href">
+            Comic list
+        </NavLink>
+    </div>
+    <div id="ZoomIn">
+        <div class="paging" @onclick="ZoomIn">+</div>
+    </div>
+    <div id="prevButton">
+        <div class="firstpaging" @onclick="FirstPage">P.<br />1</div>
+        <div class="paging" @onclick="PreviousPage">&lt;</div>
+    </div>
+    <div id="content">
+        <img src="@comicPage" alt="ComicPage" />
+    </div>
+    <div id="nextButton">
+        <div class="paging" @onclick="NextPage">&gt;</div>
+        <div class="lastpaging" @onclick="LastPage">P.<br />@ComicStateProvider.CurrentComic.TotalPages</div>
+    </div>
+</div>
+<div id="ComicBottomMargin"></div>
+<div id="Footer"></div>
 
 @code {
     [Parameter]

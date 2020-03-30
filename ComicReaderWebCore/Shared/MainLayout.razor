@@ -1,15 +1,16 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="sidebar">
-    <NavMenu />
-</div>
-
-<div class="main">
-    <div class="top-row px-4">
-        <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+<div id="SiteHeader">
+    <div id="Logo">
+        <img src="Images/LogoSolinoRound.svg" />
     </div>
-
-    <div class="content px-4">
-        @Body
+    <div id="TitleDiv">
+        <div id="Title">Solino de Baay</div>
+        <div id="SubTitle">A nice collection of Comics</div>
     </div>
 </div>
+<div id="MenuBar"></div>
+
+<!--Content-->
+    @Body
+

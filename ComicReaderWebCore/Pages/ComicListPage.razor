@@ -8,39 +8,84 @@
 @inject ComicListStateProvider ComicListStateProvider
 @inject NavigationManager NavigationManager
 
-<h1>A nice collection of comics</h1>
-
-<p>This page displays all comics available on the site</p>
-
 @if (comiclist == null)
 {
-    <p><em>Loading...</em></p>
+    <div id="ComicPage">
+        <div id="ComicHeader">Comics available</div>
+        <div id="TableDiv">
+            <p><em>Loading...</em></p>
+        </div>
+    </div>
+    <div id="PagingBar"></div>
+    <div id="Footer"></div>
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Thumbnail</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var comic in comiclist.Files)
-            {
-                <tr>
-                    <td>@comic.Title</td>
-                    <td>
-                        <img src="@comic.ThumbUrl" alt="ComicThumbnail" @onclick="(() => OpenComic(comic))" />
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    <button class="btn btn-primary" @onclick="FirstPage">First</button>
-    <button class="btn btn-primary" @onclick="PreviousPage">Previous page</button>
-    <button class="btn btn-primary" @onclick="NextPage">Next page</button>
-    <button class="btn btn-primary" @onclick="LastPage">Lastpage</button>
+    <div id="ComicPage">
+        <div id="ComicHeader">Comics available</div>
+        <div id="TableDiv">
+            <div id="ComicTable">
+                @foreach (var comic in comiclist.Files)
+                {
+                    <div class="ComicCell" @onclick="(() => OpenComic(comic))">
+                        <a>
+                            <p class="ComicThumbnail">
+                                <img alt="Comic Thumbnail" src="@comic.ThumbUrl" />
+                            </p>
+                            <p class="ComicLink">
+                                @comic.Title
+                            </p>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+        <div id="prevPage">
+            <div class="paging" @onclick="PreviousPage">&lt;</div>
+        </div>
+        <div id="paging">
+            <ul id="pagingLinks">
+                @if (currentComicListPage != 1)
+                {
+                    <li class="paging" @onclick="FirstPage">First</li>
+                }
+                @if (currentComicListPage > 3)
+                {
+                    <li class="paging" @onclick="(() => GoToPage(currentComicListPage - 3))">@(currentComicListPage - 3)</li>
+                }
+                @if (currentComicListPage > 2)
+                {
+                    <li class="paging" @onclick="(() => GoToPage(currentComicListPage - 2))">@(currentComicListPage - 2)</li>
+                }
+                @if (currentComicListPage > 1)
+                {
+                    <li class="paging" @onclick="(() => GoToPage(currentComicListPage - 1))">@(currentComicListPage - 1)</li>
+                }
+                <li class="paging">Page @currentComicListPage of @comiclist.TotalPages</li>
+                @if (currentComicListPage + 1 < comiclist.TotalPages)
+                {
+                    <li class="paging" @onclick="(() => GoToPage(currentComicListPage + 1))">@(currentComicListPage + 1)</li>
+                }
+                @if (currentComicListPage + 2 < comiclist.TotalPages)
+                {
+                    <li class="paging" @onclick="(() => GoToPage(currentComicListPage + 2))">@(currentComicListPage + 2)</li>
+                }
+                @if (currentComicListPage + 3 < comiclist.TotalPages)
+                {
+                    <li class="paging" @onclick="(() => GoToPage(currentComicListPage + 3))">@(currentComicListPage + 3)</li>
+                }
+                @if (currentComicListPage != comiclist.TotalPages)
+                {
+                    <li class="paging" @onclick="LastPage">Last</li>
+                }                
+            </ul>
+        </div>
+        <div id="nextPage">
+            <div class="paging" @onclick="NextPage">&gt;</div>
+        </div>
+    </div>
+    <div id="PagingBar"></div>
+    <div id="Footer"></div>
 }
 
 @code {
@@ -121,6 +166,30 @@ else
         comiclist = await ApiCallService.GetFolderListAsync(comiclist.TotalPages);
         currentComicListPage = comiclist.TotalPages;
         NavigationManager.NavigateTo($"ComicListPage/{currentComicListPage}");
+        ComicListStateProvider.CurrentListPage = currentComicListPage;
+        ComicListStateProvider.PageChangeEventArgs args = new ComicListStateProvider.PageChangeEventArgs();
+        args.Page = currentComicListPage;
+        ComicListStateProvider.OnComicListPageChanged(this, args);
+    }
+
+    private async Task GoToPage(int page)
+    {
+        currentComicListPage = page;
+        if (page <= 1)
+        {
+            NavigationManager.NavigateTo($"ComicListPage/1");
+            comiclist = await ApiCallService.GetFolderListAsync(1);
+        }
+        else if (page >= comiclist.TotalPages)
+        {
+            NavigationManager.NavigateTo($"ComicListPage/{comiclist.TotalPages}");
+            comiclist = await ApiCallService.GetFolderListAsync(comiclist.TotalPages);
+        }
+        else
+        {
+            NavigationManager.NavigateTo($"ComicListPage/{currentComicListPage}");
+            comiclist = await ApiCallService.GetFolderListAsync(page);
+        }
         ComicListStateProvider.CurrentListPage = currentComicListPage;
         ComicListStateProvider.PageChangeEventArgs args = new ComicListStateProvider.PageChangeEventArgs();
         args.Page = currentComicListPage;
