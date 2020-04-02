@@ -66,7 +66,33 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
                                         int? size = httpRequest.QueryString["size"].ToInt();
                                         //Create a FetchComic object which contains the requested page in byte format.
                                         FetchedComic responseComic = new FetchedComic(RequestedfileName, page, size);
-                                        SendResponse(responseComic.result, responseComic.PageType);
+                                        if (httpRequest.QueryString["comicInfo"] != null)
+                                        {
+                                            var info = new XElement("folder",
+                                                new XAttribute("name", "pub"),
+                                                new XAttribute("files", "1"),
+                                                new XAttribute("totalPages", "1"),
+                                                new XAttribute("currentPage", "1"));
+                                            info.Add(new XElement("file",
+                                                new XAttribute("name", responseComic.Name),
+                                                new XAttribute("path", responseComic.Path),
+                                                new XAttribute("totalpages", responseComic.TotalPages)));
+                                            info.Add(new XElement("file",
+                                                new XAttribute("name", responseComic.Name),
+                                                new XAttribute("path", responseComic.Path),
+                                                new XAttribute("totalpages", responseComic.TotalPages)));
+                                            FolderCrawler.SetDefaultXmlNamespace(info, "http://www.de-baay.nl/ComicCloud");
+                                            XDocument XComicInfoResult = new XDocument(
+                                                new XDeclaration("1.0", "utf-8", "yes"), info);
+                                            var xmlComicInfoResult = XComicInfoResult.ToXmlDocument();
+                                            string jsonComicInfoResult = JsonConvert.SerializeXmlNode(xmlComicInfoResult);
+                                            httpContext.Response.ContentType = "Application/json";
+                                            httpContext.Response.Write(jsonComicInfoResult);
+                                        }
+                                        else
+                                        {
+                                            SendResponse(responseComic.Result, responseComic.PageType);
+                                        }
                                         break;
                                     //If an image of type png, jpg or gif was requested, fetch the image and write it to the repsonse stream.
                                     case "Image/png":
@@ -95,6 +121,7 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
                             //Debug.WriteLine($"An error occurred in file processing: {ex.Message}");
                             //Debug.WriteLine($"StackTrace: {ex.StackTrace}");
                             Logger.Error($"An error occurred in file processing: {ex.Message}");
+                            Logger.Error($"Handling file {Requestedfile.FullName}");
                             Logger.Error($"StackTrace: {ex.StackTrace}");
                             break;
                         }
@@ -105,9 +132,9 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
                             //A folder request should look like:
                             //?folder=<path>&pageLimit=<int>&page=<int> to implement paging of the result.
                             //A folder request will send a directory listing in XML format.
+                            RequestedFolder = httpRequest.QueryString["folder"].ToString();
                             try
                             {
-                                RequestedFolder = httpRequest.QueryString["folder"].ToString();
                                 //pageLimit is set. Return the amount of files in the listing per page as requested.
                                 if (httpRequest.QueryString["pageLimit"] != null)
                                 {
@@ -200,6 +227,7 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
                                 //Debug.WriteLine($"An error occurred in folder processing: {ex.Message}");
                                 //Debug.WriteLine($"StackTrace: {ex.StackTrace}");
                                 Logger.Error($"An error occurred in folder processing: {ex.Message}");
+                                Logger.Error($"Handling file {RequestedFolder}");
                                 Logger.Error($"StackTrace: {ex.StackTrace}");
                                 break;
                             }
@@ -209,7 +237,7 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.Resources
                             if (httpRequest.QueryString["action"] == "version")
                             {
                                 httpContext.Response.Write($"API Version: {typeof(ApiCall).Assembly.GetName().Name} version {typeof(ApiCall).Assembly.GetName().Version}");
-                            }                            
+                            }
                             break;
                         }
                 }

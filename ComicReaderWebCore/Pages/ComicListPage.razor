@@ -96,7 +96,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        if (ComicListStateProvider.CurrentListPage == 1 && currentComicListPage > 1)
+        if (ComicListStateProvider.CurrentListPage <= 1 && currentComicListPage > 1)
         {
             ComicListStateProvider.CurrentListPage = currentComicListPage;
         }

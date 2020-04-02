@@ -22,6 +22,29 @@ namespace ComicReaderWebCore.Data
             SiteRoot = _config.GetValue<string>("SiteRoot");
         }
 
+        public async Task<ComicListModel> GetComicInfo(string comic)
+        {
+            HttpClient client = new HttpClient
+            {
+                BaseAddress = new Uri(_config.GetValue<string>("ApiLocation"))
+            };
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            var request = $"{client.BaseAddress}?file={comic}&comicInfo=true";
+            HttpResponseMessage response = await client.GetAsync(request);
+            response.EnsureSuccessStatusCode();
+            JObject jObject = JsonConvert.DeserializeObject<JObject>(response.Content.ReadAsStringAsync().Result);
+            if (jObject != null)
+            {
+                ComicListModel returnList = new ComicListModel(jObject, _config);
+                return returnList;
+            }
+            else
+            {
+                ComicListModel emptyResponseList = new ComicListModel(_config);
+                return emptyResponseList;
+            }
+        }
+
         public async Task<ComicListModel> GetFolderListAsync(int? page = 1)
         {
             HttpClient client = new HttpClient

@@ -376,6 +376,7 @@ li > a {
     grid-area: header;
     justify-self: center;
     align-self: center;
+    z-index: 1;
 }
 
     #header a {

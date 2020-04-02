@@ -19,12 +19,15 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.ComicEngine
             Comic comic = Comic.LoadFromFile(comicToLoad);
             PageType = new ContType(comic.CurrentPage.Name.ToString()).ContentType;
             PageName = comic.CurrentPage.Name;
+            this.Path = comicFile;
+            Name = comic.Title;
+            TotalPages = comic.Pages.Count;
             //The result is compiled based in the comic object, the requested page and size.
-            Result(comic, page, size);
+            result(comic, page, size);
             comic.Dispose();
         }
 
-        public byte[] Result(Comic comic, int? page, int? size)
+        private byte[] result(Comic comic, int? page, int? size)
         {
             //Page parameter is set, set the CurrentIndex property to the page number.
             if (page != null)
@@ -52,9 +55,9 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.ComicEngine
                     {
                         image.Save(ms, new ContType(comic.CurrentPage.Name).Format);
                         ms.Position = 0;
-                        result = ms.ToArray();
+                        Result = ms.ToArray();
                         ms.Close();
-                        return result;
+                        return Result;
                     }
                 }
             }
@@ -63,8 +66,11 @@ namespace WWW.DE_BAAY.NL_Online_Comic_Reader.ComicEngine
             { return null; }
         }
 
+        public string Path { private set; get; }
+        public string Name { private set; get; }
+        public int TotalPages { private set; get; }
         public string PageName { private set; get; }
-        public byte[] result { set; get;}
+        public byte[] Result { private set; get; }
         public string PageType { private set; get; }
     }
 }

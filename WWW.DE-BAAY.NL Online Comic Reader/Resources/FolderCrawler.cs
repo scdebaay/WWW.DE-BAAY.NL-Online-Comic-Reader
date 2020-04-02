@@ -140,7 +140,7 @@ namespace Resources
             return info;
         }
 
-        private static void SetDefaultXmlNamespace(XElement xelem, XNamespace xmlns)
+        public static void SetDefaultXmlNamespace(XElement xelem, XNamespace xmlns)
         {
             if (xelem.Name.NamespaceName == string.Empty)
                 xelem.Name = xmlns + xelem.Name.LocalName;

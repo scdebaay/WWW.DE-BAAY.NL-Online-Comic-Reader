@@ -1,13 +1,29 @@
 ﻿@page "/ComicPage"
 @page "/ComicPage/{path}/{filename}"
 @page "/ComicPage/{path}/{filename}/{currentcomicpage:int}"
+@page "/ComicPage/{subfolder}/{path}/{filename}/{currentcomicpage:int}"
 @using ComicReaderWebCore.Data
+@using ComicReaderWebCore.Models
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
 @inject ComicApiCallService ApiCallService
 @inject NavigationManager NavigationManager
 @inject ComicStateProvider ComicStateProvider
 @inject ComicListStateProvider ComicListStateProvider
-<!--Content-->
+@if (ComicStateProvider.CurrentComic == null)
+{
 <div id="Comic">
+    <div id="content">
+        <p><em>Loading...</em></p>
+    </div>
+</div>
+<div id="ComicBottomMargin"></div>
+<div id="Footer"></div>
+}
+else
+{
+ <!--Content-->
+<div id="Comic" tabindex="0" @onkeyup="KeyUp">
     <div id="ZoomOut"><div class="paging" @onclick="ZoomOut">-</div></div>
     <div id="header">
         <NavLink class="nav-link" href="@Href">
@@ -31,8 +47,12 @@
 </div>
 <div id="ComicBottomMargin"></div>
 <div id="Footer"></div>
+}
 
 @code {
+    [Parameter]
+    public string Subfolder { get; set; }
+
     [Parameter]
     public string Path { get; set; }
 
@@ -48,8 +68,25 @@
 
     private string Href { get; set; }
 
-    protected override void OnInitialized()
+    private ComicListModel comicListModel { get; set; }
+    private ComicModel comicInfo { get; set; }
+
+    protected override async Task OnInitializedAsync()
     {
+        if (Subfolder != null)
+        {
+            Path = $"{Subfolder}\\{Path}";
+        }
+
+        if (ComicStateProvider.CurrentComic == null)
+        {
+            var requestedComic = $"\\{Path}\\{Filename}";
+            comicListModel = await ApiCallService.GetComicInfo(requestedComic);
+            comicInfo = comicListModel.Files[0];
+
+            ComicStateProvider.CurrentComic = comicInfo;
+        }
+
         if (ComicStateProvider.ComicsVisited.ContainsKey(ComicStateProvider.CurrentComic.Path))
         {
             CurrentComicPage = ComicStateProvider.ComicsVisited[ComicStateProvider.CurrentComic.Path];
@@ -70,6 +107,10 @@
 
     private void PreviousPage()
     {
+        if (Subfolder != null)
+        {
+            Path = $"{Subfolder}\\{Path}";
+        }
         if (CurrentComicPage <= 0)
         {
             NavigationManager.NavigateTo($"comicpage/{Path}/{Filename}/0");
@@ -87,6 +128,13 @@
 
     private void NextPage()
     {
+        if (Subfolder != null)
+        {
+            if (!Path.Contains(Subfolder))
+            {
+                Path = $"{Subfolder}\\{Path}";
+            }
+        }
         if (CurrentComicPage >= ComicStateProvider.CurrentComic.TotalPages)
         {
             NavigationManager.NavigateTo($"comicpage/{Path}/{Filename}/0");
@@ -104,6 +152,13 @@
 
     private void FirstPage()
     {
+        if (Subfolder != null)
+        {
+            if (!Path.Contains(Subfolder))
+            {
+                Path = $"{Subfolder}\\{Path}";
+            }
+        }
         NavigationManager.NavigateTo($"comicpage/{Path}/{Filename}/0");
         comicPage = $"{ApiCallService.ApiLocation}?file=\\{Path}\\{Filename}&page=0&size={currentSize}";
         ComicStateProvider.ComicsVisited[ComicStateProvider.CurrentComic.Path] = 0;
@@ -111,6 +166,13 @@
 
     private void LastPage()
     {
+        if (Subfolder != null)
+        {
+            if (!Path.Contains(Subfolder))
+            {
+                Path = $"{Subfolder}\\{Path}";
+            }
+        }
         NavigationManager.NavigateTo($"comicpage/{Path}/{Filename}/{ComicStateProvider.CurrentComic.TotalPages}");
         comicPage = $"{ApiCallService.ApiLocation}?file=\\{Path}\\{Filename}&page={ComicStateProvider.CurrentComic.TotalPages}&size={currentSize}";
         ComicStateProvider.ComicsVisited[ComicStateProvider.CurrentComic.Path] = ComicStateProvider.CurrentComic.TotalPages;
@@ -118,6 +180,13 @@
 
     private void ZoomIn()
     {
+        if (Subfolder != null)
+        {
+            if (!Path.Contains(Subfolder))
+            {
+                Path = $"{Subfolder}\\{Path}";
+            }
+        }
         currentSize += 100;
         comicPage = $"{ApiCallService.ApiLocation}?file=\\{Path}\\{Filename}&page={CurrentComicPage}&size={currentSize}";
         ComicStateProvider.PageSize = currentSize;
@@ -125,8 +194,27 @@
 
     private void ZoomOut()
     {
+        if (Subfolder != null)
+        {
+            if (!Path.Contains(Subfolder))
+            {
+                Path = $"{Subfolder}\\{Path}";
+            }
+        }
         currentSize -= 100;
         comicPage = $"{ApiCallService.ApiLocation}?file=\\{Path}\\{Filename}&page={CurrentComicPage}&size={currentSize}";
         ComicStateProvider.PageSize = currentSize;
+    }
+
+    void KeyUp(KeyboardEventArgs e)
+    {
+        if (e.Key == "ArrowRight")
+        {
+            NextPage();
+        }
+        if (e.Key == "ArrowLeft")
+        {
+            PreviousPage();
+        }
     }
 }
