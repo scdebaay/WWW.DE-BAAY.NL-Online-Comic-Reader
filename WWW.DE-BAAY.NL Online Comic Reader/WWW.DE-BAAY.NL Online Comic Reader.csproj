@@ -133,6 +133,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Fetcher.ashx" />
+    <Content Include=".gitattributes" />
     <None Include="ComicEngine.cd" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
