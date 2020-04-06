@@ -36,11 +36,13 @@ namespace ComicReaderWebCore.Data
             if (jObject != null)
             {
                 ComicListModel returnList = new ComicListModel(jObject, _config);
+                client.Dispose();
                 return returnList;
             }
             else
             {
                 ComicListModel emptyResponseList = new ComicListModel(_config);
+                client.Dispose();
                 return emptyResponseList;
             }
         }
@@ -59,11 +61,13 @@ namespace ComicReaderWebCore.Data
             if (jObject != null)
             {
                 ComicListModel returnList = new ComicListModel(jObject, _config);
+                client.Dispose();
                 return returnList;
             }
             else
             {
                 ComicListModel emptyResponseList = new ComicListModel(_config);
+                client.Dispose();
                 return emptyResponseList;
             }
         }
