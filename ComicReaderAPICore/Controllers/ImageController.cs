@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ComicReaderAPICore.Models;
+using ComicReaderClassLibrary.Models;
 using System.IO;
 
 namespace ComicReaderAPICore.Controllers

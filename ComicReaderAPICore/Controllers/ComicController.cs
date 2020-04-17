@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ComicReaderAPICore.Models;
+using ComicReaderClassLibrary.Models;
 using System.IO;
 
 namespace ComicReaderAPICore.Controllers
@@ -62,9 +62,9 @@ namespace ComicReaderAPICore.Controllers
                 files = "1",
                 totalPages = "1",
                 currentPage = "1",
-                file = new List<Models.FileModel>()
+                file = new List<FileModel>()
             };
-            info.folder.file.Add(new Models.FileModel
+            info.folder.file.Add(new FileModel
             {
                 name = _fetchedComic.Name,
                 path = $"\\{_fetchedComic.Path}",

@@ -1,17 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ComicReaderAPICore.Models;
-using ComicReaderAPICore.Resources;
+using ComicReaderClassLibrary.Models;
+using ComicReaderClassLibrary.Resources;
+using ComicReaderClassLibrary.DataAccess.Implementations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace ComicReaderAPICore
 {
@@ -35,6 +29,7 @@ namespace ComicReaderAPICore
             services.AddScoped<IRootModel, RootModel>();
             services.AddScoped<IFolderModel, FolderModel>();
             services.AddScoped<IFileModel, FileModel>();
+            services.AddScoped<ISqlApiDbConnection, SqlApiDbConnection>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -2,10 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AssemblyVersion>2020.04.0.1</AssemblyVersion>
-    <FileVersion>2020.04.0.1</FileVersion>
-    <Version>2020.04.0.1</Version>
+    <AssemblyVersion>2020.04.1.2</AssemblyVersion>
+    <FileVersion>2020.04.1.2</FileVersion>
+    <Version>2020.04.1.2</Version>
     <Description>.NET Core implementation of the Comic Reader API, previously WWW.DE-BAAY.NL Online Comic Reader</Description>
+    <ApplicationIcon>Comic Cloud API.ico</ApplicationIcon>
+    <PackageIcon>Comic Cloud API.png</PackageIcon>
+    <RepositoryUrl>https://github.com/scdebaay/WWW.DE-BAAY.NL-Online-Comic-Reader</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageReleaseNotes>Major release of Comic Cloud API version 2, 2020.04.1.2. Port to .NET Core 3.1, removed both comic and image engines and moved them to ComicReaderClassLibrary.
+Also implementen a SQL connection and uploaded the collection to SQL for faster retrieval.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +22,10 @@
       <NuGetPackageId>NLog.Schema</NuGetPackageId>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Z:\Files\Adobe Illustrator\Icons\ComicReaderApp\Comic Cloud API.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -24,7 +34,17 @@
     <PackageReference Include="NLog.Config" Version="4.7.0" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.1" />
     <PackageReference Include="SharpCompress" Version="0.25.0" />
-    <PackageReference Include="SkiaSharp" Version="1.68.2-preview.50" />
+    <PackageReference Include="SkiaSharp" Version="1.68.2-preview.60" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ComicReaderClassLibrary\ComicReaderClassLibrary.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

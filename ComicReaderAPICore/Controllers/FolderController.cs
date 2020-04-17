@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using ComicReaderAPICore.Models;
-using ComicReaderAPICore.Resources;
-using Microsoft.AspNetCore.Http;
+﻿using ComicReaderClassLibrary.DataAccess.Implementations;
+using ComicReaderClassLibrary.Models;
+using ComicReaderClassLibrary.Resources;
 using Microsoft.AspNetCore.Mvc;
+using System.IO;
 
 namespace ComicReaderAPICore.Controllers
 {
@@ -17,10 +13,12 @@ namespace ComicReaderAPICore.Controllers
     {
         private readonly IPathResolver _pathResolver;
         private readonly IRootModel _rootModel;
-        public FolderController(IPathResolver pathResolver, IRootModel rootModel)
+        private readonly ISqlApiDbConnection _sqlApiDbConnection;
+        public FolderController(IPathResolver pathResolver, IRootModel rootModel, ISqlApiDbConnection sqlApiDbConnection)
         {
             _pathResolver = pathResolver;
             _rootModel = rootModel;
+            _sqlApiDbConnection = sqlApiDbConnection;
         }
 
 
@@ -54,7 +52,7 @@ namespace ComicReaderAPICore.Controllers
                     break;
             }
             DirectoryInfo dir = new DirectoryInfo(requestedDir);
-            IRootModel rootfolder = FolderCrawler.GetDirectory(dir, dir, pageLimit, currentfolderpage);
+            IRootModel rootfolder = _sqlApiDbConnection.RetrieveComics(pageLimit, currentfolderpage);
             return rootfolder;
         }
     }
