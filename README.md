@@ -1,7 +1,7 @@
 # WWW.DE-BAAY.NL-Online-Comic-Reader
 GitHub Repo for Online Comic Reader from VS2019
 
-Based on the Cmic engine by Adam Hathcock: https://archive.codeplex.com/?p=comictool and the SharpCompress library by him,
+Based on the Comic engine by Adam Hathcock: https://archive.codeplex.com/?p=comictool and the SharpCompress library by him,
 I created a Comic Web API which serves a list of Comics in JSON which in turn can be called per page to be viewed.
 
 I still want to implement Swagger to further document the API and extend the functionalities.
