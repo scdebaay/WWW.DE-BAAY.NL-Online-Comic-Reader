@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Collections.Generic;
 
 namespace ComicReaderAPICore
 {
@@ -30,6 +31,27 @@ namespace ComicReaderAPICore
             services.AddScoped<IFolderModel, FolderModel>();
             services.AddScoped<IFileModel, FileModel>();
             services.AddScoped<ISqlApiDbConnection, SqlApiDbConnection>();
+            services.AddOpenApiDocument(config =>
+            {
+                config.PostProcess = document =>
+                {
+                    document.Info.Version = "v1";
+                    document.Info.Title = "Comic Reader API";
+                    document.Info.Description = "API that serves up a list of comics that can be browsed using various methods.";
+                    document.Info.TermsOfService = "None";
+                    document.Info.Contact = new NSwag.OpenApiContact
+                    {
+                        Name = "Solino de Baay",
+                        Email = "solino@de-baay.nl",
+                        Url = "https://github.com/scdebaay/WWW.DE-BAAY.NL-Online-Comic-Reader"
+                    };
+                    //document.Info.License = new NSwag.OpenApiLicense
+                    //{
+                    //    Name = "Use under LICX",
+                    //    Url = "https://example.com/license"
+                    //};
+                };
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +72,10 @@ namespace ComicReaderAPICore
             {
                 endpoints.MapControllers();
             });
+
+            // Register the Swagger generator and the Swagger UI middlewares
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
         }
     }
 }

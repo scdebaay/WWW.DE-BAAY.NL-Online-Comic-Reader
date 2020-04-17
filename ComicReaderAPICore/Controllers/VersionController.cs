@@ -12,6 +12,7 @@ namespace ComicReaderAPICore.Controllers
     [ApiController]
     public class VersionController : ControllerBase
     {
+        [Produces("application/json")]
         [HttpGet]
         public APIVersionModel Get()
         {

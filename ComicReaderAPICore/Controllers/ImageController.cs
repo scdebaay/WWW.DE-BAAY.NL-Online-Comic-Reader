@@ -22,6 +22,8 @@ namespace ComicReaderAPICore.Controllers
         private string Filename { get; set; }
         private int? Size { get; set; }
         private readonly IFetchedImage _fetchedImage;
+
+        [Produces("image/png", "image/jpg", "image/gif")]
         [HttpGet]
         public IActionResult Get(string path, string filename, int? size)
         {

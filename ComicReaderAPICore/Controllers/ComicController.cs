@@ -15,6 +15,7 @@ namespace ComicReaderAPICore.Controllers
     [ApiController]
     public class ComicController : ControllerBase
     {
+        
         public ComicController(IFetchedComic fetchedComic)
         {
             _fetchedComic = fetchedComic;
@@ -27,6 +28,7 @@ namespace ComicReaderAPICore.Controllers
         
         [Route("[controller]/{path}/{filename}/{currentcomicpage:int}")]
         [Route("[controller]/{path}/{filename}")]
+        [Produces("image/png", "image/jpg", "image/gif")]
         [HttpGet]
         public IActionResult Get(string path, string filename, int? size, int currentcomicpage = 0)
         {
@@ -44,6 +46,7 @@ namespace ComicReaderAPICore.Controllers
         }
 
         [Route("[controller]/{path}/{filename}/comicinfo")]
+        [Produces("application/json")]
         [HttpGet]
         public IRootModel Get(string path, string filename)
         {

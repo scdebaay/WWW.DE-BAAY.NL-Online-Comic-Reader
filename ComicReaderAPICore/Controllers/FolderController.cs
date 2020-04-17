@@ -22,6 +22,7 @@ namespace ComicReaderAPICore.Controllers
         }
 
 
+        [Produces("application/json")]
         public IRootModel Get(string folder, int? pageLimit, int? currentfolderpage = 0)
         {
 
