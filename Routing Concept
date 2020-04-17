@@ -1,5 +1,5 @@
-/Comic/ComicNext?sizeparam=&size=&size=<SizeInPixels>&page=<PageNumber>&pageparam=&page=&requestedfile=<file>
-/Home/IndexNext?page=<ComicPageNumber>
+/Comic/<path>/<file>/<page:int>?size=<size:int>
+/Folder/Comic/<page:int>?pageLimit=<pageLimit:int>
 
 
 
