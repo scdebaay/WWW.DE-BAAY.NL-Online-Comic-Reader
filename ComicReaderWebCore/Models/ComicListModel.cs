@@ -22,13 +22,13 @@ namespace ComicReaderWebCore.Models
         public ComicListModel(JObject folder, IConfiguration config)
         {
             _config = config;
-            Name = (string)folder["folder"]["@name"];
+            Name = (string)folder["folder"]["name"];
 
-            AvailableFiles = string.IsNullOrEmpty((string)folder["folder"]["@files"]) ? 1 : int.TryParse((string)folder["folder"]["@files"],out int testAFiles) ? AvailableFiles = testAFiles : AvailableFiles = 1;
+            AvailableFiles = string.IsNullOrEmpty((string)folder["folder"]["files"]) ? 1 : int.TryParse((string)folder["folder"]["files"],out int testAFiles) ? AvailableFiles = testAFiles : AvailableFiles = 1;
 
-            TotalPages = string.IsNullOrEmpty((string)folder["folder"]["@totalPages"]) ? 1 : int.TryParse((string)folder["folder"]["@totalPages"], out int testTPages) ? TotalPages = testTPages : TotalPages = 1;
+            TotalPages = string.IsNullOrEmpty((string)folder["folder"]["totalPages"]) ? 1 : int.TryParse((string)folder["folder"]["totalPages"], out int testTPages) ? TotalPages = testTPages : TotalPages = 1;
 
-            CurrentPage = string.IsNullOrEmpty((string)folder["folder"]["@currentPage"]) ? 1 : int.TryParse((string)folder["folder"]["@currentPage"], out int testCPage) ? CurrentPage = testCPage : CurrentPage = 1;
+            CurrentPage = string.IsNullOrEmpty((string)folder["folder"]["currentPage"]) ? 1 : int.TryParse((string)folder["folder"]["currentPage"], out int testCPage) ? CurrentPage = testCPage : CurrentPage = 1;
 
             JArray fileArray = (JArray)folder["folder"]["file"];
 
@@ -36,7 +36,7 @@ namespace ComicReaderWebCore.Models
             {
                 foreach (var comicFile in fileArray.Children())
                 {
-                    ComicModel comic = new ComicModel((string)comicFile["@path"], ((string)comicFile["@name"]).Substring(0, ((string)comicFile["@name"]).Length - 4), comicFile["@totalpages"].ToObject<int>(), _config);
+                    ComicModel comic = new ComicModel((string)comicFile["path"], ((string)comicFile["name"]).Substring(0, ((string)comicFile["name"]).Length - 4), comicFile["totalpages"].ToObject<int>(), _config);
                     files.Add(comic);
                 }
             }

@@ -11,7 +11,7 @@ namespace ComicReaderWebCore.Models
             _config = config;
             Path = "";
             Title = "Comic not found";
-            ThumbUrl = $"{_config.GetValue<string>("ApiLocation")}?file=NotFound&page=0&size=150";
+            ThumbUrl = $"{_config.GetValue<string>("ApiLocation")}image/notfound.png?size=150";
         }
 
         public ComicModel(string path, string name, int totalpages, IConfiguration config)
@@ -19,7 +19,7 @@ namespace ComicReaderWebCore.Models
             _config = config;
             Path = path;
             Title = name;
-            ThumbUrl = $"{_config.GetValue<string>("ApiLocation")}?file={Path}&page=0&size=150";
+            ThumbUrl = $"{_config.GetValue<string>("ApiLocation")}comic{Path}/0?size=150";
             TotalPages = totalpages;
         }
 

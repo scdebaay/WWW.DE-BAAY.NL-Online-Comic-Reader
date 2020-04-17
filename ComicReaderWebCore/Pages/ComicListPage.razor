@@ -113,9 +113,9 @@ else
 
     private async Task PreviousPage()
     {
-        if (currentComicListPage <= 1)
+        if (currentComicListPage <= 0)
         {
-            comiclist = await ApiCallService.GetFolderListAsync(1);
+            comiclist = await ApiCallService.GetFolderListAsync(0);
             NavigationManager.NavigateTo($"ComicListPage/{currentComicListPage}");
         }
         else
@@ -151,8 +151,8 @@ else
 
     private async Task FirstPage()
     {
-        comiclist = await ApiCallService.GetFolderListAsync(1);
-        currentComicListPage = 1;
+        comiclist = await ApiCallService.GetFolderListAsync(0);
+        currentComicListPage = 0;
         NavigationManager.NavigateTo($"ComicListPage/{currentComicListPage}");
         ComicListStateProvider.CurrentListPage = currentComicListPage;
         ComicListStateProvider.PageChangeEventArgs args = new ComicListStateProvider.PageChangeEventArgs();
@@ -175,10 +175,10 @@ else
     private async Task GoToPage(int page)
     {
         currentComicListPage = page;
-        if (page <= 1)
+        if (page <= 0)
         {
-            NavigationManager.NavigateTo($"ComicListPage/1");
-            comiclist = await ApiCallService.GetFolderListAsync(1);
+            NavigationManager.NavigateTo($"ComicListPage/0");
+            comiclist = await ApiCallService.GetFolderListAsync(0);
         }
         else if (page >= comiclist.TotalPages)
         {

@@ -100,7 +100,7 @@ else
         { currentSize = ComicStateProvider.PageSize; }
         else
         { currentSize = ApiCallService.DefaultComicSize; }
-        comicPage = $"{ApiCallService.ApiLocation}?file=\\{Path}\\{Filename}&page={CurrentComicPage}&size={currentSize}";
+        comicPage = $"{ApiCallService.ApiLocation}comic/{Path}/{Filename}/{CurrentComicPage}?size={currentSize}";
 
         Href = $"ComicListPage/{ComicListStateProvider.CurrentListPage}";
     }
@@ -114,14 +114,14 @@ else
         if (CurrentComicPage <= 0)
         {
             NavigationManager.NavigateTo($"comicpage/{Path}/{Filename}/0");
-            comicPage = $"{ApiCallService.ApiLocation}?file=\\{Path}\\{Filename}&page=0&size={currentSize}";
+            comicPage = $"{ApiCallService.ApiLocation}comic/{Path}/{Filename}/0?size={currentSize}";
             ComicStateProvider.ComicsVisited[ComicStateProvider.CurrentComic.Path] = 0;
         }
         else
         {
             CurrentComicPage -= 1;
             NavigationManager.NavigateTo($"comicpage/{Path}/{Filename}/{CurrentComicPage}");
-            comicPage = $"{ApiCallService.ApiLocation}?file=\\{Path}\\{Filename}&page={CurrentComicPage}&size={currentSize}";
+            comicPage = $"{ApiCallService.ApiLocation}comic/{Path}/{Filename}/{CurrentComicPage}?size={currentSize}";
             ComicStateProvider.ComicsVisited[ComicStateProvider.CurrentComic.Path] = CurrentComicPage;
         }
     }
@@ -138,14 +138,14 @@ else
         if (CurrentComicPage >= ComicStateProvider.CurrentComic.TotalPages)
         {
             NavigationManager.NavigateTo($"comicpage/{Path}/{Filename}/0");
-            comicPage = $"{ApiCallService.ApiLocation}?file=\\{Path}\\{Filename}&page=0&size={currentSize}";
+            comicPage = $"{ApiCallService.ApiLocation}comic/{Path}/{Filename}/0?size={currentSize}";
             ComicStateProvider.ComicsVisited[ComicStateProvider.CurrentComic.Path] = 0;
         }
         else
         {
             CurrentComicPage += 1;
             NavigationManager.NavigateTo($"comicpage/{Path}/{Filename}/{CurrentComicPage}");
-            comicPage = $"{ApiCallService.ApiLocation}?file=\\{Path}\\{Filename}&page={CurrentComicPage}&size={currentSize}";
+            comicPage = $"{ApiCallService.ApiLocation}comic/{Path}/{Filename}/{CurrentComicPage}?size={currentSize}";
             ComicStateProvider.ComicsVisited[ComicStateProvider.CurrentComic.Path] = CurrentComicPage;
         }
     }
@@ -160,7 +160,7 @@ else
             }
         }
         NavigationManager.NavigateTo($"comicpage/{Path}/{Filename}/0");
-        comicPage = $"{ApiCallService.ApiLocation}?file=\\{Path}\\{Filename}&page=0&size={currentSize}";
+        comicPage = $"{ApiCallService.ApiLocation}comic/{Path}/{Filename}/0?size={currentSize}";
         ComicStateProvider.ComicsVisited[ComicStateProvider.CurrentComic.Path] = 0;
     }
 
@@ -174,7 +174,7 @@ else
             }
         }
         NavigationManager.NavigateTo($"comicpage/{Path}/{Filename}/{ComicStateProvider.CurrentComic.TotalPages}");
-        comicPage = $"{ApiCallService.ApiLocation}?file=\\{Path}\\{Filename}&page={ComicStateProvider.CurrentComic.TotalPages}&size={currentSize}";
+        comicPage = $"{ApiCallService.ApiLocation}comic/{Path}/{Filename}/{ComicStateProvider.CurrentComic.TotalPages}?size={currentSize}";
         ComicStateProvider.ComicsVisited[ComicStateProvider.CurrentComic.Path] = ComicStateProvider.CurrentComic.TotalPages;
     }
 
@@ -188,7 +188,7 @@ else
             }
         }
         currentSize += 100;
-        comicPage = $"{ApiCallService.ApiLocation}?file=\\{Path}\\{Filename}&page={CurrentComicPage}&size={currentSize}";
+        comicPage = $"{ApiCallService.ApiLocation}comic/{Path}/{Filename}/{CurrentComicPage}?size={currentSize}";
         ComicStateProvider.PageSize = currentSize;
     }
 
@@ -202,7 +202,7 @@ else
             }
         }
         currentSize -= 100;
-        comicPage = $"{ApiCallService.ApiLocation}?file=\\{Path}\\{Filename}&page={CurrentComicPage}&size={currentSize}";
+        comicPage = $"{ApiCallService.ApiLocation}comic/{Path}/{Filename}/{CurrentComicPage}?size={currentSize}";
         ComicStateProvider.PageSize = currentSize;
     }
 
