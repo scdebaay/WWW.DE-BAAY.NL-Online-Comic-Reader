@@ -1,0 +1,3 @@
+﻿CREATE LOGIN [DEBAAY\ComicCloud]
+    FROM WINDOWS WITH DEFAULT_DATABASE = [ComicReaderDBTest], DEFAULT_LANGUAGE = [us_english];
+
