@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ComicReaderClassLibrary.Models;
 using System.IO;
+using Microsoft.Extensions.Logging;
 
 namespace ComicReaderAPICore.Controllers
 {
@@ -14,9 +15,11 @@ namespace ComicReaderAPICore.Controllers
     [ApiController]
     public class ImageController : ControllerBase
     {
-        public ImageController(IFetchedImage fetchedImage)
+        private readonly ILogger _logger;
+        public ImageController(IFetchedImage fetchedImage, ILogger<ImageController> logger)
         {
             _fetchedImage = fetchedImage;
+            _logger = logger;
         }
         private string Path { get; set; }
         private string Filename { get; set; }

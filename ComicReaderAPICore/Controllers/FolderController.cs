@@ -2,6 +2,7 @@
 using ComicReaderClassLibrary.Models;
 using ComicReaderClassLibrary.Resources;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.IO;
 
 namespace ComicReaderAPICore.Controllers
@@ -12,13 +13,15 @@ namespace ComicReaderAPICore.Controllers
     public class FolderController : ControllerBase
     {
         private readonly IPathResolver _pathResolver;
-        private readonly IRootModel _rootModel;
+        private IRootModel _rootModel;
         private readonly ISqlApiDbConnection _sqlApiDbConnection;
-        public FolderController(IPathResolver pathResolver, IRootModel rootModel, ISqlApiDbConnection sqlApiDbConnection)
+        private readonly ILogger _logger;
+        public FolderController(IPathResolver pathResolver, IRootModel rootModel, ISqlApiDbConnection sqlApiDbConnection, ILogger<FolderController> logger)
         {
             _pathResolver = pathResolver;
             _rootModel = rootModel;
             _sqlApiDbConnection = sqlApiDbConnection;
+            _logger = logger;
         }
 
 
@@ -52,9 +55,8 @@ namespace ComicReaderAPICore.Controllers
                     requestedDir = _pathResolver.EpubFolder;
                     break;
             }
-            DirectoryInfo dir = new DirectoryInfo(requestedDir);
-            IRootModel rootfolder = _sqlApiDbConnection.RetrieveComics(pageLimit, currentfolderpage);
-            return rootfolder;
+            _rootModel = _sqlApiDbConnection.RetrieveComics(pageLimit, currentfolderpage);
+            return _rootModel;
         }
     }
 }

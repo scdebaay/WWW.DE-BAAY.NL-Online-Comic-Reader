@@ -6,19 +6,18 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ComicReaderClassLibrary.Models;
 using System.IO;
+using Microsoft.Extensions.Logging;
 
 namespace ComicReaderAPICore.Controllers
 {
-    
-    
-
     [ApiController]
     public class ComicController : ControllerBase
     {
-        
-        public ComicController(IFetchedComic fetchedComic)
+        private readonly ILogger _logger;
+        public ComicController(IFetchedComic fetchedComic, ILogger<ComicController> logger)
         {
             _fetchedComic = fetchedComic;
+            _logger = logger;
         }
         private string Path { get; set; }
         private string Filename { get; set; }

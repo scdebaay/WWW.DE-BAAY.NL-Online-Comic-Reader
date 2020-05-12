@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using ComicReaderClassLibrary.Models;
 using Microsoft.AspNetCore.Http;
@@ -18,8 +19,10 @@ namespace ComicReaderAPICore.Controllers
         {
             APIVersionModel version = new APIVersionModel()
             {
-                Name = $"{typeof(APIVersionModel).Assembly.GetName().Name}", 
-                Version = $"{typeof(APIVersionModel).Assembly.GetName().Version}"
+                APIName = $"{Assembly.GetExecutingAssembly().GetName().Name}",
+                APIVersion = $"{Assembly.GetExecutingAssembly().GetName().Version}",
+                LibraryName = $"{typeof(APIVersionModel).Assembly.GetName().Name}", 
+                LibraryVersion = $"{typeof(APIVersionModel).Assembly.GetName().Version}"
             };
             return version;
         }

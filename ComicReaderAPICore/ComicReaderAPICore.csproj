@@ -2,15 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AssemblyVersion>2020.04.1.3</AssemblyVersion>
-    <FileVersion>2020.04.1.3</FileVersion>
+    <AssemblyVersion>2020.05.1.4</AssemblyVersion>
+    <FileVersion>2020.05.1.4</FileVersion>
     <Version>2020.04.1.3</Version>
     <Description>.NET Core implementation of the Comic Reader API, previously WWW.DE-BAAY.NL Online Comic Reader</Description>
     <ApplicationIcon>Comic Cloud API.ico</ApplicationIcon>
     <PackageIcon>Comic Cloud API.png</PackageIcon>
     <RepositoryUrl>https://github.com/scdebaay/WWW.DE-BAAY.NL-Online-Comic-Reader</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
-    <PackageReleaseNotes>Major release of Comic Cloud API version 2, 2020.04.1.3. Port to .NET Core 3.1, removed both comic and image engines and moved them to ComicReaderClassLibrary.
+    <PackageReleaseNotes>Release 2020.05.1.4, Implemented loggin for all controllers.
+Major release of Comic Cloud API version 2, 2020.04.1.3. Port to .NET Core 3.1, removed both comic and image engines and moved them to ComicReaderClassLibrary.
 Also implementen a SQL connection and uploaded the collection to SQL for faster retrieval. Implemented OAS3 UI.</PackageReleaseNotes>
     <Copyright>Copyright Solino de Baay © 2020</Copyright>
   </PropertyGroup>
