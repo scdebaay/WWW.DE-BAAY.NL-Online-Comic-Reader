@@ -1,4 +1,4 @@
-﻿using ComicReaderClassLibrary.DataAccess.Public;
+﻿using ComicReaderClassLibrary.DataAccess.DataModels;
 using ComicReaderClassLibrary.Models;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;

@@ -7,7 +7,9 @@ namespace ComicReaderClassLibrary.Models
 {
     public class APIVersionModel
     {
-        public string Name { get; set; }
-        public string Version { get; set; }
+        public string APIName { get; set; }
+        public string APIVersion { get; set; }
+        public string LibraryName { get; set; }
+        public string LibraryVersion { get; set; }
     }
 }

@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AssemblyVersion>2020.4.0.1</AssemblyVersion>
-    <FileVersion>20202.4.0.1</FileVersion>
-    <Version>2020.04.0.1</Version>
+    <AssemblyVersion>2020.5.1.0</AssemblyVersion>
+    <FileVersion>20202.5.1.0</FileVersion>
+    <Version>2020.05.1.0</Version>
     <Authors>Solino de Baay</Authors>
     <Company>WWW.DE-BAAY.NL</Company>
     <Product>Comic Reader Class Library</Product>
@@ -13,14 +13,19 @@
     <PackageIcon>Comic Cloud Service.png</PackageIcon>
     <RepositoryUrl>https://github.com/scdebaay/WWW.DE-BAAY.NL-Online-Comic-Reader</RepositoryUrl>
     <ApplicationIcon>Comic Cloud Service.ico</ApplicationIcon>
-    <PackageReleaseNotes>ComicReader Class Library, Version 0.1, 2020.04.0.1. Built on .NET Core 3.1, Implemented SQL, imported Comic and Imaging Engine, implemented SKiaSharp for imaging. Still needs code cleaning.</PackageReleaseNotes>
+    <PackageReleaseNotes>ComicReader Class Library, Version 1.0, 2020.05.1.0, Implemented SQL calls for retrieving and storing Comic Metadata from SQL database. To be used with Data Management Application.
+ComicReader Class Library, Version 0.1, 2020.04.0.1. Built on .NET Core 3.1, Implemented SQL, imported Comic and Imaging Engine, implemented SKiaSharp for imaging. Still needs code cleaning.
+</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Caliburn.Micro.Core" Version="4.0.105-alpha" />
     <PackageReference Include="Dapper" Version="2.0.35" />
     <PackageReference Include="Dapper.Contrib" Version="2.0.35" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="2.0.0-preview2.20084.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.3" />
     <PackageReference Include="NLog" Version="4.7.0" />
     <PackageReference Include="SharpCompress" Version="0.25.0" />
     <PackageReference Include="SkiaSharp" Version="1.68.2-preview.60" />

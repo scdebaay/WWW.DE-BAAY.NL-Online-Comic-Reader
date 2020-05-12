@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Dapper;
 using System.Data;
 using Microsoft.Data.SqlClient;
-using ComicReaderClassLibrary.DataAccess.Public;
+using ComicReaderClassLibrary.DataAccess.DataModels;
 using Microsoft.Extensions.Logging;
 
 namespace ComicReaderClassLibrary.DataAccess.Implementations
@@ -101,7 +101,7 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
         private static IConfigurationRoot LoadAppConfiguration()
         {
             return new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
+                .SetBasePath(AppContext.BaseDirectory)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? "Production"}.json", optional: true)
                 .AddJsonFile("appsettings.local.json", optional: true)
