@@ -1,3 +1,6 @@
+using ComicReaderClassLibrary.DataAccess.Implementations;
+using ComicReaderClassLibrary.Models;
+using ComicReaderClassLibrary.Resources;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -36,6 +39,9 @@ namespace ComicReaderInventoryService
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddHostedService<Worker>();
+                    services.AddScoped<IRootModel, RootModel>();
+                    services.AddScoped<IFolderCrawler, FolderCrawler>();
+                    services.AddScoped<ISqlIngestDbConnection, SqlIngestDbConnection>();
                 }).ConfigureLogging(logging =>
                 {
                     logging.ClearProviders();

@@ -7,7 +7,7 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
 {
     public interface ISqlIngestDbConnection
     {
-        void InsertComics(List<FileModel> comicsToIngest, ILogger _logger);
+        void InsertComics(List<FileModel> comicsToIngest);
         ComicDataModel RetrieveComic(string name);
     }
 }

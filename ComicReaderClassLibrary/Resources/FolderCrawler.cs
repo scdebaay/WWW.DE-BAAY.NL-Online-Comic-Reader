@@ -6,13 +6,24 @@ using System.Threading;
 using System.Threading.Tasks;
 using ComicReaderClassLibrary.ComicEngine;
 using ComicReaderClassLibrary.Models;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace ComicReaderClassLibrary.Resources
 {
-    public class FolderCrawler
+    public class FolderCrawler : IFolderCrawler
     {
-        // Start logger
-        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        private readonly ILogger<FolderCrawler> _logger;
+        private readonly IConfiguration _configuration;
+        private readonly IRootModel _rootModel;
+
+        public FolderCrawler(IConfiguration configuration, IRootModel rootModel, ILogger<FolderCrawler> logger)
+        {
+            _configuration = configuration;
+            _rootModel = rootModel;
+            _logger = logger;
+        }
+
         /// <summary>
         /// Iterate through mediaFolder subfolders and convert directory listing into XML format.
         /// Result contains 
@@ -26,7 +37,7 @@ namespace ComicReaderClassLibrary.Resources
         /// <param name="pageLimit">Set the number of files per page being returned</param>
         /// <param name="page">The page we are looking at.</param>
         /// <returns></returns>
-        public static IRootModel GetDirectory(DirectoryInfo dir)
+        public IRootModel GetDirectory(DirectoryInfo dir)
         {
             // Data structure to hold names of subfolders to be
             // examined for files.
@@ -58,12 +69,12 @@ namespace ComicReaderClassLibrary.Resources
                 // about the systems on which this code will run.
                 catch (UnauthorizedAccessException)
                 {
-                    Logger.Error($"Access refused to : {currentDir.Name}");
+                    _logger.LogError($"Access refused to : {currentDir.Name}");
                     continue;
                 }
                 catch (DirectoryNotFoundException)
                 {
-                    Logger.Error($"The folder was not found : {currentDir.Name}");
+                    _logger.LogError($"The folder was not found : {currentDir.Name}");
                     continue;
                 }
                 //Uncomment for troubleshooting
@@ -94,12 +105,12 @@ namespace ComicReaderClassLibrary.Resources
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    Logger.Error($"File access refused to : {currentDir.Name}");
+                    _logger.LogError($"File access refused to : {currentDir.Name}");
                     continue;
                 }
                 catch (DirectoryNotFoundException)
                 {
-                    Logger.Error($"The folder was not found while processing files: {currentDir.Name}");
+                    _logger.LogError($"The folder was not found while processing files: {currentDir.Name}");
                     continue;
                 }
                 // Push the subdirectories onto the stack for traversal.
@@ -136,14 +147,14 @@ namespace ComicReaderClassLibrary.Resources
                 }
                 catch
                 {
-                    Logger.Error($"Unable to find page count for: {file.Name}");
+                    _logger.LogError($"Unable to find page count for: {file.Name}");
                     continue;
                 }
             }
             return info;
         }
 
-        private static string GetRelativePath(FileInfo file, DirectoryInfo dir, DirectoryInfo root)
+        private string GetRelativePath(FileInfo file, DirectoryInfo dir, DirectoryInfo root)
         {
             var folder = dir.Name;
 

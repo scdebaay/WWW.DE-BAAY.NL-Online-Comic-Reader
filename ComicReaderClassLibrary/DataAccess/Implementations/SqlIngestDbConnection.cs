@@ -15,10 +15,18 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
     public class SqlIngestDbConnection : ISqlIngestDbConnection
     {
         private IConfiguration _configuration;
+        private readonly ILogger _logger;
+        private IRootModel _rootModel;
+
+        public SqlIngestDbConnection(IConfiguration configuration, IRootModel rootModel, ILogger<SqlIngestDbConnection> logger)
+        {
+            _configuration = configuration;
+            _logger = logger;
+            _rootModel = rootModel;
+        }
 
         private string CnnVal(string name)
         {
-            _configuration = LoadAppConfiguration();
             return _configuration[$"ConnectionStrings:{name}"];
         }
 
@@ -40,7 +48,7 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
 
-        public void InsertComics(List<FileModel> comicsToIngest, ILogger _logger)
+        public void InsertComics(List<FileModel> comicsToIngest)
         {
 
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -96,16 +104,6 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             {
                 return true;
             }
-        }
-
-        private static IConfigurationRoot LoadAppConfiguration()
-        {
-            return new ConfigurationBuilder()
-                .SetBasePath(AppContext.BaseDirectory)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? "Production"}.json", optional: true)
-                .AddJsonFile("appsettings.local.json", optional: true)
-                .Build();
         }
     }
 }
