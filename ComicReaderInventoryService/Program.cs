@@ -1,8 +1,4 @@
-using ComicReaderClassLibrary.DataAccess.Implementations;
-using ComicReaderClassLibrary.Models;
-using ComicReaderClassLibrary.Resources;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
@@ -35,13 +31,10 @@ namespace ComicReaderInventoryService
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .UseWindowsService()                
-                .ConfigureServices((hostContext, services) =>
+                .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    services.AddHostedService<Worker>();
-                    services.AddScoped<IRootModel, RootModel>();
-                    services.AddScoped<IFolderCrawler, FolderCrawler>();
-                    services.AddScoped<ISqlIngestDbConnection, SqlIngestDbConnection>();
+                    //Startup class is set as entry-point
+                    webBuilder.UseStartup<Startup>();
                 }).ConfigureLogging(logging =>
                 {
                     logging.ClearProviders();

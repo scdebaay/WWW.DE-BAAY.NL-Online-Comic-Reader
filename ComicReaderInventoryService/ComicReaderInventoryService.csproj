@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>dotnet-ComicReaderInventoryService-5C8EB669-B187-41B1-8F42-6E9F21DF94BD</UserSecretsId>
-    <AssemblyVersion>2020.05.1.2</AssemblyVersion>
-    <FileVersion>2020.05.1.2</FileVersion>
-    <Version>2020.05.1.2</Version>
+    <AssemblyVersion>2020.05.2.0</AssemblyVersion>
+    <FileVersion>2020.05.2.0</FileVersion>
+    <Version>2020.05.2.0</Version>
     <Authors>Solino de Baay</Authors>
     <Company>WWW.DE-BAAY.NL</Company>
     <Product>Comic Reader Inventory Service</Product>
@@ -14,7 +14,8 @@
     <PackageProjectUrl>https://github.com/scdebaay/WWW.DE-BAAY.NL-Online-Comic-Reader</PackageProjectUrl>
     <PackageIcon>Comic Cloud Service.png</PackageIcon>
     <ApplicationIcon>Comic Cloud Service.ico</ApplicationIcon>
-    <PackageReleaseNotes>Comic Reader Inventory Service Version 1, Release 2020.05.1.2, 
+    <PackageReleaseNotes>Comic Reader Inventory Service Version 2, Release 2020.05.2.2, 
+Implemented Cron Expression scheduling. The service can be scheduled using Cron expressions in Settings.Json
 All code has been annotated and documented
 Service to monitor Comic staging folder. Will add new comics to database on a temporary basis.</PackageReleaseNotes>
     <RepositoryUrl>https://github.com/scdebaay/WWW.DE-BAAY.NL-Online-Comic-Reader</RepositoryUrl>
@@ -22,9 +23,10 @@ Service to monitor Comic staging folder. Will add new comics to database on a te
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Cronos" Version="0.7.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.4" />
     <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="3.1.4" />
-    <PackageReference Include="NLog" Version="4.7.1" />
+    <PackageReference Include="NLog" Version="4.7.2" />
     <PackageReference Include="NLog.Extensions.Logging" Version="1.6.3" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.2" />
   </ItemGroup>

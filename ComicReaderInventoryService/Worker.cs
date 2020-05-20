@@ -14,6 +14,9 @@ using System.Threading.Tasks;
 
 namespace ComicReaderInventoryService
 {
+    /// <summary>
+    /// Previous iteration of the ComicReaderInventoryService, based on backgroudn service.
+    /// </summary>
     public class Worker : BackgroundService
     {
         private readonly ILogger<Worker> _logger;
