@@ -9,10 +9,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ComicReaderAPICore.Controllers
 {
+    /// <summary>
+    /// Version controller, endpoint that returns the API version in JSON format
+    /// </summary>
     [Route("[controller]")]
     [ApiController]
     public class VersionController : ControllerBase
     {
+        /// <summary>
+        /// Get method for Version
+        /// </summary>
+        /// <returns>Serialized Version model in JSON format</returns>
         [Produces("application/json")]
         [HttpGet]
         public APIVersionModel Get()
