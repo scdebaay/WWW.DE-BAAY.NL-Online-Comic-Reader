@@ -33,9 +33,9 @@ namespace ComicReaderWebCore
 
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton(new ComicApiCallService(Configuration));
-            services.AddScoped<ComicStateProvider>();
-            services.AddScoped<ComicListStateProvider>();
+            services.AddSingleton<IComicApiCallService, ComicApiCallService>();
+            services.AddScoped<IComicStateProvider, ComicStateProvider>();
+            services.AddScoped<IComicListStateProvider, ComicListStateProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

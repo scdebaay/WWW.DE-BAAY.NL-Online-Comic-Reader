@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ComicReaderWebCore.Data
 {
-    public class ComicListStateProvider
+    public class ComicListStateProvider : IComicListStateProvider
     {
         public int CurrentListPage { get; set; }
 
@@ -16,7 +16,7 @@ namespace ComicReaderWebCore.Data
             EventHandler handler = ComicListPageChanged;
             handler?.Invoke(this, e);
         }
-        
+
         public delegate void EventHandler(Object sender, PageChangeEventArgs e);
 
         public class PageChangeEventArgs : EventArgs

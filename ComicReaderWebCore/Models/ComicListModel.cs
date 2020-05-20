@@ -4,10 +4,18 @@ using System.Collections.Generic;
 
 namespace ComicReaderWebCore.Models
 {
+    /// <summary>
+    /// Class representing a paged list comic to be viewed on the website.
+    /// </summary>
     public class ComicListModel
     {
         List<ComicModel> files = new List<ComicModel>();
         IConfiguration _config;
+
+        /// <summary>
+        /// Default constructor, creates default instance of a Comic List Model with placeholder properties
+        /// </summary>
+        /// <param name="config">Injected configuration object</param>
         public ComicListModel(IConfiguration config)
         {
             _config = config;
@@ -19,6 +27,11 @@ namespace ComicReaderWebCore.Models
             files.Add(emtpyComic);
         }
 
+        /// <summary>
+        /// Constructor with which comic list models are created to be displayed on the website. Properties are set to those retrieved from the API.
+        /// </summary>
+        /// <param name="folder">JObject, JSON formatted list of comics to be deserialized from the API</param>
+        /// <param name="config">Injected configuration object</param>
         public ComicListModel(JObject folder, IConfiguration config)
         {
             _config = config;

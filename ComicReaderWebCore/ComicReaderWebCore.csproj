@@ -2,14 +2,22 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AssemblyVersion>2020.04.2.4</AssemblyVersion>
-    <FileVersion>2020.04.2.4</FileVersion>
-    <Version>2020.03.2.4</Version>
+    <AssemblyVersion>2020.05.2.5</AssemblyVersion>
+    <FileVersion>2020.05.2.5</FileVersion>
+    <Version>2020.05.2.5</Version>
     <Description>.NET Core implementation of the Comic Web Reader.</Description>
     <PackageIcon>Comic Cloud Web.png</PackageIcon>
     <ApplicationIcon>Comic Cloud Web.ico</ApplicationIcon>
     <Copyright>Copyright Solino de Baay © 2020</Copyright>
-    <PackageReleaseNotes>Prerelease of Comic Cloud Web Core version 2, 2020.04.2.4. Now using API Version2, with SQL support.</PackageReleaseNotes>
+    <PackageReleaseNotes>Comic Cloud Web Core version 2, Release 2020.05.2.5. 
+All code has been annotated and documented, also interfaces for Service providers added and configured in app configuration
+Now using API Version2, with SQL support.</PackageReleaseNotes>
+    <Authors>Solino de Baay</Authors>
+    <Company>WWW.DE-BAAY.NL</Company>
+    <Product>Comic Reader Web 2</Product>
+    <PackageId>ComicReaderWebCore 2</PackageId>
+    <RepositoryUrl>https://github.com/scdebaay/WWW.DE-BAAY.NL-Online-Comic-Reader</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>

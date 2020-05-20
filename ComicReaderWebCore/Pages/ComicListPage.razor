@@ -3,9 +3,9 @@
 
 @using ComicReaderWebCore.Data
 @using ComicReaderWebCore.Models
-@inject ComicApiCallService ApiCallService
-@inject ComicStateProvider ComicStateProvider
-@inject ComicListStateProvider ComicListStateProvider
+@inject IComicApiCallService ApiCallService
+@inject IComicStateProvider ComicStateProvider
+@inject IComicListStateProvider ComicListStateProvider
 @inject NavigationManager NavigationManager
 
 @if (comiclist == null)
@@ -89,11 +89,18 @@ else
 }
 
 @code {
+    #region fields
     private ComicListModel comiclist;
 
     [Parameter]
     public int currentComicListPage { get; set; }
+    #endregion
 
+    #region Method called at Initialization
+    /// <summary>
+    /// Checks whether that ComicList page was visited in the current session.
+    /// State is returend if this is true
+    /// </summary>
     protected override async Task OnInitializedAsync()
     {
         if (ComicListStateProvider.CurrentListPage <= 1 && currentComicListPage > 1)
@@ -110,7 +117,13 @@ else
         }
         comiclist = await ApiCallService.GetFolderListAsync(ComicListStateProvider.CurrentListPage);
     }
+    #endregion
 
+    #region Page navigation methods
+    /// <summary>
+    /// Page browsing does not go beyond last list page.
+    /// State is saved to ComicListStateProvider which contains CurrentListPage and Eventhandlers for when page was changed.
+    /// </summary>
     private async Task PreviousPage()
     {
         if (currentComicListPage <= 0)
@@ -172,6 +185,10 @@ else
         ComicListStateProvider.OnComicListPageChanged(this, args);
     }
 
+    /// <summary>
+    /// Method to go to specific comic list page
+    /// </summary>
+    /// <param name="page">Int, representing the comic list page number</param>
     private async Task GoToPage(int page)
     {
         currentComicListPage = page;
@@ -195,10 +212,18 @@ else
         args.Page = currentComicListPage;
         ComicListStateProvider.OnComicListPageChanged(this, args);
     }
+    #endregion
 
+    #region Open Comic method
+    /// <summary>
+    /// When clicking on a thumbnail, the specific comic is opened.
+    /// Normally on page 0. The Comic page checks whether the comic was already visited and returns to the last page visited.
+    /// </summary>
+    /// <param name="comic">ComicModel, representing the comic that was opened</param>
     private void OpenComic(ComicModel comic)
     {
         ComicStateProvider.CurrentComic = comic;
         NavigationManager.NavigateTo($"ComicPage/{comic.Path.ToString().Remove(0, 1)}/0");
     }
+    #endregion
 }

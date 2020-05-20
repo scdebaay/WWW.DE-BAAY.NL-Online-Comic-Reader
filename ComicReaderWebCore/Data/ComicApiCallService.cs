@@ -9,8 +9,9 @@ using System.Threading.Tasks;
 
 namespace ComicReaderWebCore.Data
 {
-    class ComicApiCallService
+    class ComicApiCallService : IComicApiCallService
     {
+
         private readonly IConfiguration _config;
 
         public ComicApiCallService(IConfiguration config)
@@ -76,7 +77,6 @@ namespace ComicReaderWebCore.Data
         public string SiteRoot { get { return _config.GetValue<string>("SiteRoot"); } set { } }
         public int PageLimit { get { return _config.GetValue<int>("PageLimit"); } set { } }
         public int DefaultComicSize { get { return _config.GetValue<int>("DefaultComicSize"); } set { } }
-
 
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ComicReaderWebCore.Data
 {
-    public class ComicStateProvider
+    public class ComicStateProvider : IComicStateProvider
     {
         public ComicStateProvider()
         {

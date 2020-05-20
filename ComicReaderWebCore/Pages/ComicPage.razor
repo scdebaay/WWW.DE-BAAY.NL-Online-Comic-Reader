@@ -6,10 +6,10 @@
 @using ComicReaderWebCore.Models
 @using Microsoft.Extensions.Configuration
 @inject IConfiguration Configuration
-@inject ComicApiCallService ApiCallService
+@inject IComicApiCallService ApiCallService
 @inject NavigationManager NavigationManager
-@inject ComicStateProvider ComicStateProvider
-@inject ComicListStateProvider ComicListStateProvider
+@inject IComicStateProvider ComicStateProvider
+@inject IComicListStateProvider ComicListStateProvider
 @if (ComicStateProvider.CurrentComic == null)
 {
 <div id="Comic">
@@ -50,6 +50,7 @@ else
 }
 
 @code {
+    #region fields
     [Parameter]
     public string Subfolder { get; set; }
 
@@ -70,7 +71,13 @@ else
 
     private ComicListModel comicListModel { get; set; }
     private ComicModel comicInfo { get; set; }
+    #endregion
 
+    #region Method called at Initialization
+    /// <summary>
+    /// Checks for url format and Comic state and Page state
+    /// Eventually Href property is set to the URL of the page to be displayed.
+    /// </summary>
     protected override async Task OnInitializedAsync()
     {
         if (Subfolder != null)
@@ -104,7 +111,13 @@ else
 
         Href = $"ComicListPage/{ComicListStateProvider.CurrentListPage}";
     }
+    #endregion
 
+    #region Page navigation methods
+    /// <summary>
+    /// Page browsing does not go beyond last comic page, returns to title page.
+    /// State is saved to ComicStateProvider which contains ComicVisited, including current page, CurrentComic and PageSize
+    /// </summary>
     private void PreviousPage()
     {
         if (Subfolder != null)
@@ -206,6 +219,9 @@ else
         ComicStateProvider.PageSize = currentSize;
     }
 
+    /// <summary>
+    /// When Arrow Left or Right is pressed while browsing a comic, next page or previous page is called.
+    /// </summary>
     void KeyUp(KeyboardEventArgs e)
     {
         if (e.Key == "ArrowRight")
@@ -217,4 +233,5 @@ else
             PreviousPage();
         }
     }
+    #endregion
 }
