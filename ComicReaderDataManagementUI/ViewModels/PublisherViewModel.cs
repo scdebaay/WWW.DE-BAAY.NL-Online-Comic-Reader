@@ -17,10 +17,14 @@ namespace ComicReaderDataManagementUI.ViewModels
 {
     public class PublisherViewModel : Screen, IPublisherViewModel, IHandle<ComicChangedOnMainEvent>
     {
+        #region injected objects
         private readonly IConfiguration _configuration;
         private readonly ISqlUiDbConnection _sqlUiDbConnection;
         private readonly ILogger _logger;
         private IEventAggregator _eventAggregator;
+        #endregion
+
+        #region (backed) fields
         private bool newPublisherAdded { get; set; } = false;
         private string _statusBar;
         public string StatusBar
@@ -99,7 +103,9 @@ namespace ComicReaderDataManagementUI.ViewModels
                 NotifyOfPropertyChange(nameof(ComicBox));
             }
         }
+        #endregion
 
+        #region constructor
         public PublisherViewModel(IConfiguration configuration, ISqlUiDbConnection sqlUiDbConnection, ILogger<PublisherViewModel> logger, IEventAggregator eventAggregator)
         {
             _configuration = configuration;
@@ -116,7 +122,9 @@ namespace ComicReaderDataManagementUI.ViewModels
             };
             _ = RetrievePublishers();
         }
+        #endregion
 
+        #region private methods
         private async Task RetrievePublishers()
         {
             PublisherDataModel selectedType = SelectedItem as PublisherDataModel;
@@ -153,7 +161,9 @@ namespace ComicReaderDataManagementUI.ViewModels
             ComicBox.AddRange(comiclist);
             SelectedComic = ComicBox[0];
         }
+        #endregion
 
+        #region public methods
         public void AddComicToPublisher()
         {
             List<ComicToPublishersDataModel> comicToPublisherAssoc = new List<ComicToPublishersDataModel>();
@@ -245,7 +255,9 @@ namespace ComicReaderDataManagementUI.ViewModels
                 }
             }
         }
+        #endregion
 
+        #region event handlers
         protected override Task OnDeactivateAsync(bool close, CancellationToken cancellationToken)
         {
             PropertyChanged -= (sender, args) =>
@@ -261,5 +273,6 @@ namespace ComicReaderDataManagementUI.ViewModels
         {
             await RetrieveComicsForPublisher();
         }
+        #endregion
     }
 }

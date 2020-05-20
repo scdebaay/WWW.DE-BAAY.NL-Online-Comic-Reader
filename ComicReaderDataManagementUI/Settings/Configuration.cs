@@ -7,6 +7,10 @@ using System.Text;
 
 namespace ComicReaderDataManagementUI.Settings
 {
+    /// <summary>
+    /// Locally implemented Configuration class that implements IConfiguration.
+    /// The WPF application does not implement the complete MS DI
+    /// </summary>
     public class Configuration : IConfiguration
     {
         public string this[string key] { get { return _builder[key]; } set { _builder[key] = value; } }

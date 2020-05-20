@@ -16,10 +16,14 @@ namespace ComicReaderDataManagementUI.ViewModels
 {
     public class LanguageViewModel : Screen, ILanguageViewModel, IHandle<ComicChangedOnMainEvent>
     {
+        #region injected objects
         private readonly IConfiguration _configuration;
         private readonly ISqlUiDbConnection _sqlUiDbConnection;
         private readonly ILogger _logger;
         private IEventAggregator _eventAggregator;
+        #endregion
+
+        #region (backed) fields
         private bool newLanguageAdded { get; set; } = false;
         private string _statusBar;
         public string StatusBar
@@ -98,7 +102,9 @@ namespace ComicReaderDataManagementUI.ViewModels
                 NotifyOfPropertyChange(nameof(ComicBox));
             }
         }
+        #endregion
 
+        #region constructor
         public LanguageViewModel(IConfiguration configuration, ISqlUiDbConnection sqlUiDbConnection, ILogger<LanguageViewModel> logger, IEventAggregator eventAggregator)
         {
             _configuration = configuration;
@@ -115,7 +121,9 @@ namespace ComicReaderDataManagementUI.ViewModels
             };
             _ = RetrieveLanguages();
         }
+        #endregion
 
+        #region private methods
         private async Task RetrieveLanguages()
         {
             LanguageDataModel selectedLanguage = SelectedItem as LanguageDataModel;
@@ -150,7 +158,9 @@ namespace ComicReaderDataManagementUI.ViewModels
             ComicBox.AddRange(list);
             SelectedComic = ComicBox[0];
         }
+        #endregion
 
+        #region public methods
         public void AddComicToLanguage()
         {
             var succeeded = _sqlUiDbConnection.SaveLanguageAssoc(SelectedComic.Id, SelectedItem.Id);
@@ -240,7 +250,9 @@ namespace ComicReaderDataManagementUI.ViewModels
                 }
             }
         }
+        #endregion
 
+        #region event handlers
         protected override Task OnDeactivateAsync(bool close, CancellationToken cancellationToken)
         {
             PropertyChanged -= (sender, args) =>
@@ -256,5 +268,6 @@ namespace ComicReaderDataManagementUI.ViewModels
         {
             await RetrieveComicsForLanguage();
         }
+        #endregion
     }
 }

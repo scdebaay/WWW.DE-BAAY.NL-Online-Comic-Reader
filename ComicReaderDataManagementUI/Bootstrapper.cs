@@ -10,6 +10,9 @@ using System.Windows;
 
 namespace ComicReaderDataManagementUI
 {
+    /// <summary>
+    /// Example bootstrapper class for use with Caliburn Micro VM Framework. not used as this does not implement MS DI.
+    /// </summary>
     class Bootstrapper : BootstrapperBase
     {
         SimpleContainer _container = new SimpleContainer();

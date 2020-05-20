@@ -6,15 +6,19 @@
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Comic Cloud Management.ico</ApplicationIcon>
     <PackageIcon>Comic Cloud Management.png</PackageIcon>
-    <AssemblyVersion>2020.5.0.2</AssemblyVersion>
-    <FileVersion>2020.5.0.2</FileVersion>
-    <Version>2020.5.0.2</Version>
-    <PackageReleaseNotes>ComicReader Metadata Management UI, Release 0.2, 2020.05.0.2. All functionality implemented. Needs heavy code review and refactoring. Also a number of improvements already found. Windows do not resize nicely. Need to look into that. Want to implement ModelView Interface or Base class.</PackageReleaseNotes>
+    <AssemblyVersion>2020.05.0.3</AssemblyVersion>
+    <FileVersion>2020.05.0.3</FileVersion>
+    <Version>2020.05.0.3</Version>
+    <PackageReleaseNotes>ComicReader Metadata Management UI, Version 0.3, Release, 2020.05.0.3. 
+All code has been annotated and documented
+All functionality implemented. Needs heavy code review and refactoring. Also a number of improvements already found. Windows do not resize nicely. Need to look into that. Want to implement ModelView Interface or Base class.</PackageReleaseNotes>
     <Copyright>Copyright Solino de Baay © 2020</Copyright>
     <Authors>Solino de Baay</Authors>
     <Company>WWW.DE-BAAY.NL</Company>
     <Product>Comic Reader Metadata Management UI</Product>
     <Description>User interface to manage Comic Metadata. Uses SQL backend from which ComicReader API and Webreader are pulling their data. Also the ComicReader App uses the ComicReader API.</Description>
+    <RepositoryUrl>https://github.com/scdebaay/WWW.DE-BAAY.NL-Online-Comic-Reader</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>

@@ -15,6 +15,7 @@ namespace ComicReaderDataManagementUI.ViewModels
 {
     public class MainViewModel : Conductor<object>.Collection.OneActive, IHandle<ComicChangedOnDialogEvent>
     {
+        #region Injected objects
         private readonly IConfiguration _configuration;
         private readonly ISqlUiDbConnection _sqlUiDbConnection;
         private readonly ILogger _logger;
@@ -28,6 +29,9 @@ namespace ComicReaderDataManagementUI.ViewModels
         private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
         public IEventAggregator _eventAggregator;
         public IWindowManager _windowManager;
+        #endregion
+
+        #region Backed fields
         private string _statusBar;
         public string StatusBar
         {
@@ -228,7 +232,9 @@ namespace ComicReaderDataManagementUI.ViewModels
                 NotifyOfPropertyChange(nameof(PublisherBox));
             }
         }
+        #endregion
 
+        #region constructor
         public MainViewModel(IConfiguration configuration, 
                             ISqlUiDbConnection sqlUiDbConnection, 
                             ILogger<MainViewModel> logger, 
@@ -257,7 +263,9 @@ namespace ComicReaderDataManagementUI.ViewModels
             _eventAggregator.SubscribeOnPublishedThread(this);
             _ = RetrieveComics();
         }
+        #endregion
 
+        #region private methods
         private async Task RetrieveComics()
         {
             ComicList.Clear();
@@ -328,7 +336,9 @@ namespace ComicReaderDataManagementUI.ViewModels
             SelectedSubSerie = l.FirstOrDefault();
             NotifyOfPropertyChange(nameof(SelectedSubSerie));
         }
+        #endregion
 
+        #region public methods
         public async Task EditLanguageAsync()
         {
             await _windowManager.ShowWindowAsync(_languageViewModel);
@@ -438,7 +448,9 @@ namespace ComicReaderDataManagementUI.ViewModels
         {
             await RetrieveComics();
         }
+        #endregion
 
+        #region public properties
         public string ThumbUrl
         {
             get
@@ -517,5 +529,6 @@ namespace ComicReaderDataManagementUI.ViewModels
                 NotifyOfPropertyChange(() => ReleaseDatePicker);
             }
         }
+        #endregion
     }
 }

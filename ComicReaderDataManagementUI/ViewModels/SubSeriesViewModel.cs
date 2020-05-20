@@ -16,10 +16,14 @@ namespace ComicReaderDataManagementUI.ViewModels
 {
     public class SubSeriesViewModel : Screen, ISubSeriesViewModel, IHandle<ComicChangedOnMainEvent>, IHandle<SubSeriesChangedEvent>
     {
+        #region injected objects
         private readonly IConfiguration _configuration;
         private readonly ISqlUiDbConnection _sqlUiDbConnection;
         private readonly ILogger _logger;
         private IEventAggregator _eventAggregator;
+        #endregion
+
+        #region (backed fields)
         private bool newSubSerieAdded { get; set; } = false;
         private string _statusBar;
         public string StatusBar
@@ -164,6 +168,9 @@ namespace ComicReaderDataManagementUI.ViewModels
                 NotifyOfPropertyChange(nameof(ComicBox));
             }
         }
+        #endregion
+
+        #region constructor
         public SubSeriesViewModel(IConfiguration configuration, ISqlUiDbConnection sqlUiDbConnection, ILogger<SubSeriesViewModel> logger, IEventAggregator eventAggregator)
         {
             _configuration = configuration;
@@ -188,7 +195,9 @@ namespace ComicReaderDataManagementUI.ViewModels
             //};
             _ = RetrieveSubSeries();
         }
+        #endregion
 
+        #region private methods
         private async Task RetrieveSubSeries()
         {
             SubSeriesDataModel selectedSubSeries = SelectedSubSeries as SubSeriesDataModel;
@@ -232,7 +241,9 @@ namespace ComicReaderDataManagementUI.ViewModels
             ComicBox.AddRange(list);
             SelectedComic = ComicBox[0];
         }
+        #endregion
 
+        #region public methods
         public void AddComicToSubSerie()
         {
             var succeeded = _sqlUiDbConnection.SaveSubSerieAssoc(SelectedComic.Id, SelectedSubSeries.Id);
@@ -325,7 +336,9 @@ namespace ComicReaderDataManagementUI.ViewModels
                 }
             }
         }
+        #endregion
 
+        #region event handlers
         protected override Task OnDeactivateAsync(bool close, CancellationToken cancellationToken)
         {
             PropertyChanged -= (sender, args) =>
@@ -353,5 +366,6 @@ namespace ComicReaderDataManagementUI.ViewModels
         {
             await RetrieveParentseriesForSeries();
         }
+        #endregion
     }
 }

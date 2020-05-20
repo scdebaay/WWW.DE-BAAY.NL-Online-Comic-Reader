@@ -18,11 +18,23 @@ namespace ComicReaderDataManagementUI
 {
     class Startup : BootstrapperBase
     {
+        /// <summary>
+        /// Startup class which implements Caliburn Micro VM Framework, but also implements MS DI.
+        /// </summary>
         public Startup()
         {
             Initialize();
         }
+        
+        /// <summary>
+        /// Backing field for IHost implementation
+        /// </summary>
         IHost host; 
+        /// <summary>
+        /// Startup method to build up MS DI container. The services configures are of the CM MV Framework type.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
             host = new HostBuilder()
@@ -68,11 +80,22 @@ namespace ComicReaderDataManagementUI
             }        
         }
 
+        /// <summary>
+        /// Caliburn Micro GetInstance Method override. Maps the CM GetInstance method to the MS DI GetService Method
+        /// </summary>
+        /// <param name="service">Type, requested service type</param>
+        /// <param name="key">String, key for the requested service</param>
+        /// <returns>Object, representing the requested service from the Host object</returns>
         protected override object GetInstance(Type service, string key)
         {
             return host.Services.GetService(service);
         }
 
+        /// <summary>
+        /// Caliburn Micro GetAllInstances Method override. Maps the CM GetAllInstances method to the MS DI GetServices Method
+        /// </summary>
+        /// <param name="service">Type, requested service type</param>
+        /// <returns>IEnumerable<object>, representing an IEnumerable of Object, requested services from the Host object</returns>
         protected override IEnumerable<object> GetAllInstances(Type service)
         {
             return host.Services.GetServices(service);
