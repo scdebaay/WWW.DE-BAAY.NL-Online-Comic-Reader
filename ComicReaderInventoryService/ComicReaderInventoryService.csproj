@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>dotnet-ComicReaderInventoryService-5C8EB669-B187-41B1-8F42-6E9F21DF94BD</UserSecretsId>
-    <AssemblyVersion>2020.04.1.1</AssemblyVersion>
-    <FileVersion>2020.04.1.1</FileVersion>
-    <Version>2020.04.1.1</Version>
+    <AssemblyVersion>2020.05.1.2</AssemblyVersion>
+    <FileVersion>2020.05.1.2</FileVersion>
+    <Version>2020.05.1.2</Version>
     <Authors>Solino de Baay</Authors>
     <Company>WWW.DE-BAAY.NL</Company>
     <Product>Comic Reader Inventory Service</Product>
@@ -14,7 +14,11 @@
     <PackageProjectUrl>https://github.com/scdebaay/WWW.DE-BAAY.NL-Online-Comic-Reader</PackageProjectUrl>
     <PackageIcon>Comic Cloud Service.png</PackageIcon>
     <ApplicationIcon>Comic Cloud Service.ico</ApplicationIcon>
-    <PackageReleaseNotes>Comic Reader Inventory Service Version 1, 2020.04.1.1, to monitor Comic staging folder. Will add new comics to database on a temporary basis.</PackageReleaseNotes>
+    <PackageReleaseNotes>Comic Reader Inventory Service Version 1, Release 2020.05.1.2, 
+All code has been annotated and documented
+Service to monitor Comic staging folder. Will add new comics to database on a temporary basis.</PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/scdebaay/WWW.DE-BAAY.NL-Online-Comic-Reader</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>

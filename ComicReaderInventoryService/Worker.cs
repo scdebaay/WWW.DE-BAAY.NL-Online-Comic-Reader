@@ -20,15 +20,7 @@ namespace ComicReaderInventoryService
         private readonly IHostApplicationLifetime _hostApplicationLifetime;
         private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        //private IConfiguration _configuration;
-        //private ISqlIngestDbConnection _databaseConnection;
-        //private IFolderCrawler _folderCrawler;
-        //private IRootModel _filesToIngest;
-        //private DirectoryInfo _folderToScan;
-        //private int _jobStartDelay;
-        //private int _jobContinueDelay;
-
-        public Worker(IHostApplicationLifetime hostApplicationLifetime, IServiceScopeFactory serviceScopeFactory, ILogger<Worker> logger, IConfiguration configuration)
+        public Worker(IHostApplicationLifetime hostApplicationLifetime, IServiceScopeFactory serviceScopeFactory, ILogger<Worker> logger)
         {
             _hostApplicationLifetime = hostApplicationLifetime;
             _serviceScopeFactory = serviceScopeFactory;
@@ -40,6 +32,15 @@ namespace ComicReaderInventoryService
             return base.StartAsync(stoppingToken);
         }
 
+        /// <summary>
+        /// When executing the task, a scope is created for running the task into which scope based service objects are injected.
+        /// Configuration is parsed into specific job settings.
+        /// If any of the foudn settings is invalid, the service exits.
+        /// If all settings are valid, the jobs starts a crawling process to find new files on the specified path.
+        /// On returning the database is checked for existing records
+        /// New foudn files are ingested into the database.
+        /// The job sleeps for configured hours.
+        /// </summary>
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             while (!stoppingToken.IsCancellationRequested)
@@ -78,8 +79,7 @@ namespace ComicReaderInventoryService
                     _databaseConnection.InsertComics(_filesToIngest.folder.file);
                     _logger.LogInformation($"Number of comics found: {_filesToIngest.folder.file.Count()}");
                     _logger.LogInformation($"Sleeping for {_jobContinueDelay} hours");
-                }
-                await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken);                
+                }            
                 await Task.Delay(TimeSpan.FromHours(_jobContinueDelay), stoppingToken);
             }
         }
