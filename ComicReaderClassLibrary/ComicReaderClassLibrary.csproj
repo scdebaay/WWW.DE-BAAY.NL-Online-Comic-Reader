@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AssemblyVersion>2020.5.1.0</AssemblyVersion>
-    <FileVersion>20202.5.1.0</FileVersion>
-    <Version>2020.05.1.0</Version>
+    <AssemblyVersion>2020.05.1.1</AssemblyVersion>
+    <FileVersion>20202.05.1.1</FileVersion>
+    <Version>2020.05.1.1</Version>
     <Authors>Solino de Baay</Authors>
     <Company>WWW.DE-BAAY.NL</Company>
     <Product>Comic Reader Class Library</Product>
@@ -13,9 +13,12 @@
     <PackageIcon>Comic Cloud Service.png</PackageIcon>
     <RepositoryUrl>https://github.com/scdebaay/WWW.DE-BAAY.NL-Online-Comic-Reader</RepositoryUrl>
     <ApplicationIcon>Comic Cloud Service.ico</ApplicationIcon>
-    <PackageReleaseNotes>ComicReader Class Library, Version 1.0, 2020.05.1.0, Implemented SQL calls for retrieving and storing Comic Metadata from SQL database. To be used with Data Management Application.
+    <PackageReleaseNotes>ComicReader Class Library, Version 1.0, Release 2020.05.1.1, 
+All code has been annotated and documented
+Implemented SQL calls for retrieving and storing Comic Metadata from SQL database. To be used with Data Management Application.
 ComicReader Class Library, Version 0.1, 2020.04.0.1. Built on .NET Core 3.1, Implemented SQL, imported Comic and Imaging Engine, implemented SKiaSharp for imaging. Still needs code cleaning.
 </PackageReleaseNotes>
+    <RepositoryType>Git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>

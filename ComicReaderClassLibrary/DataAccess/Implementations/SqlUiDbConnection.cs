@@ -13,6 +13,9 @@ using Caliburn.Micro;
 
 namespace ComicReaderClassLibrary.DataAccess.Implementations
 {
+    /// <summary>
+    /// UI Db Context for database related operations
+    /// </summary>
     public class SqlUiDbConnection : ISqlUiDbConnection
     {
         #region Private fields
@@ -21,12 +24,22 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
         #endregion
 
         #region Instantiation and general configuration
+        /// <summary>
+        /// Constructor, creates a database context object for Api access
+        /// </summary>
+        /// <param name="configuration">Injects Configuration object from which connection string is retrieved</param>
+        /// <param name="logger">Injects Logger object which logs error messages to file</param>
         public SqlUiDbConnection(IConfiguration configuration, ILogger<SqlUiDbConnection> logger)
         {
             _configuration = configuration;
             _logger = logger;
         }
-
+        
+        /// <summary>
+        /// Connection string retrieval method
+        /// </summary>
+        /// <param name="name">String, represents the name of the connectionstring to retrieved from Settings.Json file.</param>
+        /// <returns>String, representing the connection string, by name</returns>
         private string CnnVal(string name)
         {
             return _configuration[$"ConnectionStrings:{name}"];
@@ -34,6 +47,10 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
         #endregion
 
         #region Retrieval
+        /// <summary>
+        /// Async method to retrieve a list of ComicDataModels from the database
+        /// </summary>
+        /// <returns>Task of List of ComicDataModels representing all comics in the database</returns>
         async public Task<List<ComicDataModel>> RetrieveComicsAsync()
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -66,6 +83,11 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
 
+        /// <summary>
+        /// Async method to retrieve a list of AuthorDataModels from the database for one specific Comic
+        /// </summary>
+        /// <param name="id">Int, representing the Id of the Comic for which to retrieve all Authors</param>
+        /// <returns>Task of List of AuthorDataModels</returns>
         async public Task<List<AuthorDataModel>> RetrieveAuthorByComicIdAsync(int id)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -100,6 +122,11 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
 
+        /// <summary>
+        /// Async method to retrieve a list of GenreDataModels from the database for one specific Comic
+        /// </summary>
+        /// <param name="id">Int, representing the Id of the Comic for which to retrieve all Genres</param>
+        /// <returns>Task of List of GenreDataModels</returns>
         async public Task<List<GenreDataModel>> RetrieveGenreByComicIdAsync(int id)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -129,6 +156,11 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
 
+        /// <summary>
+        /// Async method to retrieve a list of PublisherDataModels from the database for one specific Comic
+        /// </summary>
+        /// <param name="id">Int, representing the Id of the Comic for which to retrieve all Publishers</param>
+        /// <returns>Task of List of PublisherDataModels</returns>
         async public Task<List<PublisherDataModel>> RetrievePublisherByComicIdAsync(int id)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -158,6 +190,10 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
 
+        /// <summary>
+        /// Async method to retrieve a list of LanguageDataModels from the database for one specific Comic
+        /// </summary>        
+        /// <returns>Task of List of LanguageDataModels, normally one language is associated with one comic</returns>
         async public Task<List<LanguageDataModel>> RetrieveLanguageAsync()
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -187,6 +223,10 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
 
+        /// <summary>
+        /// Async method to retrieve a list of TypeDataModels from the database for one specific Comic
+        /// </summary>        
+        /// <returns>Task of List of TypeDataModels, normally one type is associated with one comic</returns>
         async public Task<List<TypeDataModel>> RetrieveTypeAsync()
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -216,6 +256,10 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
 
+        /// <summary>
+        /// Async method to retrieve a list of SerieDataModels from the database for one specific Comic
+        /// </summary>        
+        /// <returns>Task of List of SerieDataModels, normally one serie is associated with multiple comics or subseries</returns>
         async public Task<List<SeriesDataModel>> RetrieveSerieAsync()
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -245,6 +289,10 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
 
+        /// <summary>
+        /// Async method to retrieve a list of SubSerieDataModels from the database for one specific Comic
+        /// </summary>        
+        /// <returns>Task of List of SubSerieDataModels, normally one subserie is associated with multiple comics</returns>
         async public Task<List<SubSeriesDataModel>> RetrieveSubSerieAsync()
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -274,6 +322,10 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
 
+        /// <summary>
+        /// Async method to retrieve a list of all PublisherDataModels from the database.
+        /// </summary>        
+        /// <returns>Task of List of PublisherDataModels</returns>
         async public Task<List<PublisherDataModel>> RetrievePublisherAsync()
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -303,6 +355,11 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
 
+        /// <summary>
+        /// Async method to retrieve a list of all ComicDataModels from the database for a specific Publisher.
+        /// </summary>
+        /// <param name="id">Int, representing the Id of the Publisher for which to retrieve all Comics</param>
+        /// <returns>Task of List of ints, representing the Id's of the Comics pertaining to a Publisher</returns>
         async public Task<List<int>> RetrieveComicsByPublisherIdAsync(int Id)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -331,6 +388,10 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
 
+        /// <summary>
+        /// Async method to retrieve a list of all GenreDataModels from the database.
+        /// </summary>        
+        /// <returns>Task of List of GenreDataModels</returns>
         async public Task<List<GenreDataModel>> RetrieveGenreAsync()
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -360,6 +421,11 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
 
+        /// <summary>
+        /// Async method to retrieve a list of all ComicDataModels from the database for a specific Genre.
+        /// </summary>
+        /// <param name="id">Int, representing the Id of the Genre for which to retrieve all Comics</param>
+        /// <returns>Task of List of ints, representing the Id's of the Comics pertaining to a Genre</returns>
         async public Task<List<int>> RetrieveComicsByGenreIdAsync(int Id)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -388,6 +454,10 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
 
+        /// <summary>
+        /// Async method to retrieve a list of all AuthorDataModels from the database.
+        /// </summary>        
+        /// <returns>Task of List of AuthorDataModels</returns>
         async public Task<List<AuthorDataModel>> RetrieveAuthorAsync()
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -421,6 +491,11 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
 
+        /// <summary>
+        /// Async method to retrieve a list of all ComicDataModels from the database for a specific Author.
+        /// </summary>
+        /// <param name="id">Int, representing the Id of the Author for which to retrieve all Comics</param>
+        /// <returns>Task of List of ints, representing the Id's of the Comics pertaining to an Author</returns>
         async public Task<List<int>> RetrieveComicsByAuthorIdAsync(int Id)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -451,6 +526,11 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
         #endregion
 
         #region Updating
+        /// <summary>
+        /// Method to store a ComicDataModel in the database
+        /// </summary>
+        /// <param name="comic">ComicDataModel, representing the Comic to be stored int he database.</param>
+        /// <returns>Boolean, true if storage was usccessfull and false if something went wrong.</returns>
         public bool SaveComic(ComicDataModel comic)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -501,6 +581,11 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
 
+        /// <summary>
+        /// Method to store a Author to Comic Association in the database
+        /// </summary>
+        /// <param name="comicAuthorAssoc">List of ComicToAuthorModels, representing the Comic to Author Association to store in the database.</param>
+        /// <returns>Boolean, true if storage was usccessfull and false if something went wrong.</returns>
         public bool SaveAuthorAssoc(List<ComicToAuthorsDataModel> comicAuthorAssoc)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -546,6 +631,17 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
 
+        /// <summary>
+        /// Method to update an Author record in the database. The author exists in the database.
+        /// </summary>
+        /// <param name="id">Int, representing the Id of the Author to store.</param>
+        /// <param name="firstname">String, representing the FirstName field for the Author</param>
+        /// <param name="middlename">String, representing the MiddleName field for the Author</param>
+        /// <param name="lastname">String, representing the LastName field for the Author</param>
+        /// <param name="datebirth">DateTime, representing the DateBirth field for the Author</param>
+        /// <param name="datedeceased">DateTime, representing the DateDeceased field for the Author</param>
+        /// <param name="active">Boolean, representing the Active field for the Author</param>
+        /// <returns>Boolean, true if storage was usccessfull and false if something went wrong.</returns>
         public bool UpdateAuthor(int id, string firstname, string middlename, string lastname, DateTime datebirth, DateTime datedeceased, bool active)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -594,6 +690,16 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
 
+        /// <summary>
+        /// Method to insert an Author record in the database. The author does not yet exists in the database.
+        /// </summary>
+        /// <param name="firstname">String, representing the FirstName field for the Author</param>
+        /// <param name="middlename">String, representing the MiddleName field for the Author</param>
+        /// <param name="lastname">String, representing the LastName field for the Author</param>
+        /// <param name="datebirth">DateTime, representing the DateBirth field for the Author</param>
+        /// <param name="datedeceased">DateTime, representing the DateDeceased field for the Author</param>
+        /// <param name="active">Boolean, representing the Active field for the Author</param>
+        /// <returns>Int, the Id for the new record stored in the database</returns>
         public int InsertAuthor(string firstname, string middlename, string lastname, DateTime datebirth, DateTime datedeceased, bool active)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -661,6 +767,11 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
 
+        /// <summary>
+        /// Method to store a Publisher to Comic Association in the database
+        /// </summary>
+        /// <param name="comicPublisherAssoc">List of ComicToPublisherModels, representing the Comic to Publisher Association to store in the database.</param>
+        /// <returns>Boolean, true if storage was usccessfull and false if something went wrong.</returns>
         public bool SavePublisherAssoc(List<ComicToPublishersDataModel> comicPublisherAssoc)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -705,7 +816,13 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
                 }
             }
         }
-        
+
+        /// <summary>
+        /// Method to update an Publisher record in the database. The publisher exists in the database.
+        /// </summary>
+        /// <param name="id">Int, representing the Id of the Publisher to store.</param>
+        /// <param name="name">String, representing the Name field for the Publisher</param>
+        /// <returns>Boolean, true if storage was usccessfull and false if something went wrong.</returns>
         public bool UpdatePublisher(int id, string name)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -749,6 +866,11 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
 
+        /// <summary>
+        /// Method to insert a Publisher record in the database. The publisher does not yet exists in the database.
+        /// </summary>
+        /// <param name="name">String, representing the Name field for the Publisher</param>
+        /// <returns>Int, the Id for the new record stored in the database</returns>
         public int InsertPublisher(string name)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -806,6 +928,11 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
 
+        /// <summary>
+        /// Method to store a Genre to Comic Association in the database
+        /// </summary>
+        /// <param name="comicGenreAssoc">List of ComicToGenreModels, representing the Comic to Genre Association to store in the database.</param>
+        /// <returns>Boolean, true if storage was usccessfull and false if something went wrong.</returns>
         public bool SaveGenreAssoc(List<ComicToGenreDataModel> comicGenreAssoc)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -851,6 +978,12 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
 
+        /// <summary>
+        /// Method to update an Genre record in the database. The genre exists in the database.
+        /// </summary>
+        /// <param name="id">Int, representing the Id of the Genre to store.</param>
+        /// <param name="name">String, representing the Term field for the Genre</param>
+        /// <returns>Boolean, true if storage was usccessfull and false if something went wrong.</returns>
         public bool UpdateGenre(int id, string name)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -894,6 +1027,11 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
 
+        /// <summary>
+        /// Method to insert a Genre record in the database. The genre does not yet exists in the database.
+        /// </summary>
+        /// <param name="name">String, representing the Term field for the Genre</param>
+        /// <returns>Int, the Id for the new record stored in the database</returns>
         public int InsertGenre(string name)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -951,6 +1089,12 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
 
+        /// <summary>
+        /// Method to store a Language to Comic Association in the database
+        /// </summary>
+        /// <param name="comicId">Int, representing the Id field of the Comic with which the language is to be associated.</param>
+        /// <param name="languageId">Int, representing the Id field of the Language with which the comic is to be associated.</param>
+        /// <returns>Boolean, true if storage was usccessfull and false if something went wrong.</returns>
         public bool SaveLanguageAssoc(int comicId, int languageId)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -994,6 +1138,12 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
 
+        /// <summary>
+        /// Method to update a Language record in the database. The language exists in the database.
+        /// </summary>
+        /// <param name="id">Int, representing the Id field of the Comic with which the language is to be associated.</param>
+        /// <param name="name">String, representing the Term field of the Language with which the comic is to be associated.</param>
+        /// <returns>Boolean, true if storage was usccessfull and false if something went wrong.</returns>
         public bool UpdateLanguage(int id, string name)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -1036,7 +1186,12 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
                 }
             }
         }
-        
+
+        /// <summary>
+        /// Method to insert a Language record in the database. The language does not yet exists in the database.
+        /// </summary>
+        /// <param name="name">String, representing the Term field for the Language</param>
+        /// <returns>Int, the Id for the new record stored in the database</returns>
         public int InsertLanguage(string name)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -1094,7 +1249,13 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
 
-        public bool SaveTypeAssoc(int comicId, int TypeId)
+        /// <summary>
+        /// Method to store a Type to Comic Association in the database
+        /// </summary>
+        /// <param name="comicId">Int, representing the Id field of the Comic with which the type is to be associated.</param>
+        /// <param name="typeId">Int, representing the Id field of the Type with which the comic is to be associated.</param>
+        /// <returns>Boolean, true if storage was usccessfull and false if something went wrong.</returns>
+        public bool SaveTypeAssoc(int comicId, int typeId)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
             {
@@ -1105,7 +1266,7 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
                     {
                         var insertAssoc = new DynamicParameters();
                         insertAssoc.Add("@Id", comicId);
-                        insertAssoc.Add("@TypeId", TypeId);
+                        insertAssoc.Add("@TypeId", typeId);
 
                         var exec = connection.Query<int>("dbo.spUpdateComicToTypeById", insertAssoc, transaction, commandType: CommandType.StoredProcedure);
                         var result = exec.AsList();
@@ -1137,6 +1298,12 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
 
+        /// <summary>
+        /// Method to update a Type record in the database. The type exists in the database.
+        /// </summary>
+        /// <param name="id">Int, representing the Id field of the Comic with which the type is to be associated.</param>
+        /// <param name="name">String, representing the Term field of the Type with which the comic is to be associated.</param>
+        /// <returns>Boolean, true if storage was usccessfull and false if something went wrong.</returns>
         public bool UpdateType(int id, string name)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -1180,6 +1347,11 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
 
+        /// <summary>
+        /// Method to insert a Type record in the database. The type does not yet exists in the database.
+        /// </summary>
+        /// <param name="name">String, representing the Term field for the Type</param>
+        /// <returns>Int, the Id for the new record stored in the database</returns>
         public int InsertType(string name)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -1236,7 +1408,13 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
                 }
             }
         }
-        
+
+        /// <summary>
+        /// Method to store a Serie to Comic Association in the database
+        /// </summary>
+        /// <param name="comicId">Int, representing the Id field of the Comic with which the serie is to be associated.</param>
+        /// <param name="serieId">Int, representing the Id field of the Serie with which the comic is to be associated.</param>
+        /// <returns>Boolean, true if storage was usccessfull and false if something went wrong.</returns>
         public bool SaveSerieAssoc(int comicId, int serieId)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -1280,6 +1458,14 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
 
+        /// <summary>
+        /// Method to update a Serie record in the database. The serie exists in the database.
+        /// </summary>
+        /// <param name="id">Int, representing the Id field of the Comic with which the language is to be associated.</param>
+        /// <param name="title">String, representing the Term field of the Language with which the comic is to be associated.</param>
+        /// <param name="serieStart">DateTime, representing the SeriesStart field of the Serie with which the comic is to be associated.</param>
+        /// <param name="serieEnd">DateTime, representing the SeriesEnd field of the Serie with which the comic is to be associated.</param>
+        /// <returns>Boolean, true if storage was usccessfull and false if something went wrong.</returns>
         public bool UpdateSerie(int id, string title, DateTime serieStart, DateTime serieEnd)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -1325,6 +1511,13 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
 
+        /// <summary>
+        /// Method to insert a Serie record in the database. The serie does not yet exists in the database.
+        /// </summary>
+        /// <param name="title">String, representing the Name field of the Serie with which the comic is to be associated.</param>
+        /// <param name="serieStart">DateTime, representing the SeriesStart field of the Serie with which the comic is to be associated.</param>
+        /// <param name="serieEnd">DateTime, representing the SeriesEnd field of the Serie with which the comic is to be associated.</param>
+        /// <returns>Int, the Id for the new record stored in the database</returns>
         public int InsertSerie(string title, DateTime serieStart, DateTime serieEnd)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -1384,6 +1577,12 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
 
+        /// <summary>
+        /// Method to store a SubSerie to Comic Association in the database
+        /// </summary>
+        /// <param name="comicId">Int, representing the Id field of the Comic with which the subserie is to be associated.</param>
+        /// <param name="subSerieId">Int, representing the Id field of the SubSerie with which the comic is to be associated.</param>
+        /// <returns>Boolean, true if storage was usccessfull and false if something went wrong.</returns>
         public bool SaveSubSerieAssoc(int comicId, int subSerieId)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -1427,6 +1626,15 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
 
+        /// <summary>
+        /// Method to update a SubSerie record in the database. The subserie exists in the database.
+        /// </summary>
+        /// <param name="id">Int, representing the Id field of the Comic with which the subserie is to be associated.</param>
+        /// <param name="title">String, representing the Term field of the SubSerie with which the comic is to be associated.</param>
+        /// <param name="serieStart">DateTime, representing the SeriesStart field of the Serie with which the comic is to be associated.</param>
+        /// <param name="serieEnd">DateTime, representing the SeriesEnd field of the Serie with which the comic is to be associated.</param>
+        /// <param name="serieId">Int, representing the SeriesId field of the SubSerie with which the comic is to be associated.</param>
+        /// <returns>Boolean, true if storage was usccessfull and false if something went wrong.</returns>
         public bool UpdateSubSerie(int id, string title, DateTime serieStart, DateTime serieEnd, int serieId)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -1472,7 +1680,15 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
                 }
             }
         }
-        
+
+        /// <summary>
+        /// Method to insert a SubSerie record in the database. The subserie does not yet exists in the database.
+        /// </summary>
+        /// <param name="title">String, representing the Name field of the SubSerie with which the comic is to be associated.</param>
+        /// <param name="serieStart">DateTime, representing the SeriesStart field of the SubSerie with which the comic is to be associated.</param>
+        /// <param name="serieEnd">DateTime, representing the SeriesEnd field of the SubSerie with which the comic is to be associated.</param>
+        /// <param name="serieId">Int, representing the SeriesId field of the SubSerie with which the comic is to be associated.</param>
+        /// <returns>Int, the Id for the new record stored in the database</returns>
         public int InsertSubSerie(string title, DateTime serieStart, DateTime serieEnd, int serieId)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -1535,6 +1751,12 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
         #endregion
 
         #region Deleting
+        /// <summary>
+        /// Method to Delete an Author record. The method removes the association. 
+        /// If successful sets the status of the record to deleted.
+        /// </summary>
+        /// <param name="id">Int, the Id for the Author to be deleted</param>
+        /// <returns>Boolean, returns true if the removal was successful, false if not</returns>
         public bool DeleteAuthor(int id)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -1586,6 +1808,13 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
                 }
             }
         }
+
+        /// <summary>
+        /// Method to Delete a Publisher record. The method removes the association. 
+        /// If successful sets the status of the record to deleted.
+        /// </summary>
+        /// <param name="id">Int, the Id for the Publisher to be deleted</param>
+        /// <returns>Boolean, returns true if the removal was successful, false if not</returns>
         public bool DeletePublisher(int id)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -1637,6 +1866,13 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
                 }
             }
         }
+
+        /// <summary>
+        /// Method to Delete a Genre record. The method removes the association. 
+        /// If successful sets the status of the record to deleted.
+        /// </summary>
+        /// <param name="id">Int, the Id for the Genre to be deleted</param>
+        /// <returns>Boolean, returns true if the removal was successful, false if not</returns>
         public bool DeleteGenre(int id)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -1688,6 +1924,13 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
                 }
             }
         }
+
+        /// <summary>
+        /// Method to Delete a Language record. The method removes the association. 
+        /// If successful sets the status of the record to deleted.
+        /// </summary>
+        /// <param name="id">Int, the Id for the Language to be deleted</param>
+        /// <returns>Boolean, returns true if the removal was successful, false if not</returns>
         public bool DeleteLanguage(int id)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -1739,6 +1982,13 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
                 }
             }
         }
+
+        /// <summary>
+        /// Method to Delete a Type record. The method removes the association. 
+        /// If successful sets the status of the record to deleted.
+        /// </summary>
+        /// <param name="id">Int, the Id for the Type to be deleted</param>
+        /// <returns>Boolean, returns true if the removal was successful, false if not</returns>
         public bool DeleteType(int id)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -1790,6 +2040,13 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
                 }
             }
         }
+
+        /// <summary>
+        /// Method to Delete a Serie record. The method removes the association. 
+        /// If successful sets the status of the record to deleted.
+        /// </summary>
+        /// <param name="id">Int, the Id for the Serie to be deleted</param>
+        /// <returns>Boolean, returns true if the removal was successful, false if not</returns>
         public bool DeleteSerie(int id)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
@@ -1841,6 +2098,13 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
                 }
             }
         }
+
+        /// <summary>
+        /// Method to Delete a SubSerie record. The method removes the association. 
+        /// If successful sets the status of the record to deleted.
+        /// </summary>
+        /// <param name="id">Int, the Id for the SubSerie to be deleted</param>
+        /// <returns>Boolean, returns true if the removal was successful, false if not</returns>
         public bool DeleteSubSerie(int id)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))

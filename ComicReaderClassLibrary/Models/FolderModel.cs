@@ -2,6 +2,10 @@
 
 namespace ComicReaderClassLibrary.Models
 {
+    /// <summary>
+    /// FolderModel, implementing IFolderModel, containing a list of FileModels, representing Child-Items
+    /// The FolderModel implements properties, name, files, totalPages, currentPage and file
+    /// </summary>
     public class FolderModel : IFolderModel
     {
         readonly IFileModel _file;

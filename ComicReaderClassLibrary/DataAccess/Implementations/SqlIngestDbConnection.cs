@@ -18,6 +18,12 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
         private readonly ILogger _logger;
         private IRootModel _rootModel;
 
+        /// <summary>
+        /// Constructor, creates a database context object for Api access
+        /// </summary>
+        /// <param name="configuration">Injects Configuration object from which connection string is retrieved</param>
+        /// <param name="rootModel">Injects RootModel, with which data is ingested into the database from the InventoryService</param>
+        /// <param name="logger">Injects Logger object which logs error messages to file</param>
         public SqlIngestDbConnection(IConfiguration configuration, IRootModel rootModel, ILogger<SqlIngestDbConnection> logger)
         {
             _configuration = configuration;
@@ -25,12 +31,22 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             _rootModel = rootModel;
         }
 
+        /// <summary>
+        /// Connection string retrieval method
+        /// </summary>
+        /// <param name="name">String, represents the name of the connectionstring to retrieved from Settings.Json file.</param>
+        /// <returns>String, representing the connection string, by name</returns>
         private string CnnVal(string name)
         {
             return _configuration[$"ConnectionStrings:{name}"];
         }
 
-        public ComicDataModel RetrieveComic(string name)
+        /// <summary>
+        /// ComicData object retrieval method to retrieve comic by name from the database.
+        /// </summary>
+        /// <param name="name">String, Representing whether the Comic to retrieve from the database.</param>
+        /// <returns>Retrieves a ComicDataModel by name or, if the comic was nog found, one dummy record.</returns>
+        private ComicDataModel RetrieveComic(string name)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
             {
@@ -48,6 +64,10 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
 
+        /// <summary>
+        /// Method to ingest Comics in FileModel format.
+        /// </summary>
+        /// <param name="comicsToIngest">List of FileModels, representing comics to be ingested into the database.</param>
         public void InsertComics(List<FileModel> comicsToIngest)
         {
 
@@ -82,6 +102,11 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
 
+        /// <summary>
+        /// Boolean method to check whether a Comic exists in theb database.
+        /// </summary>
+        /// <param name="name">String, representing the name of the comic to check for existence.</param>
+        /// <returns>If the comic exists in the database the method returns true</returns>
         private bool ComicExists(string name)
         {
             if (RetrieveComic(name).Name == "NotFound")
@@ -94,6 +119,12 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
 
+        /// <summary>
+        /// Boolean method to check whether the requested comic is still at the same path as the comic stored in the database.
+        /// </summary>
+        /// <param name="name">String, representing the comic to check in the database.</param>
+        /// <param name="path">String, the current path for the comic to be checked.</param>
+        /// <returns>The name string parameter is checked in the database and if equal returns true.</returns>
         private bool ComicPathIsEqual(string name, string path)
         {
             if (RetrieveComic(name).Path != path)
