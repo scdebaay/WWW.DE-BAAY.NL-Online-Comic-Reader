@@ -20,12 +20,12 @@ namespace ComicReaderInventoryService
 {
     public class Startup
     {
-        public IConfiguration _configuration { get; }
+        public IConfiguration Configuration { get; }
 
 
         public Startup(IConfiguration configuration)
         {
-            _configuration = configuration;
+            Configuration = configuration;
         }       
 
         public void ConfigureServices(IServiceCollection services)
@@ -39,7 +39,7 @@ namespace ComicReaderInventoryService
             services.AddCronJob<IngestComicJob>(c =>
             {
                 c.TimeZoneInfo = TimeZoneInfo.Local;
-                c.CronExpression = _configuration["IngestComicJob"];
+                c.CronExpression = Configuration["IngestComicJob"];
             });
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

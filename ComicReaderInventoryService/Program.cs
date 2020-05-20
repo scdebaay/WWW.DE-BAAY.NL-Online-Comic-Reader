@@ -31,6 +31,7 @@ namespace ComicReaderInventoryService
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .UseWindowsService()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     //Startup class is set as entry-point
