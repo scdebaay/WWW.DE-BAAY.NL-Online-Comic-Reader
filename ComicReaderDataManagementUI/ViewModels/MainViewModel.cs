@@ -6,7 +6,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Net;
+using System.Runtime.InteropServices;
+using System.Security.Policy;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -442,6 +446,37 @@ namespace ComicReaderDataManagementUI.ViewModels
             else
             { StatusBar = $"Save Failed, check log"; ; }
             _eventAggregator.PublishOnUIThreadAsync(new ComicChangedOnMainEvent());
+        }
+
+        public void OpenComic()
+        {
+            var comicurl = PathInput.Replace("\\", $"/");
+            var url = $"{_configuration["ComicReaderUrl"]}{Uri.EscapeUriString($"{comicurl}")}/0";
+            try
+            {
+                Process.Start(url);
+            }
+            catch
+            {
+                // hack because of this: https://github.com/dotnet/corefx/issues/10361
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    url = url.Replace("&", "^&");
+                    Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") { CreateNoWindow = true });
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                {
+                    Process.Start("xdg-open", url);
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                {
+                    Process.Start("open", url);
+                }
+                else
+                {
+                    throw;
+                }
+            }
         }
 
         public async Task HandleAsync(ComicChangedOnDialogEvent message, CancellationToken cancellationToken)
