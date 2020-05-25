@@ -44,49 +44,37 @@ namespace ComicReaderInventoryService.Jobs
             return base.StartAsync(cancellationToken);
         }
 
-        public async override Task DoWork(CancellationToken cancellationToken)
+        public override Task DoWork(CancellationToken cancellationToken)
         {
             try
             {
-                while (!cancellationToken.IsCancellationRequested)
+                _logger.LogInformation($"Ingest Comic Job is working at {DateTime.Now:HH:mm:ss}.");
+                using (var scope = _serviceProvider.CreateScope())
                 {
-                    try
+                    IConfiguration _configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
+                    ISqlIngestDbConnection _databaseConnection = scope.ServiceProvider.GetRequiredService<ISqlIngestDbConnection>();
+                    IRootModel _filesToIngest = scope.ServiceProvider.GetRequiredService<IRootModel>();
+                    IFolderCrawler _folderCrawler = scope.ServiceProvider.GetRequiredService<IFolderCrawler>();
+                    DirectoryInfo _folderToScan = new DirectoryInfo(_configuration["foldersToScan:0:comicFolder"]);
+                    if (Directory.Exists(_folderToScan.FullName) == false)
                     {
-                        _logger.LogInformation($"Ingest Comic Job is working at {DateTime.Now:HH:mm:ss}.");
-                        using (var scope = _serviceProvider.CreateScope())
-                        {
-                            IConfiguration _configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
-                            ISqlIngestDbConnection _databaseConnection = scope.ServiceProvider.GetRequiredService<ISqlIngestDbConnection>();
-                            IRootModel _filesToIngest = scope.ServiceProvider.GetRequiredService<IRootModel>();
-                            IFolderCrawler _folderCrawler = scope.ServiceProvider.GetRequiredService<IFolderCrawler>();
-                            DirectoryInfo _folderToScan = new DirectoryInfo(_configuration["foldersToScan:0:comicFolder"]);
-                            if (Directory.Exists(_folderToScan.FullName) == false)
-                            {
-                                _logger.LogError($"Folder to scan does not exist: {_folderToScan.FullName}. See settings.json, foldersToScan:0:comicFolder");
-                                throw new DirectoryNotFoundException();
-                            }
-                            _logger.LogInformation($"Job started {DateTime.Now:HH:mm:ss}");
-                            _filesToIngest = await Task.Run(() => _folderCrawler.GetDirectory(_folderToScan));
-                            _logger.LogInformation($"Returned from crawling at: {DateTimeOffset.Now:HH:mm:ss}");
-                            _databaseConnection.InsertComics(_filesToIngest.folder.file);
-                            _logger.LogInformation($"Number of comics found: {_filesToIngest.folder.file.Count()}");
-                            _logger.LogInformation($"Sleeping untill {base.GetNextOccurrence().Value:dd-MM-yy HH:mm:ss}.");
-                        }
+                        _logger.LogError($"Folder to scan does not exist: {_folderToScan.FullName}. See settings.json, foldersToScan:0:comicFolder");
+                        throw new DirectoryNotFoundException();
                     }
-                    catch (Exception ex)
-                    {
-                        _logger.LogError($"Global exception occurred. service will stop. The Exception was { ex.Message }");
-                        _hostApplicationLifetime.StopApplication();
-                    }
-                    await Task.Delay(TimeSpan.FromSeconds(10), cancellationToken);
+                    _logger.LogInformation($"Job started {DateTime.Now:HH:mm:ss}");
+                    _filesToIngest = _folderCrawler.GetDirectory(_folderToScan);
+                    _logger.LogInformation($"Returned from crawling at: {DateTimeOffset.Now:HH:mm:ss}");
+                    _databaseConnection.InsertComics(_filesToIngest.folder.file);
+                    _logger.LogInformation($"Number of comics found: {_filesToIngest.folder.file.Count()}");
+                    _logger.LogInformation($"Sleeping untill {base.GetNextOccurrence().Value:dd-MM-yy HH:mm:ss}.");
                 }
             }
-            finally
+            catch (Exception ex)
             {
-                _logger.LogCritical("Exiting application...");
+                _logger.LogError($"Global exception occurred. service will stop. The Exception was { ex.Message }");
                 _hostApplicationLifetime.StopApplication();
             }
-
+            return Task.CompletedTask;
         }
         public override Task StopAsync(CancellationToken cancellationToken)
         {
