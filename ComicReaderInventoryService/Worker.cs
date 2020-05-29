@@ -1,3 +1,4 @@
+using ComicReaderClassLibrary.ComicEngine;
 using ComicReaderClassLibrary.DataAccess.Implementations;
 using ComicReaderClassLibrary.Models;
 using ComicReaderClassLibrary.Resources;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.IO;
+using System.IO.Abstractions;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,11 +24,13 @@ namespace ComicReaderInventoryService
         private readonly ILogger<Worker> _logger;
         private readonly IHostApplicationLifetime _hostApplicationLifetime;
         private readonly IServiceScopeFactory _serviceScopeFactory;
+        private readonly IFileSystem _fileSystem;
 
-        public Worker(IHostApplicationLifetime hostApplicationLifetime, IServiceScopeFactory serviceScopeFactory, ILogger<Worker> logger)
+        public Worker(IHostApplicationLifetime hostApplicationLifetime, IServiceScopeFactory serviceScopeFactory, ILogger<Worker> logger, IFileSystem fileSystem)
         {
             _hostApplicationLifetime = hostApplicationLifetime;
             _serviceScopeFactory = serviceScopeFactory;
+            _fileSystem = fileSystem;
             _logger = logger;
         }
 
@@ -54,8 +58,9 @@ namespace ComicReaderInventoryService
                     IConfiguration _configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
                     ISqlIngestDbConnection _databaseConnection = scope.ServiceProvider.GetRequiredService<ISqlIngestDbConnection>();
                     IRootModel _filesToIngest = scope.ServiceProvider.GetRequiredService<IRootModel>();
+                    IComic _comic = scope.ServiceProvider.GetRequiredService<IComic>();
                     IFolderCrawler _folderCrawler = scope.ServiceProvider.GetRequiredService<IFolderCrawler>();
-                    DirectoryInfo _folderToScan = new DirectoryInfo(_configuration["foldersToScan:0:comicFolder"]);
+                    IDirectoryInfo _folderToScan = _fileSystem.DirectoryInfo.FromDirectoryName(_configuration["foldersToScan:0:comicFolder"]);
                     int _jobStartDelay;
                     
                     if (Directory.Exists(_folderToScan.FullName) == false)

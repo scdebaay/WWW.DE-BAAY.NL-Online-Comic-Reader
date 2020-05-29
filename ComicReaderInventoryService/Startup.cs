@@ -1,4 +1,5 @@
-﻿using ComicReaderClassLibrary.DataAccess.Implementations;
+﻿using ComicReaderClassLibrary.ComicEngine;
+using ComicReaderClassLibrary.DataAccess.Implementations;
 using ComicReaderClassLibrary.Models;
 using ComicReaderClassLibrary.Resources;
 using ComicReaderInventoryService.AbstractClasses;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO.Abstractions;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -33,7 +35,9 @@ namespace ComicReaderInventoryService
             services.AddControllers();
 
             services.AddScoped<IRootModel, RootModel>();
+            services.AddScoped<IComic, Comic>();
             services.AddScoped<IFolderCrawler, FolderCrawler>();
+            services.AddSingleton<IFileSystem, FileSystem>();
             services.AddScoped<ISqlIngestDbConnection, SqlIngestDbConnection>();
             //Jobs are scheduled using cron expression from Configuration object, that is, Settings.Json.
             services.AddCronJob<IngestComicJob>(c =>

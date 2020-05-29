@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
+using System.IO.Abstractions;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,6 +20,7 @@ namespace ComicReaderInventoryService.Jobs
         private readonly ILogger<IngestComicJob> _logger;
         private readonly IHostApplicationLifetime _hostApplicationLifetime;
         private readonly IServiceProvider _serviceProvider;
+        private readonly IFileSystem _fileSystem;
 
         /// <summary>
         /// Using the example at https://codeburst.io/schedule-cron-jobs-using-hostedservice-in-asp-net-core-e17c47ba06 implemented the following
@@ -29,10 +31,11 @@ namespace ComicReaderInventoryService.Jobs
         /// The folder to crawl is resolved and when not encountered, the service throws an exception and is stopped.
         /// ToDo: Implement http endpoint to activate Job out of Band.
         /// </summary>
-        public IngestComicJob(IScheduleConfig<IngestComicJob> config, IHostApplicationLifetime hostApplicationLifetime, IServiceProvider serviceProvider, ILogger<IngestComicJob> logger)
+        public IngestComicJob(IScheduleConfig<IngestComicJob> config, IHostApplicationLifetime hostApplicationLifetime, IServiceProvider serviceProvider, ILogger<IngestComicJob> logger, IFileSystem fileSystem)
             : base(config.CronExpression, config.TimeZoneInfo)
         {
             _hostApplicationLifetime = hostApplicationLifetime;
+            _fileSystem = fileSystem;
             _serviceProvider = serviceProvider;
             _logger = logger;
         }
@@ -55,7 +58,7 @@ namespace ComicReaderInventoryService.Jobs
                     ISqlIngestDbConnection _databaseConnection = scope.ServiceProvider.GetRequiredService<ISqlIngestDbConnection>();
                     IRootModel _filesToIngest = scope.ServiceProvider.GetRequiredService<IRootModel>();
                     IFolderCrawler _folderCrawler = scope.ServiceProvider.GetRequiredService<IFolderCrawler>();
-                    DirectoryInfo _folderToScan = new DirectoryInfo(_configuration["foldersToScan:0:comicFolder"]);
+                    var _folderToScan = _fileSystem.DirectoryInfo.FromDirectoryName(_configuration["foldersToScan:0:comicFolder"]);
                     if (Directory.Exists(_folderToScan.FullName) == false)
                     {
                         _logger.LogError($"Folder to scan does not exist: {_folderToScan.FullName}. See settings.json, foldersToScan:0:comicFolder");
