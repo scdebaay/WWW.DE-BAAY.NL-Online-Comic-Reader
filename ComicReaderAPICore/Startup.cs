@@ -1,3 +1,4 @@
+using ComicReaderClassLibrary.ComicEngine;
 using ComicReaderClassLibrary.DataAccess.Implementations;
 using ComicReaderClassLibrary.Models;
 using ComicReaderClassLibrary.Resources;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.IO.Abstractions;
 
 namespace ComicReaderAPICore
 {
@@ -26,9 +28,11 @@ namespace ComicReaderAPICore
             services.AddScoped<IContentType, ContentType>();
             services.AddScoped<IFetchedImage, FetchedImage>();
             services.AddScoped<IFetchedComic, FetchedComic>();
+            services.AddScoped<IComic, Comic>();
             services.AddScoped<IRootModel, RootModel>();
             services.AddScoped<IFolderModel, FolderModel>();
             services.AddScoped<IFileModel, FileModel>();
+            services.AddScoped<IFileSystem, FileSystem>();
             services.AddScoped<ISqlApiDbConnection, SqlApiDbConnection>();
             services.AddOpenApiDocument(config =>
             {
