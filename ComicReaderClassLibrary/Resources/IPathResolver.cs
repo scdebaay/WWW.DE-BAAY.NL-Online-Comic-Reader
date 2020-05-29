@@ -21,7 +21,7 @@
         /// Method to get the Server Path for a specific file object.
         /// </summary>
         /// <param name="requestedFileName">String, representing the relative path for a file for which to retrieve the UNC path</param>
-        /// <returns>String, full UNC path from which to retrieve the requested file</returns>
+        /// <returns>String, returns application server path if the requested file is not in a rooted path</returns>
         string ServerPath(string requestedFileName);
         /// <summary>
         /// Checks whether the path provided is valid

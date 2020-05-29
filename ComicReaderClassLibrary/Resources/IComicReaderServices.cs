@@ -1,11 +1,7 @@
-﻿using ComicReaderClassLibrary.DataAccess.Implementations;
-using ComicReaderClassLibrary.DataAccess.DataModels;
+﻿using ComicReaderClassLibrary.ComicEngine;
+using ComicReaderClassLibrary.DataAccess.Implementations;
 using ComicReaderClassLibrary.Models;
-using ComicReaderClassLibrary.Resources;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ComicReaderClassLibrary.Resources
 {
@@ -15,6 +11,7 @@ namespace ComicReaderClassLibrary.Resources
         {
             services.AddScoped<ISqlApiDbConnection, SqlApiDbConnection>();
             services.AddScoped<IFetchedComic, FetchedComic>();
+            services.AddScoped<IComic, Comic>();
             services.AddScoped<IFetchedImage, FetchedImage>();
             services.AddScoped<IRootModel, RootModel>();
             services.AddScoped<IFolderModel, FolderModel>();

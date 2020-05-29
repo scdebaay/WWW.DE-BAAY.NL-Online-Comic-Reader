@@ -3,18 +3,26 @@ using SharpCompress.Readers;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Abstractions;
 using System.Linq;
 using ComicReaderClassLibrary.Resources;
+using Microsoft.Extensions.Logging;
 
 namespace ComicReaderClassLibrary.ComicEngine
 {
-    public class Comic : IDisposable
+    public class Comic : IDisposable, IComic
     {
         //Start logger
-        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        //private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        private readonly ILogger<Comic> _logger;
         private string title;
         private LoadingStrategy fileLoadingStrategy;
         private IArchive archive;
+        
+        public Comic(ILogger<Comic> logger)
+        {
+            _logger = logger;
+        }
 
         /// <summary>
         /// The Comic is normally loaded from file. No URL loading is implemented at this time.
@@ -23,18 +31,13 @@ namespace ComicReaderClassLibrary.ComicEngine
         /// </summary>
         /// <param name="file">Filepath and file to be loaded.</param>
         /// <returns></returns>
-        public static Comic LoadFromFile(FileInfo file)
-        {
-            return new Comic(file.Name, new FileInfoStrategy(file));
-        }
-
-        protected Comic(string name, LoadingStrategy loadingStrategy)
+        public Comic LoadFromFile(IFileInfo file)
         {
             Pages = new SortableObservableCollection<Page>();
             DeletedPages = new SortableObservableCollection<Page>();
             CurrentIndex = -1;
-            title = name;
-            fileLoadingStrategy = loadingStrategy;
+            title = file.Name;
+            fileLoadingStrategy = new FileInfoStrategy(file);
             fileLoadingStrategy.ComicLoadingCompleted += new EventHandler(FileLoadingStrategy_ComicLoadingCompleted);
             try
             {
@@ -42,11 +45,11 @@ namespace ComicReaderClassLibrary.ComicEngine
             }
             catch
             {
-                Logger.Error($"There was an error loading the comic {name}");
+                _logger.LogError($"There was an error loading the comic {file.Name}");
             }
-
+            return this;
         }
-
+        
         void FileLoadingStrategy_ComicLoadingCompleted(object sender, EventArgs e)
         {
             OpenStream(fileLoadingStrategy.Stream);
@@ -167,6 +170,7 @@ namespace ComicReaderClassLibrary.ComicEngine
             {
                 if (fileLoadingStrategy != null)
                 {
+                    fileLoadingStrategy.ComicLoadingCompleted -= new EventHandler(FileLoadingStrategy_ComicLoadingCompleted);
                     fileLoadingStrategy.Dispose();
                     fileLoadingStrategy = null;
                 }
@@ -203,8 +207,8 @@ namespace ComicReaderClassLibrary.ComicEngine
 
             pages.Sort();
             Pages.AddRange(pages);
-
         }
+
         protected string Extension
         {
             get;

@@ -1,5 +1,6 @@
 ﻿using ComicReaderClassLibrary.Models;
 using System.IO;
+using System.IO.Abstractions;
 
 namespace ComicReaderClassLibrary.Resources
 {
@@ -14,6 +15,6 @@ namespace ComicReaderClassLibrary.Resources
         /// </summary>
         /// <param name="dir">DirectoryInfo, UNC path to the folder to be crawled</param>
         /// <returns>IRootModel, representing the object to be serialized into JSON.</returns>
-        IRootModel GetDirectory(DirectoryInfo dir);
+        IRootModel GetDirectory(IDirectoryInfo dir);
     }
 }

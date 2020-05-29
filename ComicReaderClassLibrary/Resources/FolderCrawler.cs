@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Abstractions;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,14 +15,16 @@ namespace ComicReaderClassLibrary.Resources
     public class FolderCrawler : IFolderCrawler
     {
         private readonly ILogger<FolderCrawler> _logger;
+        private readonly IComic _comic;
         private readonly IConfiguration _configuration;
         private readonly IRootModel _rootModel;
 
-        public FolderCrawler(IConfiguration configuration, IRootModel rootModel, ILogger<FolderCrawler> logger)
+        public FolderCrawler(IConfiguration configuration, IRootModel rootModel, ILogger<FolderCrawler> logger, IComic comic)
         {
             _configuration = configuration;
             _rootModel = rootModel;
             _logger = logger;
+            _comic = comic;
         }
 
         /// <summary>
@@ -37,12 +40,12 @@ namespace ComicReaderClassLibrary.Resources
         /// <param name="pageLimit">Set the number of files per page being returned</param>
         /// <param name="page">The page we are looking at.</param>
         /// <returns></returns>
-        public IRootModel GetDirectory(DirectoryInfo dir)
+        public IRootModel GetDirectory(IDirectoryInfo dir)
         {
             // Data structure to hold names of subfolders to be
             // examined for files.
-            Stack<DirectoryInfo> dirStack = new Stack<DirectoryInfo>(20);
-            List<FileInfo> fileInfos = new List<FileInfo>();
+            Stack<IDirectoryInfo> dirStack = new Stack<IDirectoryInfo>(20);
+            List<IFileInfo> fileInfos = new List<IFileInfo>();
 
             if (!System.IO.Directory.Exists(dir.FullName))
             {
@@ -52,8 +55,8 @@ namespace ComicReaderClassLibrary.Resources
 
             while (dirStack.Count > 0)
             {
-                DirectoryInfo currentDir = dirStack.Pop();
-                DirectoryInfo[] subDirs;
+                IDirectoryInfo currentDir = dirStack.Pop();
+                IDirectoryInfo[] subDirs;
                 try
                 {
                     subDirs = currentDir.GetDirectories();
@@ -86,7 +89,7 @@ namespace ComicReaderClassLibrary.Resources
 
                 try
                 {
-                    List<FileInfo> fileList = new List<FileInfo>();
+                    List<IFileInfo> fileList = new List<IFileInfo>();
                     foreach (var file in currentDir.GetFiles("*"))
                     {
                         if (!file.Attributes.HasFlag(FileAttributes.Hidden) | !file.Attributes.HasFlag(FileAttributes.System))
@@ -115,13 +118,13 @@ namespace ComicReaderClassLibrary.Resources
                 }
                 // Push the subdirectories onto the stack for traversal.
                 // This could also be done before handing the files.
-                foreach (DirectoryInfo dirInfo in subDirs)
+                foreach (IDirectoryInfo dirInfo in subDirs)
                 {
                     dirStack.Push(dirInfo);
                 }
             }
             fileInfos.Reverse();
-            FileInfo[] files = fileInfos.ToArray();
+            IFileInfo[] files = fileInfos.ToArray();
             var info = new RootModel();
             info.folder = new FolderModel()
             {
@@ -134,7 +137,8 @@ namespace ComicReaderClassLibrary.Resources
 
             foreach (var file in files)
             {
-                int totalpages = Comic.LoadFromFile(file).Pages.Count;
+                _comic.LoadFromFile(file);
+                int totalpages = _comic.Pages.Count;
 
                 try
                 {
@@ -154,7 +158,7 @@ namespace ComicReaderClassLibrary.Resources
             return info;
         }
 
-        private string GetRelativePath(FileInfo file, DirectoryInfo dir, DirectoryInfo root)
+        private string GetRelativePath(IFileInfo file, IDirectoryInfo dir, IDirectoryInfo root)
         {
             var folder = dir.Name;
 

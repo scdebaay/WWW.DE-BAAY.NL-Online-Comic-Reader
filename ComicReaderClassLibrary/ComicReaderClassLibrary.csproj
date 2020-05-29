@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AssemblyVersion>2020.05.1.1</AssemblyVersion>
-    <FileVersion>20202.05.1.1</FileVersion>
-    <Version>2020.05.1.1</Version>
+    <AssemblyVersion>2020.05.1.2</AssemblyVersion>
+    <FileVersion>2020.05.1.2</FileVersion>
+    <Version>2020.05.1.2</Version>
     <Authors>Solino de Baay</Authors>
     <Company>WWW.DE-BAAY.NL</Company>
     <Product>Comic Reader Class Library</Product>
@@ -13,8 +13,13 @@
     <PackageIcon>Comic Cloud Service.png</PackageIcon>
     <RepositoryUrl>https://github.com/scdebaay/WWW.DE-BAAY.NL-Online-Comic-Reader</RepositoryUrl>
     <ApplicationIcon>Comic Cloud Service.ico</ApplicationIcon>
-    <PackageReleaseNotes>ComicReader Class Library, Version 1.0, Release 2020.05.1.1, 
+    <PackageReleaseNotes>ComicReader Class Library, Version 1.0, Release 2020.05.1.2,
+Medior refactorings to implement unit testing for all proprietary classes. Added abstractions for Comic and Filesystem classes.
+
+ComicReader Class Library, Version 1.0, Release 2020.05.1.1, 
 All code has been annotated and documented
+
+ComicReader Class Library, Version 1.0, Release 2020.05.1.0, 
 Implemented SQL calls for retrieving and storing Comic Metadata from SQL database. To be used with Data Management Application.
 ComicReader Class Library, Version 0.1, 2020.04.0.1. Built on .NET Core 3.1, Implemented SQL, imported Comic and Imaging Engine, implemented SKiaSharp for imaging. Still needs code cleaning.
 </PackageReleaseNotes>
@@ -30,8 +35,9 @@ ComicReader Class Library, Version 0.1, 2020.04.0.1. Built on .NET Core 3.1, Imp
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.4" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.4" />
     <PackageReference Include="NLog" Version="4.7.2" />
-    <PackageReference Include="SharpCompress" Version="0.25.0" />
+    <PackageReference Include="SharpCompress" Version="0.25.1" />
     <PackageReference Include="SkiaSharp" Version="1.68.3" />
+    <PackageReference Include="System.IO.Abstractions" Version="11.0.6" />
   </ItemGroup>
 
   <ItemGroup>

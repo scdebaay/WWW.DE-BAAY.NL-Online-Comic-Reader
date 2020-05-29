@@ -2,6 +2,7 @@
 using ComicReaderClassLibrary.Resources;
 using SkiaSharp;
 using System.IO;
+using System.IO.Abstractions;
 
 namespace ComicReaderClassLibrary.Models
 {
@@ -9,10 +10,15 @@ namespace ComicReaderClassLibrary.Models
     {
         readonly IPathResolver _pathResolver;
         readonly IContentType _contentType;
-        public FetchedComic(IPathResolver pathResolver, IContentType contentType)
+        readonly IFileSystem _fileSystem;
+        private readonly IComic _comic;
+
+        public FetchedComic(IPathResolver pathResolver, IContentType contentType, IFileSystem fileSystem, IComic comic)
         {
             _pathResolver = pathResolver;
             _contentType = contentType;
+            _fileSystem = fileSystem;
+            _comic = comic;
         }
         
         /// <summary>
@@ -25,19 +31,19 @@ namespace ComicReaderClassLibrary.Models
             string MediaPath = $"{_pathResolver.ServerPath(comicFile)}{_pathResolver.ComicFolder}{comicFile}";
             if (_pathResolver.IsValidPath(MediaPath))
             {
-                FileInfo comicToLoad = new FileInfo(MediaPath);
+                IFileInfo comicToLoad = _fileSystem.FileInfo.FromFileName(MediaPath);
                 //The Comic is loaded.
-                Comic comic = Comic.LoadFromFile(comicToLoad);
-                comic.CurrentIndex = page;
-                _contentType.SetType(comic.CurrentPage.Name.ToString());
+                _comic.LoadFromFile(comicToLoad);
+                _comic.CurrentIndex = page;
+                _contentType.SetType(_comic.CurrentPage.Name.ToString());
                 PageType = _contentType.Type;
-                PageName = comic.CurrentPage.Name;
+                PageName = _comic.CurrentPage.Name;
                 Path = comicFile;
-                Name = comic.Title;
-                TotalPages = comic.Pages.Count;
+                Name = _comic.Title;
+                TotalPages = _comic.Pages.Count;
                 //The result is compiled based in the comic object, the requested page and size.
-                result(comic, page, size);
-                comic.Dispose();
+                result(_comic, page, size);
+                _comic.Dispose();
             }
             else
             {
@@ -56,7 +62,7 @@ namespace ComicReaderClassLibrary.Models
             
         }
 
-        private byte[] result(Comic comic, int? page, int? size)
+        private byte[] result(IComic comic, int? page, int? size)
         {
             //Page parameter is set, set the CurrentIndex property to the page number.
             if (page != null)

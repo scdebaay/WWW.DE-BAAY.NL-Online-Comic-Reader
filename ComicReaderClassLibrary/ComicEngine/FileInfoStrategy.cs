@@ -1,12 +1,13 @@
 ﻿using System.IO;
+using System.IO.Abstractions;
 
 namespace ComicReaderClassLibrary.ComicEngine
 {
     public class FileInfoStrategy : LoadingStrategy
     {
-        private FileInfo info;
+        private IFileInfo info;
 
-        public FileInfoStrategy(FileInfo info)
+        public FileInfoStrategy(IFileInfo info)
         {
             this.info = info;
         }

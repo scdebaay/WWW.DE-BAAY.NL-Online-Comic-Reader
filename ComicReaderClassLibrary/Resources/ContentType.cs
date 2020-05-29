@@ -65,7 +65,6 @@ namespace ComicReaderClassLibrary.Resources
 
         }
 
-
         public string Extension { private set; get; }
         public string Type { private set { } get { return contentType; } }
         public SKEncodedImageFormat Format { private set; get; }

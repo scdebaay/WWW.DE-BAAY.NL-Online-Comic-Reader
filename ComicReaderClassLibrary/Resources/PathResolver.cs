@@ -22,7 +22,7 @@ namespace ComicReaderClassLibrary.Resources
         }
 
         /// <summary>
-        /// Singleton accessor
+        /// Singleton accessor for config settings.
         /// </summary>
         /// <param name="name">Will try to find the requested property in the IConfiguration _config object</param>
         /// <returns>Emtpy string if setting key of type <name> is not found</name></returns>
@@ -32,13 +32,13 @@ namespace ComicReaderClassLibrary.Resources
             {
                 try
                 {
-                    if (int.TryParse(_config.GetValue<string>(name), out int result))
+                    if (int.TryParse(_config[name], out int result))
                     {
                         return result;
                     }
                     else
                     {
-                        return _config.GetValue<string>(name);
+                        return _config[name];
                     }
 
                 }
@@ -55,7 +55,7 @@ namespace ComicReaderClassLibrary.Resources
         /// Based on the requested file name the folder to browse is set. For now this can be either Comic or Image
         /// </summary>
         /// <param name="requestedFileName">Filename that was requested in the request being processed.</param>
-        /// <returns></returns>
+        /// <returns>String, returns application server path if the requested file is not in a rooted path</returns>
         public string ServerPath(string requestedFileName)
         {
 
@@ -99,7 +99,7 @@ namespace ComicReaderClassLibrary.Resources
         /// </summary>
         /// <param name="path">The file or path to be checked</param>
         /// <param name="allowRelativePaths">Whether relative paths are allowed.</param>
-        /// <returns></returns>
+        /// <returns>Bool, true is the path exists, False if path does not exist</returns>
         public bool IsValidPath(string path, bool allowRelativePaths = true)
         {
             {
