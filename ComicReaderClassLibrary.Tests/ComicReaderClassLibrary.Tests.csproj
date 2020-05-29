@@ -1,0 +1,122 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="PhysicalResources\Comics\Smileys-Png.cbr" />
+    <None Remove="PhysicalResources\Comics\Smileys-Png.cbz" />
+    <None Remove="PhysicalResources\Comics\Smileys.cbr" />
+    <None Remove="PhysicalResources\Comics\Smileys.cbz" />
+    <None Remove="PhysicalResources\Images\Smiley-01.jpg" />
+    <None Remove="PhysicalResources\Images\Smiley-01.png" />
+    <None Remove="PhysicalResources\Images\Smiley-02.jpg" />
+    <None Remove="PhysicalResources\Images\Smiley-02.png" />
+    <None Remove="PhysicalResources\Images\Smiley-03.jpg" />
+    <None Remove="PhysicalResources\Images\Smiley-03.png" />
+    <None Remove="PhysicalResources\Images\Smiley-04.jpg" />
+    <None Remove="PhysicalResources\Images\Smiley-04.png" />
+    <None Remove="PhysicalResources\Images\Smiley-05.jpg" />
+    <None Remove="PhysicalResources\Images\Smiley-05.png" />
+    <None Remove="Resources\Comics\Smileys-Png.cbr" />
+    <None Remove="Resources\Comics\Smileys-Png.cbz" />
+    <None Remove="Resources\Comics\Smileys.cbr" />
+    <None Remove="Resources\Comics\Smileys.cbz" />
+    <None Remove="Resources\Images\Smiley-01.jpg" />
+    <None Remove="Resources\Images\Smiley-01.png" />
+    <None Remove="Resources\Images\Smiley-02.jpg" />
+    <None Remove="Resources\Images\Smiley-02.png" />
+    <None Remove="Resources\Images\Smiley-03.jpg" />
+    <None Remove="Resources\Images\Smiley-03.png" />
+    <None Remove="Resources\Images\Smiley-04.jpg" />
+    <None Remove="Resources\Images\Smiley-04.png" />
+    <None Remove="Resources\Images\Smiley-05.jpg" />
+    <None Remove="Resources\Images\Smiley-05.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="PhysicalResources\Comics\Smileys-Png.cbr">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PhysicalResources\Comics\Smileys-Png.cbz">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PhysicalResources\Comics\Smileys.cbr">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PhysicalResources\Comics\Smileys.cbz">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PhysicalResources\Images\Smiley-01.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PhysicalResources\Images\Smiley-01.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PhysicalResources\Images\Smiley-02.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PhysicalResources\Images\Smiley-02.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PhysicalResources\Images\Smiley-03.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PhysicalResources\Images\Smiley-03.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PhysicalResources\Images\Smiley-04.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PhysicalResources\Images\Smiley-04.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PhysicalResources\Images\Smiley-05.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PhysicalResources\Images\Smiley-05.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Comics\Smileys-Png.cbr" />
+    <EmbeddedResource Include="Resources\Comics\Smileys-Png.cbz" />
+    <EmbeddedResource Include="Resources\Comics\Smileys.cbr" />
+    <EmbeddedResource Include="Resources\Comics\Smileys.cbz" />
+    <EmbeddedResource Include="Resources\Images\Smiley-01.jpg" />
+    <EmbeddedResource Include="Resources\Images\Smiley-01.png" />
+    <EmbeddedResource Include="Resources\Images\Smiley-02.jpg" />
+    <EmbeddedResource Include="Resources\Images\Smiley-02.png" />
+    <EmbeddedResource Include="Resources\Images\Smiley-03.jpg" />
+    <EmbeddedResource Include="Resources\Images\Smiley-03.png" />
+    <EmbeddedResource Include="Resources\Images\Smiley-04.jpg" />
+    <EmbeddedResource Include="Resources\Images\Smiley-04.png" />
+    <EmbeddedResource Include="Resources\Images\Smiley-05.jpg" />
+    <EmbeddedResource Include="Resources\Images\Smiley-05.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.6.1" />
+    <PackageReference Include="Moq" Version="4.14.1" />
+    <PackageReference Include="Moq.Dapper" Version="1.0.3" />
+    <PackageReference Include="MSTest.TestAdapter" Version="2.1.1" />
+    <PackageReference Include="MSTest.TestFramework" Version="2.1.1" />
+    <PackageReference Include="SharpCompress" Version="0.25.1" />
+    <PackageReference Include="System.IO.Abstractions.TestingHelpers" Version="11.0.7" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector" Version="1.2.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ComicReaderClassLibrary\ComicReaderClassLibrary.csproj" />
+  </ItemGroup>
+
+</Project>

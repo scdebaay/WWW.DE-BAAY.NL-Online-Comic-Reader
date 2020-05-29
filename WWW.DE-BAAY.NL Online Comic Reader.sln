@@ -21,6 +21,8 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ComicReaderDB", "ComicReade
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ComicReaderDBTest", "ComicReaderDBTest\ComicReaderDBTest.sqlproj", "{4F3B9073-B1A7-44C4-9674-24D74CFF7A7C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComicReaderClassLibrary.Tests", "ComicReaderClassLibrary.Tests\ComicReaderClassLibrary.Tests.csproj", "{A6776D78-23E0-459B-8C22-E7E21480784A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,10 @@ Global
 		{4F3B9073-B1A7-44C4-9674-24D74CFF7A7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F3B9073-B1A7-44C4-9674-24D74CFF7A7C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4F3B9073-B1A7-44C4-9674-24D74CFF7A7C}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{A6776D78-23E0-459B-8C22-E7E21480784A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6776D78-23E0-459B-8C22-E7E21480784A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6776D78-23E0-459B-8C22-E7E21480784A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6776D78-23E0-459B-8C22-E7E21480784A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
