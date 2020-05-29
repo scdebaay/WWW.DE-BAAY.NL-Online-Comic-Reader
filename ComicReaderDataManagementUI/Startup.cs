@@ -7,6 +7,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
 using System;
+using System.IO;
+using System.IO.Abstractions;
 using System.Collections.Generic;
 using System.Text;
 using ComicReaderDataManagementUI.Settings;
@@ -51,6 +53,7 @@ namespace ComicReaderDataManagementUI
                services.AddTransient<IPublisherViewModel, PublisherViewModel>();
                services.AddTransient<IGenreViewModel, GenreViewModel>();
                services.AddTransient<IAuthorViewModel, AuthorViewModel>();
+               services.AddTransient<IFileSystem, FileSystem>();
                services.AddLogging();
                GetType().Assembly.GetTypes()
                 .Where(type => type.IsClass)
