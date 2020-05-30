@@ -16,7 +16,7 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
         /// Async method to retrieve a list of ComicDataModels from the database
         /// </summary>
         /// <returns>Task of List of ComicDataModels representing all comics in the database</returns>
-        public Task<List<ComicDataModel>> RetrieveComicsAsync();
+        public Task<List<ComicDataModel>> RetrieveComicsAsync(string searchtext);
 
         /// <summary>
         /// Async method to retrieve a list of AuthorDataModels from the database for one specific Comic

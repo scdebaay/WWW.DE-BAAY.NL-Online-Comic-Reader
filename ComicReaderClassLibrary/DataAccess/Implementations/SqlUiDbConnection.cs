@@ -51,14 +51,14 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
         /// Async method to retrieve a list of ComicDataModels from the database
         /// </summary>
         /// <returns>Task of List of ComicDataModels representing all comics in the database</returns>
-        async public Task<List<ComicDataModel>> RetrieveComicsAsync()
+        async public Task<List<ComicDataModel>> RetrieveComicsAsync(string searchtext)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
             {
                 List<ComicDataModel> comicsResult = new List<ComicDataModel>();
                 try
                 {
-                    var result = await connection.QueryAsync<ComicDataModel>("dbo.spRetrieveComics");
+                    var result = await connection.QueryAsync<ComicDataModel>("dbo.spRetrieveComics @SearchText", new { SearchText = searchtext });
                     comicsResult = result.AsList();
                     return comicsResult;
                 }

@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AssemblyVersion>2020.05.1.2</AssemblyVersion>
-    <FileVersion>2020.05.1.2</FileVersion>
-    <Version>2020.05.1.2</Version>
+    <AssemblyVersion>2020.05.1.3</AssemblyVersion>
+    <FileVersion>2020.05.1.3</FileVersion>
+    <Version>2020.05.1.3</Version>
     <Authors>Solino de Baay</Authors>
     <Company>WWW.DE-BAAY.NL</Company>
     <Product>Comic Reader Class Library</Product>
@@ -13,7 +13,10 @@
     <PackageIcon>Comic Cloud Service.png</PackageIcon>
     <RepositoryUrl>https://github.com/scdebaay/WWW.DE-BAAY.NL-Online-Comic-Reader</RepositoryUrl>
     <ApplicationIcon>Comic Cloud Service.ico</ApplicationIcon>
-    <PackageReleaseNotes>ComicReader Class Library, Version 1.0, Release 2020.05.1.2,
+    <PackageReleaseNotes>ComicReader Class Library, Version 1.0, Release 2020.05.1.3,
+Implemented Search for the ComicReader DataManagement interface. Interface needs this CL version to search.
+
+ComicReader Class Library, Version 1.0, Release 2020.05.1.2,
 Medior refactorings to implement unit testing for all proprietary classes. Added abstractions for Comic and Filesystem classes.
 
 ComicReader Class Library, Version 1.0, Release 2020.05.1.1, 

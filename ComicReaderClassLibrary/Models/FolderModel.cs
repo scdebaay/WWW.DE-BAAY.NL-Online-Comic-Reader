@@ -8,7 +8,7 @@ namespace ComicReaderClassLibrary.Models
     /// </summary>
     public class FolderModel : IFolderModel
     {
-        readonly IFileModel _file;
+        //readonly IFileModel _file;
 
         public string name { get; set; }
         public string files { get; set; }
