@@ -121,6 +121,14 @@
     <Folder Include="dbo\Tables\" />
     <Folder Include="Security\" />
     <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="dbo\Stored Procedures\Authors" />
+    <Folder Include="dbo\Stored Procedures\Comics" />
+    <Folder Include="dbo\Stored Procedures\Genres" />
+    <Folder Include="dbo\Stored Procedures\Series" />
+    <Folder Include="dbo\Stored Procedures\SubSeries" />
+    <Folder Include="dbo\Stored Procedures\Languages" />
+    <Folder Include="dbo\Stored Procedures\Types" />
+    <Folder Include="dbo\Stored Procedures\Publishers" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Series.sql">
@@ -170,159 +178,159 @@
     <Build Include="Security\DEBAAY_ComicCloud.sql" />
     <Build Include="Security\DEBAAY_ComicCloud_1.sql" />
     <Build Include="Security\RoleMemberships.sql" />
-    <Build Include="dbo\Stored Procedures\spInsertComics.sql">
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="dbo\Stored Procedures\spUpdateComicById.sql">
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="dbo\Stored Procedures\spRetrieveComicByName.sql" />
-    <Build Include="dbo\Stored Procedures\spDeleteAuthorAssocById.sql" />
-    <Build Include="dbo\Stored Procedures\spDeleteAuthorById.sql" />
-    <Build Include="dbo\Stored Procedures\spDeleteComicById.sql" />
-    <Build Include="dbo\Stored Procedures\spDeleteComicToGenreById.sql" />
-    <Build Include="dbo\Stored Procedures\spDeleteGenreById.sql" />
-    <Build Include="dbo\Stored Procedures\spDeleteLanguageById.sql" />
-    <Build Include="dbo\Stored Procedures\spDeletePublisherAssocById.sql" />
-    <Build Include="dbo\Stored Procedures\spDeletePublisherById.sql" />
-    <Build Include="dbo\Stored Procedures\spDeleteSerieById.sql" />
-    <Build Include="dbo\Stored Procedures\spDeleteSubSerieById.sql" />
-    <Build Include="dbo\Stored Procedures\spDeleteTypeById.sql" />
-    <Build Include="dbo\Stored Procedures\spInsertAuthors.sql">
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="dbo\Stored Procedures\spInsertGenres.sql">
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="dbo\Stored Procedures\spInsertLanguages.sql">
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="dbo\Stored Procedures\spInsertPublishers.sql">
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="dbo\Stored Procedures\spInsertSeries.sql">
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="dbo\Stored Procedures\spInsertSubSeries.sql">
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="dbo\Stored Procedures\spInsertTypes.sql">
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="dbo\Stored Procedures\spRetrieveAuthorById.sql" />
-    <Build Include="dbo\Stored Procedures\spRetrieveAuthorByName.sql" />
-    <Build Include="dbo\Stored Procedures\spRetrieveComicById.sql" />
-    <Build Include="dbo\Stored Procedures\spRetrieveGenreById.sql" />
-    <Build Include="dbo\Stored Procedures\spRetrieveGenreByName.sql" />
-    <Build Include="dbo\Stored Procedures\spRetrieveLanguageById.sql" />
-    <Build Include="dbo\Stored Procedures\spRetrieveLanguageByName.sql" />
-    <Build Include="dbo\Stored Procedures\spRetrievePublisherById.sql" />
-    <Build Include="dbo\Stored Procedures\spRetrievePublisherByName.sql" />
-    <Build Include="dbo\Stored Procedures\spRetrieveSerieById.sql" />
-    <Build Include="dbo\Stored Procedures\spRetrieveSerieByName.sql" />
-    <Build Include="dbo\Stored Procedures\spRetrieveSubSerieById.sql" />
-    <Build Include="dbo\Stored Procedures\spRetrieveSubSerieByName.sql" />
-    <Build Include="dbo\Stored Procedures\spRetrieveTypeById.sql" />
-    <Build Include="dbo\Stored Procedures\spRetrieveTypeByName.sql" />
-    <Build Include="dbo\Stored Procedures\spUpdateAuthorById.sql">
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="dbo\Stored Procedures\spUpdateComicToAuthorById.sql">
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="dbo\Stored Procedures\spUpdateComicToGenreById.sql">
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="dbo\Stored Procedures\spUpdateComicToPublisherById.sql">
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="dbo\Stored Procedures\spUpdateGenreById.sql">
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="dbo\Stored Procedures\spUpdateLanguageById.sql">
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="dbo\Stored Procedures\spUpdatePublisherById.sql">
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="dbo\Stored Procedures\spUpdateSerieById.sql">
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="dbo\Stored Procedures\spUpdateSubSerieById.sql">
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="dbo\Stored Procedures\spUpdateTypeById.sql">
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="dbo\Stored Procedures\spRetrievePagedListOfComics.sql" />
-    <Build Include="dbo\Stored Procedures\spRetrieveComics.sql" />
-    <Build Include="dbo\Stored Procedures\spRetrieveAuthorsByComicId.sql" />
-    <Build Include="dbo\Stored Procedures\spRetrieveGenresByComicId.sql" />
-    <Build Include="dbo\Stored Procedures\spRetrievePublishersByComicId.sql" />
-    <Build Include="dbo\Stored Procedures\spRetrieveLanguages.sql" />
-    <Build Include="dbo\Stored Procedures\spRetrieveTypes.sql" />
-    <Build Include="dbo\Stored Procedures\spRetrieveSeries.sql" />
-    <Build Include="dbo\Stored Procedures\spRetrieveSubSeries.sql" />
     <Build Include="Security\Permissions.sql" />
-    <Build Include="dbo\Stored Procedures\spInsertComicToAuthor.sql">
+    <Build Include="dbo\Stored Procedures\Authors\spDeleteAuthorAssocById.sql" />
+    <Build Include="dbo\Stored Procedures\Authors\spDeleteAuthorById.sql" />
+    <Build Include="dbo\Stored Procedures\Comics\spDeleteComicById.sql" />
+    <Build Include="dbo\Stored Procedures\Comics\spDeleteComicToGenreById.sql" />
+    <Build Include="dbo\Stored Procedures\Comics\spInsertComics.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Stored Procedures\spInsertComicToPublisher.sql">
+    <Build Include="dbo\Stored Procedures\Comics\spInsertComicToAuthor.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Stored Procedures\spInsertComicToGenre.sql">
+    <Build Include="dbo\Stored Procedures\Comics\spInsertComicToGenre.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Stored Procedures\spUpdateComicToLanguageById.sql">
+    <Build Include="dbo\Stored Procedures\Comics\spInsertComicToPublisher.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Stored Procedures\spRemoveLanguageFromComicsByLanguageId.sql" />
-    <Build Include="dbo\Stored Procedures\spUndeleteLanguageByName.sql" />
-    <Build Include="dbo\Stored Procedures\spUpdateComicToTypeById.sql">
+    <Build Include="dbo\Stored Procedures\Comics\spRetrieveComicById.sql" />
+    <Build Include="dbo\Stored Procedures\Comics\spRetrieveComicByName.sql" />
+    <Build Include="dbo\Stored Procedures\Comics\spRetrieveComics.sql" />
+    <Build Include="dbo\Stored Procedures\Comics\spRetrieveComicsByAuthorId.sql" />
+    <Build Include="dbo\Stored Procedures\Comics\spRetrieveComicsByGenreId.sql" />
+    <Build Include="dbo\Stored Procedures\Comics\spRetrieveComicsByPublisherId.sql" />
+    <Build Include="dbo\Stored Procedures\Comics\spUpdateComicById.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Stored Procedures\spUndeleteTypeByName.sql" />
-    <Build Include="dbo\Stored Procedures\spRemoveTypeFromComicByTypeId.sql" />
-    <Build Include="dbo\Stored Procedures\spUpdateComicToSerieById.sql" />
-    <Build Include="dbo\Stored Procedures\spUndeleteSerieByName.sql" />
-    <Build Include="dbo\Stored Procedures\spRemoveSerieFromComicBySerieId.sql" />
-    <Build Include="dbo\Stored Procedures\spUpdateComictoSubSerieById.sql" />
-    <Build Include="dbo\Stored Procedures\spRemoveSubSerieFromComicBySerieId.sql" />
-    <Build Include="dbo\Stored Procedures\spRetrievePublishers.sql" />
-    <Build Include="dbo\Stored Procedures\spRetrieveComicsByPublisherId.sql" />
-    <Build Include="dbo\Stored Procedures\spUndeletePublisherByName.sql" />
-    <Build Include="dbo\Stored Procedures\spRemovePublisherFromComicToPublisherByPublisherId.sql" />
-    <Build Include="dbo\Stored Procedures\spRetrieveGenres.sql" />
-    <Build Include="dbo\Stored Procedures\spRetrieveComicsByGenreId.sql" />
-    <Build Include="dbo\Stored Procedures\spUndeleteGenreByName.sql" />
-    <Build Include="dbo\Stored Procedures\spRemoveGenreFromComicToGenreByGenreId.sql" />
-    <Build Include="dbo\Stored Procedures\spRetrieveAuthors.sql" />
-    <Build Include="dbo\Stored Procedures\spRetrieveComicsByAuthorId.sql" />
-    <Build Include="dbo\Stored Procedures\spRemoveAuthorFromComicToAuthorByAuthorId.sql" />
+    <Build Include="dbo\Stored Procedures\Comics\spUpdateComicToAuthorById.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="dbo\Stored Procedures\Comics\spUpdateComicToGenreById.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="dbo\Stored Procedures\Comics\spUpdateComicToLanguageById.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="dbo\Stored Procedures\Comics\spUpdateComicToPublisherById.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="dbo\Stored Procedures\Comics\spUpdateComicToSerieById.sql" />
+    <Build Include="dbo\Stored Procedures\Comics\spUpdateComictoSubSerieById.sql" />
+    <Build Include="dbo\Stored Procedures\Comics\spUpdateComicToTypeById.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="dbo\Stored Procedures\Genres\spDeleteGenreById.sql" />
+    <Build Include="dbo\Stored Procedures\Genres\spInsertGenres.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="dbo\Stored Procedures\Genres\spRemoveGenreFromComicToGenreByGenreId.sql" />
+    <Build Include="dbo\Stored Procedures\Genres\spRetrieveGenreById.sql" />
+    <Build Include="dbo\Stored Procedures\Genres\spRetrieveGenreByName.sql" />
+    <Build Include="dbo\Stored Procedures\Genres\spRetrieveGenres.sql" />
+    <Build Include="dbo\Stored Procedures\Genres\spRetrieveGenresByComicId.sql" />
+    <Build Include="dbo\Stored Procedures\Genres\spUndeleteGenreByName.sql" />
+    <Build Include="dbo\Stored Procedures\Genres\spUpdateGenreById.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="dbo\Stored Procedures\Languages\spDeleteLanguageById.sql" />
+    <Build Include="dbo\Stored Procedures\Languages\spInsertLanguages.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="dbo\Stored Procedures\Languages\spRemoveLanguageFromComicsByLanguageId.sql" />
+    <Build Include="dbo\Stored Procedures\Languages\spRetrieveLanguageById.sql" />
+    <Build Include="dbo\Stored Procedures\Languages\spRetrieveLanguageByName.sql" />
+    <Build Include="dbo\Stored Procedures\Languages\spRetrieveLanguages.sql" />
+    <Build Include="dbo\Stored Procedures\Languages\spUndeleteLanguageByName.sql" />
+    <Build Include="dbo\Stored Procedures\Languages\spUpdateLanguageById.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="dbo\Stored Procedures\Publishers\spDeletePublisherAssocById.sql" />
+    <Build Include="dbo\Stored Procedures\Publishers\spDeletePublisherById.sql" />
+    <Build Include="dbo\Stored Procedures\Publishers\spInsertPublishers.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="dbo\Stored Procedures\Publishers\spRemovePublisherFromComicToPublisherByPublisherId.sql" />
+    <Build Include="dbo\Stored Procedures\Publishers\spRetrievePublisherById.sql" />
+    <Build Include="dbo\Stored Procedures\Publishers\spRetrievePublisherByName.sql" />
+    <Build Include="dbo\Stored Procedures\Publishers\spRetrievePublishers.sql" />
+    <Build Include="dbo\Stored Procedures\Publishers\spRetrievePublishersByComicId.sql" />
+    <Build Include="dbo\Stored Procedures\Publishers\spUndeletePublisherByName.sql" />
+    <Build Include="dbo\Stored Procedures\Publishers\spUpdatePublisherById.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="dbo\Stored Procedures\Series\spDeleteSerieById.sql" />
+    <Build Include="dbo\Stored Procedures\Series\spInsertSeries.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="dbo\Stored Procedures\Series\spRemoveSerieFromComicBySerieId.sql" />
+    <Build Include="dbo\Stored Procedures\Series\spRetrieveSerieById.sql" />
+    <Build Include="dbo\Stored Procedures\Series\spRetrieveSerieByName.sql" />
+    <Build Include="dbo\Stored Procedures\Series\spRetrieveSeries.sql" />
+    <Build Include="dbo\Stored Procedures\Series\spUndeleteSerieByName.sql" />
+    <Build Include="dbo\Stored Procedures\Series\spUpdateSerieById.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="dbo\Stored Procedures\SubSeries\spDeleteSubSerieById.sql" />
+    <Build Include="dbo\Stored Procedures\SubSeries\spInsertSubSeries.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="dbo\Stored Procedures\SubSeries\spRemoveSubSerieFromComicBySerieId.sql" />
+    <Build Include="dbo\Stored Procedures\SubSeries\spRetrieveSubSerieById.sql" />
+    <Build Include="dbo\Stored Procedures\SubSeries\spRetrieveSubSerieByName.sql" />
+    <Build Include="dbo\Stored Procedures\SubSeries\spRetrieveSubSeries.sql" />
+    <Build Include="dbo\Stored Procedures\SubSeries\spUpdateSubSerieById.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="dbo\Stored Procedures\Types\spDeleteTypeById.sql" />
+    <Build Include="dbo\Stored Procedures\Types\spInsertTypes.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="dbo\Stored Procedures\Types\spRemoveTypeFromComicByTypeId.sql" />
+    <Build Include="dbo\Stored Procedures\Types\spRetrieveTypeById.sql" />
+    <Build Include="dbo\Stored Procedures\Types\spRetrieveTypeByName.sql" />
+    <Build Include="dbo\Stored Procedures\Types\spRetrieveTypes.sql" />
+    <Build Include="dbo\Stored Procedures\Types\spUndeleteTypeByName.sql" />
+    <Build Include="dbo\Stored Procedures\Types\spUpdateTypeById.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="dbo\Stored Procedures\Authors\spInsertAuthors.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="dbo\Stored Procedures\Authors\spRemoveAuthorFromComicToAuthorByAuthorId.sql" />
+    <Build Include="dbo\Stored Procedures\Authors\spRetrieveAuthorById.sql" />
+    <Build Include="dbo\Stored Procedures\Authors\spRetrieveAuthorByName.sql" />
+    <Build Include="dbo\Stored Procedures\Authors\spRetrieveAuthors.sql" />
+    <Build Include="dbo\Stored Procedures\Authors\spRetrieveAuthorsByComicId.sql" />
+    <Build Include="dbo\Stored Procedures\Authors\spUpdateAuthorById.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="dbo\Stored Procedures\Comics\spRetrievePagedListOfComics.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ComicReaderDBTest.publish.xml" />
