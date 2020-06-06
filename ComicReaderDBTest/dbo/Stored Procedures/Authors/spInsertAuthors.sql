@@ -7,7 +7,10 @@ CREATE PROCEDURE spInsertAuthors
 	-- Add the parameters for the stored procedure here
 	@FirstName nvarchar(50), 
 	@MiddleName nvarchar(50),
-	@LastName nvarchar(50)
+	@LastName nvarchar(50),
+	@DateBirth date,
+	@DateDeceased date,
+	@Active bit
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -18,10 +21,16 @@ BEGIN
            (    [FirstName]
               ,[MiddleName]
               ,[LastName]
+			  ,[DateBirth]
+			  ,[DateDeceased]
+			  ,[Active]
 			  ,[RecordUpdated])
      VALUES
            (@FirstName
            ,@MiddleName
            ,@LastName
+		   ,@DateBirth
+		   ,@DateDeceased
+		   ,@Active
            ,CONVERT (date, CURRENT_TIMESTAMP))
 END

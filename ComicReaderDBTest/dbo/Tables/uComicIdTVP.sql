@@ -1,0 +1,4 @@
+﻿CREATE TYPE uComicIdTVP AS TABLE
+(
+    Id   INT
+)

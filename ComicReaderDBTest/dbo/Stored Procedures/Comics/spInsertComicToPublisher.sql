@@ -1,24 +1,21 @@
 ﻿-- =============================================
 -- Author:		Solino de Baay
--- Create date: 30-04-2020
+-- Create date: 06-06-2020
 -- Description:	SP to insert Comic Author association records
 -- =============================================
-CREATE PROCEDURE spInsertComicToGenre 
+CREATE PROCEDURE spInsertComicToPublisher
 	-- Add the parameters for the stored procedure here
-	@ComicId int,
-    @GenreId int    
+	@Ids uComicIdPropIdTVP READONLY   
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
-
-	INSERT INTO [dbo].[ComicToGenre]
+	INSERT INTO [dbo].[ComicToPublisher]
 			([ComicId]
-			,[GenreId]
+			,[PublisherId]
 			,[RecordUpdated])
-           VALUES 
-		   (@ComicId
-           ,@GenreId
-		   ,CONVERT (date, CURRENT_TIMESTAMP))
+           SELECT *,CONVERT (date, CURRENT_TIMESTAMP)
+		FROM @Ids ids
+	WHERE NOT EXISTS (SELECT * FROM [ComicToPublisher] existing WHERE existing.ComicId = ids.Id AND existing.PublisherId = ids.PropId);
 END

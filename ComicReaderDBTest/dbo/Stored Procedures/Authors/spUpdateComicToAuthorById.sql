@@ -3,7 +3,7 @@
 -- Create date: 13-04-2020
 -- Description:	SP to update Comic Author association records
 -- =============================================
-CREATE PROCEDURE spUpdateComicToAuthorById 
+CREATE PROCEDURE [dbo].[spUpdateComicToAuthorById] 
 	-- Add the parameters for the stored procedure here
 	@ComicId int,
     @AuhtorId int    
