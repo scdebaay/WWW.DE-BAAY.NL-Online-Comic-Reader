@@ -44,9 +44,8 @@ namespace ComicReaderAPICore.Controllers
         /// <param name="currentfolderpage">Int, which page is begin requested. JSON also includes total pages available using current pageLimit</param>
         /// <returns>Returns JSON object containing file list, folder name, total pages, current page and total pages per comic</returns>
         [Produces("application/json")]
-        public IRootModel Get(string folder, int? pageLimit, int? currentfolderpage = 0)
+        public IRootModel Get(string folder, int? pageLimit, string? searchText, int? currentfolderpage = 0)
         {
-
             if (pageLimit == null)
             {
                 pageLimit = _pathResolver.PageLimit;
@@ -73,7 +72,7 @@ namespace ComicReaderAPICore.Controllers
                     requestedDir = _pathResolver.EpubFolder;
                     break;
             }
-            _rootModel = _sqlApiDbConnection.RetrieveComics(pageLimit, currentfolderpage);
+            _rootModel = _sqlApiDbConnection.RetrieveComics(pageLimit, currentfolderpage, searchText);
             return _rootModel;
         }
     }
