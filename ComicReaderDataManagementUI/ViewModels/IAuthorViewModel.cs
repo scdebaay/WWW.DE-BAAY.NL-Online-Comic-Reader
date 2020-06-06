@@ -4,6 +4,7 @@ using ComicReaderDataManagementUI.Events;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace ComicReaderDataManagementUI.ViewModels
 {
@@ -19,7 +20,7 @@ namespace ComicReaderDataManagementUI.ViewModels
         /// <summary>
         /// Backing field for the Comic Listbox
         /// </summary>
-        BindableCollection<ComicDataModel> ComicBox { get; }
+        BindableCollection<ComicDataModel> ComicList { get; }
         /// <summary>
         /// Backing field for the Comic by Author Listbox
         /// </summary>
@@ -45,10 +46,6 @@ namespace ComicReaderDataManagementUI.ViewModels
         /// </summary>
         public DateTime DateDeceased { get; set; }
         /// <summary>
-        /// Backing field for the selected comic in the Comic Dropdown
-        /// </summary>
-        ComicDataModel SelectedComic { get; set; }
-        /// <summary>
         /// Backing field for the selected comic in the Comic by author Listbox
         /// </summary>
         ComicDataModel SelectedComicByAuthor { get; set; }
@@ -61,9 +58,9 @@ namespace ComicReaderDataManagementUI.ViewModels
         /// </summary>
         string StatusBar { get; set; }
         /// <summary>
-        /// Method for Adding comic to author button.
+        /// Command to add Comics to Author
         /// </summary>
-        void AddComicToAuthor();
+        ICommand AddComicToAuthorCommand { get; }
         /// <summary>
         /// Method for delete author button.
         /// </summary>

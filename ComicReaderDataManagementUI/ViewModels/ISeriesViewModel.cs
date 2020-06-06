@@ -4,6 +4,7 @@ using ComicReaderDataManagementUI.Events;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace ComicReaderDataManagementUI.ViewModels
 {
@@ -12,7 +13,7 @@ namespace ComicReaderDataManagementUI.ViewModels
         /// <summary>
         /// Backing field for the Comic dropdown
         /// </summary>
-        BindableCollection<ComicDataModel> ComicBox { get; set; }
+        BindableCollection<ComicDataModel> ComicList { get; set; }
         /// <summary>
         /// Backing field for the Comics in Series listbox
         /// </summary>
@@ -24,11 +25,7 @@ namespace ComicReaderDataManagementUI.ViewModels
         /// <summary>
         /// Backing field for the DateSeriesStart field
         /// </summary>
-        DateTime DateSeriesStart { get; set; }
-        /// <summary>
-        /// Backing field for the Selected Comic in the Comic dropdown
-        /// </summary>
-        ComicDataModel SelectedComic { get; set; }
+        DateTime DateSeriesStart { get; set; }        
         /// <summary>
         /// Backing field for the Selected Comic in the Comic in Series Listbox
         /// </summary>
@@ -54,14 +51,14 @@ namespace ComicReaderDataManagementUI.ViewModels
         /// </summary>
         string StatusBar { get; set; }
         /// <summary>
+        /// Command to add Comis to Serie
+        /// </summary>
+        ICommand AddComicToSerieCommand { get; }
+        /// <summary>
         /// Backing field for the SubSeries Listbox
         /// </summary>
         BindableCollection<SubSeriesDataModel> SubSeriesInSeries { get; set; }
-
-        /// <summary>
-        /// Method for the Add Comic to Series button
-        /// </summary>
-        void AddComicToSerie();
+        
         /// <summary>
         /// Method for the Delete Series button
         /// </summary>

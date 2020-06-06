@@ -3,6 +3,7 @@ using ComicReaderClassLibrary.DataAccess.DataModels;
 using ComicReaderDataManagementUI.Events;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace ComicReaderDataManagementUI.ViewModels
 {
@@ -13,9 +14,13 @@ namespace ComicReaderDataManagementUI.ViewModels
         /// </summary>
         public string StatusBar { get; }
         /// <summary>
+        /// Command to add Comis to Language
+        /// </summary>
+        public ICommand AddComicToLanguageCommand { get; }
+        /// <summary>
         /// Backing field for the Comic dropdown
         /// </summary>
-        BindableCollection<ComicDataModel> ComicBox { get; }
+        BindableCollection<ComicDataModel> ComicList { get; }
         /// <summary>
         /// Backing field for the Comics in Language listbox
         /// </summary>
@@ -29,10 +34,6 @@ namespace ComicReaderDataManagementUI.ViewModels
         /// </summary>
         string LanguageName { get; set; }
         /// <summary>
-        /// Backing field for the Selected Comic in the Comic dropdown
-        /// </summary>
-        ComicDataModel SelectedComic { get; set; }
-        /// <summary>
         /// Backing field for the Selected Comic in the Comic in Language Listbox
         /// </summary>
         ComicDataModel SelectedComicInLanguage { get; set; }
@@ -40,11 +41,6 @@ namespace ComicReaderDataManagementUI.ViewModels
         /// Backing field for the Selected Language in the Language dropdown
         /// </summary>
         LanguageDataModel SelectedItem { get; set; }
-
-        /// <summary>
-        /// Method for the Add Comic to Language button
-        /// </summary>
-        void AddComicToLanguage();
         /// <summary>
         /// Method for the New Language button
         /// </summary>

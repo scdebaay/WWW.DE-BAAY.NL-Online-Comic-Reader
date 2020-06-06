@@ -6,10 +6,14 @@
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Comic Cloud Management.ico</ApplicationIcon>
     <PackageIcon>Comic Cloud Management.png</PackageIcon>
-    <AssemblyVersion>2020.05.0.4</AssemblyVersion>
-    <FileVersion>2020.05.0.4</FileVersion>
-    <Version>2020.05.0.4</Version>
-    <PackageReleaseNotes>ComicReader Metadata Management UI, Version 0.3, Release, 2020.05.0.4. 
+    <AssemblyVersion>2020.06.1.0</AssemblyVersion>
+    <FileVersion>2020.06.1.0</FileVersion>
+    <Version>2020.06.1.0</Version>
+    <PackageReleaseNotes>ComicReader Metadata Management UI, Version 1.0, Release, 2020.06.1.0.
+Re-implemented a number of functions and changed the UI for property editing. The comic drop down was replaced with a listbox and multiple comics can be selected to do bulk changes. 
+Also Search on Enter was implemented for the SearchBox
+ 
+ComicReader Metadata Management UI, Version 0.3, Release, 2020.05.0.4. 
 Added Comic open in Browser when thumbnail is clicked. Added Browser Web URL setting in Settings.Json
 All code has been annotated and documented
 All functionality implemented. Needs heavy code review and refactoring. Also a number of improvements already found. Windows do not resize nicely. Need to look into that. Want to implement ModelView Interface or Base class.</PackageReleaseNotes>

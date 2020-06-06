@@ -5,11 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ComicReaderDataManagementUI.Views"
         mc:Ignorable="d"
-        Title="Comic Reader Genre Data Management" Background="#FF999999" FontFamily="Eras ITC" FontSize="14" Foreground="Black" Width="700" Height="320" MinWidth="700" MinHeight="320" >
+        Title="Comic Reader Genre Data Management" Background="#FF999999" FontFamily="Eras ITC" FontSize="14" Foreground="Black" Width="970" Height="320" MinWidth="700" MinHeight="320" >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
@@ -69,11 +70,10 @@
             <Button x:Name="SaveGenre" Content="Save" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,2,5,2" Padding="2" Grid.Column="1"/>
             <Button x:Name="DeleteGenre" Content="Delete" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,2,5,2" Padding="2" Grid.Column="2"/>
         </Grid>
-        <Button x:Name="NewGenre" Content="New Genre" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="2" Grid.Row="11" Grid.Column="1"/>
-        <Button x:Name="AddComicToGenre" Content="Add Comic to Genre" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5" Padding="2" Grid.Row="12" Grid.Column="2"/>
-        <!-- column three-->
-        <Label Content="Comics in this Genre" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="3" Grid.Row="3"/>
-        <ListBox x:Name="ComicsInGenreBox" Height="120" Width="260" Grid.Column="3" Grid.Row="4" Grid.RowSpan="8" Margin="5"  SelectedItem="{ Binding SelectedComicInGenre }">
+        <Button x:Name="NewGenre" Content="New Genre" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="2" Grid.Row="11" Grid.Column="1"/>        
+        <!-- column three -->
+        <Label Content="Comics available" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="3" Grid.Row="3"/>
+        <ListBox x:Name="ComicList" Height="120" Width="260" Margin="5,5,5,5" Grid.Column="3" Grid.Row="4"  Grid.RowSpan="8" SelectionMode="Extended">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">
@@ -85,8 +85,13 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <ComboBox x:Name="ComicBox" VerticalAlignment="Center" Margin="5,5,5,5" Grid.Column="3" Grid.Row="12" SelectedItem="{ Binding SelectedComic }">
-            <ComboBox.ItemTemplate>
+        <Button x:Name="AddComicToGenre" Content="Add Comic to Genre" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5" Padding="2" Grid.Row="12" Grid.Column="3"
+                Command="{Binding AddComicToGenreCommand}"
+                CommandParameter="{Binding ElementName=ComicList, Path=SelectedItems}"/>
+        <!-- column four -->
+        <Label Content="Comics in this Genre" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="4" Grid.Row="3"/>
+        <ListBox x:Name="ComicsInGenreBox" Height="120" Width="260" Grid.Column="4" Grid.Row="4" Grid.RowSpan="8" Margin="5"  SelectedItem="{ Binding SelectedComicInGenre }">
+            <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">
                         <Grid.ColumnDefinitions>
@@ -95,7 +100,7 @@
                         <TextBlock Text="{Binding Name}" />
                     </Grid>
                 </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
+            </ListBox.ItemTemplate>
+        </ListBox>        
     </Grid>
 </Window>

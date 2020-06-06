@@ -2,6 +2,7 @@
 using ComicReaderClassLibrary.DataAccess.DataModels;
 using ComicReaderClassLibrary.DataAccess.Implementations;
 using ComicReaderDataManagementUI.Events;
+using ComicReaderDataManagementUI.ViewModels.Commands;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
@@ -14,9 +15,14 @@ using System.Security.Policy;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace ComicReaderDataManagementUI.ViewModels
 {
+    
+    /// <summary>
+    /// To Do: Wrap all functions in delegated Commands
+    /// </summary>
     public class MainViewModel : Conductor<object>.Collection.OneActive, IHandle<ComicChangedOnDialogEvent>
     {
         #region Injected objects
@@ -44,6 +50,28 @@ namespace ComicReaderDataManagementUI.ViewModels
             {
                 _statusBar = value;
                 NotifyOfPropertyChange(nameof(StatusBar));
+            }
+        }
+
+        private string _searchBox;
+        public string SearchBox
+        {
+            get { return _searchBox; }
+            set 
+            { 
+                _searchBox = value;
+                NotifyOfPropertyChange(nameof(SearchBox));
+            }
+        }
+
+        private ICommand _searchCommand;
+        public ICommand SearchCommand
+        {
+            get
+            {
+                if (_searchCommand == null)
+                    _searchCommand = new ComicDelegatedCommandAsync(Search);
+                return _searchCommand;
             }
         }
 
@@ -273,11 +301,11 @@ namespace ComicReaderDataManagementUI.ViewModels
         private async Task RetrieveComics()
         {
             ComicList.Clear();
-            var list = await _sqlUiDbConnection.RetrieveComicsAsync();
+            var list = await _sqlUiDbConnection.RetrieveComicsAsync("");
             ComicList.AddRange(list);
             SelectedItem = ComicList[0];
         }
-
+        
         private async Task RetrieveAuthors(int id)
         {
             AuthorList.Clear();
@@ -340,6 +368,16 @@ namespace ComicReaderDataManagementUI.ViewModels
             SelectedSubSerie = l.FirstOrDefault();
             NotifyOfPropertyChange(nameof(SelectedSubSerie));
         }
+        private async Task Search()
+        {
+            ComicList.Clear();
+            var list = await _sqlUiDbConnection.RetrieveComicsAsync(SearchBox);
+            ComicList.AddRange(list);
+            if (list.Count > 0)
+            { 
+                SelectedItem = ComicList[0];
+            }
+        }
         #endregion
 
         #region public methods
@@ -370,8 +408,7 @@ namespace ComicReaderDataManagementUI.ViewModels
         public async Task EditAuthorAsync()
         {
             await _windowManager.ShowWindowAsync(_authorViewModel);
-        }
-
+        }        
         public void SaveComic()
         {
             if (SelectedLanguage == null)
@@ -447,7 +484,6 @@ namespace ComicReaderDataManagementUI.ViewModels
             { StatusBar = $"Save Failed, check log"; ; }
             _eventAggregator.PublishOnUIThreadAsync(new ComicChangedOnMainEvent());
         }
-
         public void OpenComic()
         {
             var comicurl = PathInput.Replace("\\", $"/");
@@ -478,7 +514,6 @@ namespace ComicReaderDataManagementUI.ViewModels
                 }
             }
         }
-
         public async Task HandleAsync(ComicChangedOnDialogEvent message, CancellationToken cancellationToken)
         {
             await RetrieveComics();

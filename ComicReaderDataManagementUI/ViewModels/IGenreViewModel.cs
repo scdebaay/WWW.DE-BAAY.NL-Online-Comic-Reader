@@ -3,6 +3,7 @@ using ComicReaderClassLibrary.DataAccess.DataModels;
 using ComicReaderDataManagementUI.Events;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace ComicReaderDataManagementUI.ViewModels
 {
@@ -11,7 +12,7 @@ namespace ComicReaderDataManagementUI.ViewModels
         /// <summary>
         /// Backing field for the Comic dropdown
         /// </summary>
-        BindableCollection<ComicDataModel> ComicBox { get; }
+        BindableCollection<ComicDataModel> ComicList { get; }
         /// <summary>
         /// Backing field for the Comics in Genre listbox
         /// </summary>
@@ -25,10 +26,6 @@ namespace ComicReaderDataManagementUI.ViewModels
         /// </summary>
         string GenreName { get; set; }
         /// <summary>
-        /// Backing field for the Selected Comic in the Comic dropdown
-        /// </summary>
-        ComicDataModel SelectedComic { get; set; }
-        /// <summary>
         /// Backing field for the Selected Comic in the Comic in Genre Listbox
         /// </summary>
         ComicDataModel SelectedComicInGenre { get; set; }
@@ -40,11 +37,10 @@ namespace ComicReaderDataManagementUI.ViewModels
         /// Backing field for the Statusbar label
         /// </summary>
         string StatusBar { get; set; }
-
         /// <summary>
-        /// Method for the Add Comic to Genre button
+        /// Command to add Comics to Genre
         /// </summary>
-        void AddComicToGenre();
+        ICommand AddComicToGenreCommand { get; }
         /// <summary>
         /// Method for the Delete Genre button
         /// </summary>

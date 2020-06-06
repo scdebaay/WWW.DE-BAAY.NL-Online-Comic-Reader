@@ -2,16 +2,19 @@
 using ComicReaderClassLibrary.DataAccess.DataModels;
 using ComicReaderClassLibrary.DataAccess.Implementations;
 using ComicReaderDataManagementUI.Events;
+using ComicReaderDataManagementUI.ViewModels.Commands;
 using Dapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace ComicReaderDataManagementUI.ViewModels
 {
@@ -36,9 +39,19 @@ namespace ComicReaderDataManagementUI.ViewModels
                 NotifyOfPropertyChange(nameof(StatusBar));
             }
         }
-
+        private ICommand _addComicToPublisherCommand;
+        public ICommand AddComicToPublisherCommand
+        {
+            get
+            {
+                if (_addComicToPublisherCommand == null)
+                    _addComicToPublisherCommand = new ParameteredComicDelegatedCommand(AddComicToPublisher);
+                return _addComicToPublisherCommand;
+            }
+        }
 
         private PublisherDataModel _selectedItem = new PublisherDataModel();
+
         public PublisherDataModel SelectedItem
         {
             get { return _selectedItem; }
@@ -52,12 +65,13 @@ namespace ComicReaderDataManagementUI.ViewModels
                 }
                 else
                 {
-                    PublisherName = "Select a type";
+                    PublisherName = "Select a publisher";
                     StatusBar = $"";
                 }
                 NotifyOfPropertyChange(nameof(SelectedItem));
             }
         }
+
         private string _publisherName = "Select a publisher";
         public string PublisherName
         {
@@ -68,7 +82,6 @@ namespace ComicReaderDataManagementUI.ViewModels
                 NotifyOfPropertyChange(nameof(PublisherName));
             }
         }
-        public ComicDataModel SelectedComic { get; set; } = new ComicDataModel();
         public ComicDataModel SelectedComicByPublisher { get; set; } = new ComicDataModel();
 
         private BindableCollection<PublisherDataModel> _publisherBox = new BindableCollection<PublisherDataModel>();
@@ -93,14 +106,14 @@ namespace ComicReaderDataManagementUI.ViewModels
             }
         }
 
-        public BindableCollection<ComicDataModel> _comicBox = new BindableCollection<ComicDataModel>();
-        public BindableCollection<ComicDataModel> ComicBox
+        public BindableCollection<ComicDataModel> _comicList = new BindableCollection<ComicDataModel>();
+        public BindableCollection<ComicDataModel> ComicList
         {
-            get { return _comicBox; }
+            get { return _comicList; }
             private set
             {
-                _comicBox = value;
-                NotifyOfPropertyChange(nameof(ComicBox));
+                _comicList = value;
+                NotifyOfPropertyChange(nameof(ComicList));
             }
         }
         #endregion
@@ -148,8 +161,8 @@ namespace ComicReaderDataManagementUI.ViewModels
         private async Task RetrieveComicsForPublisher()
         {
             ComicsByPublisherBox.Clear();
-            ComicBox.Clear();
-            var comiclist = await _sqlUiDbConnection.RetrieveComicsAsync();
+            ComicList.Clear();
+            var comiclist = await _sqlUiDbConnection.RetrieveComicsAsync("");
             var publisheridlist = await _sqlUiDbConnection.RetrieveComicsByPublisherIdAsync(SelectedItem.Id);
             var publisherlist = new List<ComicDataModel>();
             if (publisheridlist != null)
@@ -158,30 +171,38 @@ namespace ComicReaderDataManagementUI.ViewModels
                 SelectedComicByPublisher = publisherlist.FirstOrDefault();
             }
             ComicsByPublisherBox.AddRange(publisherlist);
-            ComicBox.AddRange(comiclist);
-            SelectedComic = ComicBox[0];
+            ComicList.AddRange(comiclist);
         }
-        #endregion
 
-        #region public methods
-        public void AddComicToPublisher()
+        private void AddComicToPublisher(object selectedComicCollection)
         {
-            List<ComicToPublishersDataModel> comicToPublisherAssoc = new List<ComicToPublishersDataModel>();
-            comicToPublisherAssoc.Add(new ComicToPublishersDataModel { ComicId = SelectedComic.Id, PublisherId = SelectedItem.Id });
-            var succeeded = _sqlUiDbConnection.SavePublisherAssoc(comicToPublisherAssoc);
+            List<ComicToPublishersDataModel> comicToAuthorAssoc = new List<ComicToPublishersDataModel>();
+
+            foreach (ComicDataModel comic in selectedComicCollection as IList)
+            {
+                comicToAuthorAssoc.Add(new ComicToPublishersDataModel { ComicId = comic.Id, PublisherId = SelectedItem.Id });
+            }
+
+            var succeeded = _sqlUiDbConnection.SavePublisherAssoc(comicToAuthorAssoc);
             if (succeeded == true)
             {
-                ComicsByPublisherBox.Add(SelectedComic);
+                IList items = (IList)selectedComicCollection;
+                var comicsAdded = items.Cast<ComicDataModel>().ToList();
+                ComicsByPublisherBox.AddRange(comicsAdded.Except(ComicsByPublisherBox.ToList()));
                 _eventAggregator.PublishOnUIThreadAsync(new ComicChangedOnDialogEvent());
                 StatusBar = $"Comic added to publisher";
             }
             else
             {
-                ComicsByPublisherBox.Remove(SelectedComic);
+                IList items = (IList)selectedComicCollection;
+                var comicsNotAdded = items.Cast<ComicDataModel>();
+                ComicsByPublisherBox.RemoveRange(comicsNotAdded);
                 StatusBar = $"Add comic failed, check log";
             }
         }
+        #endregion
 
+        #region public methods
         public void NewPublisher()
         {
             var lastId = PublisherBox.OrderByDescending(i => i.Id).First().Id + 1;

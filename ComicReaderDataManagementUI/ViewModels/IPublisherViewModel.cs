@@ -3,6 +3,7 @@ using ComicReaderClassLibrary.DataAccess.DataModels;
 using ComicReaderDataManagementUI.Events;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace ComicReaderDataManagementUI.ViewModels
 {
@@ -11,7 +12,7 @@ namespace ComicReaderDataManagementUI.ViewModels
         /// <summary>
         /// Backing field for the Comic dropdown
         /// </summary>
-        BindableCollection<ComicDataModel> ComicBox { get; }
+        BindableCollection<ComicDataModel> ComicList { get; }
         /// <summary>
         /// Backing field for the Comics by Publisher listbox
         /// </summary>
@@ -25,10 +26,6 @@ namespace ComicReaderDataManagementUI.ViewModels
         /// </summary>
         string PublisherName { get; set; }
         /// <summary>
-        /// Backing field for the Selected Comic in the Comic dropdown
-        /// </summary>
-        ComicDataModel SelectedComic { get; set; }
-        /// <summary>
         /// Backing field for the Selected Comic in the Comic by Publisher Listbox
         /// </summary>
         ComicDataModel SelectedComicByPublisher { get; set; }
@@ -40,11 +37,10 @@ namespace ComicReaderDataManagementUI.ViewModels
         /// Backing field for the Statusbar label
         /// </summary>
         string StatusBar { get; set; }
-
         /// <summary>
-        /// Method for the Add Comic to Publisher button
+        /// Command to add Comics to Publisher
         /// </summary>
-        void AddComicToPublisher();
+        ICommand AddComicToPublisherCommand { get; }
         /// <summary>
         /// Method for the Delete puiblisher button
         /// </summary>

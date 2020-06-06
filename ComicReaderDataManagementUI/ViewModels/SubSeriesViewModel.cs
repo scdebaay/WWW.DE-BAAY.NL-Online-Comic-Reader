@@ -2,15 +2,18 @@
 using ComicReaderClassLibrary.DataAccess.DataModels;
 using ComicReaderClassLibrary.DataAccess.Implementations;
 using ComicReaderDataManagementUI.Events;
+using ComicReaderDataManagementUI.ViewModels.Commands;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace ComicReaderDataManagementUI.ViewModels
 {
@@ -33,6 +36,16 @@ namespace ComicReaderDataManagementUI.ViewModels
             {
                 _statusBar = value;
                 NotifyOfPropertyChange(nameof(StatusBar));
+            }
+        }
+        private ICommand _addComicToSubSerieCommand;
+        public ICommand AddComicToSubSerieCommand
+        {
+            get
+            {
+                if (_addComicToSubSerieCommand == null)
+                    _addComicToSubSerieCommand = new ParameteredComicDelegatedCommand(AddComicToSubSerie);
+                return _addComicToSubSerieCommand;
             }
         }
 
@@ -114,18 +127,7 @@ namespace ComicReaderDataManagementUI.ViewModels
                 NotifyOfPropertyChange(nameof(SelectedComicInSeries));
             }
         }
-        private ComicDataModel _selectedComic;
-        public ComicDataModel SelectedComic
-        {
-            get { return _selectedComic; }
-            set
-            {
-                _selectedComic = value;
-                NotifyOfPropertyChange(nameof(SelectedComic));
-            }
-        }
-
-
+        
         private BindableCollection<SubSeriesDataModel> _subSeriesSelection = new BindableCollection<SubSeriesDataModel>();
         public BindableCollection<SubSeriesDataModel> SubSeriesSelection
         {
@@ -159,13 +161,13 @@ namespace ComicReaderDataManagementUI.ViewModels
             }
         }
         private BindableCollection<ComicDataModel> _comicBox = new BindableCollection<ComicDataModel>();
-        public BindableCollection<ComicDataModel> ComicBox
+        public BindableCollection<ComicDataModel> ComicList
         {
             get { return _comicBox; }
             set
             {
                 _comicBox = value;
-                NotifyOfPropertyChange(nameof(ComicBox));
+                NotifyOfPropertyChange(nameof(ComicList));
             }
         }
         #endregion
@@ -230,35 +232,44 @@ namespace ComicReaderDataManagementUI.ViewModels
         private async Task RetrieveComicsForSubSeries()
         {
             ComicInSubSeries.Clear();
-            ComicBox.Clear();
-            var list = await _sqlUiDbConnection.RetrieveComicsAsync();
+            ComicList.Clear();
+            var list = await _sqlUiDbConnection.RetrieveComicsAsync("");
             var l = list.Where(x => x.SubSeriesId == SelectedSubSeries.Id).Select(x => x);
             if (l != null)
             {
                 SelectedComicInSeries = l.FirstOrDefault();
             }
             ComicInSubSeries.AddRange(l);
-            ComicBox.AddRange(list);
-            SelectedComic = ComicBox[0];
+            ComicList.AddRange(list);
         }
-        #endregion
-
-        #region public methods
-        public void AddComicToSubSerie()
+        private void AddComicToSubSerie(object selectedComicCollection)
         {
-            var succeeded = _sqlUiDbConnection.SaveSubSerieAssoc(SelectedComic.Id, SelectedSubSeries.Id);
+            var selectedComicIds = new List<int>();
+            foreach (ComicDataModel comic in selectedComicCollection as IList)
+            {
+                selectedComicIds.Add(comic.Id);
+            }
+
+            var succeeded = _sqlUiDbConnection.SaveSubSerieAssoc(selectedComicIds, SelectedSubSeries.Id);
             if (succeeded == true)
             {
-                ComicInSubSeries.Add(SelectedComic);
+                IList items = (IList)selectedComicCollection;
+                var comicsAdded = items.Cast<ComicDataModel>().ToList();
+                ComicInSubSeries.AddRange(comicsAdded.Except(ComicInSubSeries.ToList()));
                 _eventAggregator.PublishOnUIThreadAsync(new ComicChangedOnDialogEvent());
                 StatusBar = $"Comic added to series";
             }
             else
             {
-                ComicInSubSeries.Remove(SelectedComic);
+                IList items = (IList)selectedComicCollection;
+                var comicsNotAdded = items.Cast<ComicDataModel>();
+                ComicInSubSeries.RemoveRange(comicsNotAdded);
                 StatusBar = $"Add comic failed, check log";
             }
         }
+        #endregion
+
+        #region public methods
         public void NewSubSerie()
         {
             var lastId = SubSeriesSelection.OrderByDescending(i => i.Id).First().Id + 1;

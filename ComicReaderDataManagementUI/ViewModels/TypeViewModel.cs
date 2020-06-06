@@ -2,15 +2,16 @@
 using ComicReaderClassLibrary.DataAccess.DataModels;
 using ComicReaderClassLibrary.DataAccess.Implementations;
 using ComicReaderDataManagementUI.Events;
+using ComicReaderDataManagementUI.ViewModels.Commands;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace ComicReaderDataManagementUI.ViewModels
 {
@@ -33,6 +34,16 @@ namespace ComicReaderDataManagementUI.ViewModels
             {
                 _statusBar = value;
                 NotifyOfPropertyChange(nameof(StatusBar));
+            }
+        }
+        private ICommand _addComicToTypeCommand;
+        public ICommand AddComicToTypeCommand
+        {
+            get
+            {
+                if (_addComicToTypeCommand == null)
+                    _addComicToTypeCommand = new ParameteredComicDelegatedCommand(AddComicToType);
+                return _addComicToTypeCommand;
             }
         }
 
@@ -67,7 +78,6 @@ namespace ComicReaderDataManagementUI.ViewModels
                 NotifyOfPropertyChange(nameof(TypeName));
             }
         }
-        public ComicDataModel SelectedComic { get; set; } = new ComicDataModel();
         public ComicDataModel SelectedComicInType { get; set; } = new ComicDataModel();
 
         private BindableCollection<TypeDataModel> _typeBox = new BindableCollection<TypeDataModel>();
@@ -92,14 +102,14 @@ namespace ComicReaderDataManagementUI.ViewModels
             }
         }
 
-        public BindableCollection<ComicDataModel> _comicBox = new BindableCollection<ComicDataModel>();
-        public BindableCollection<ComicDataModel> ComicBox
+        public BindableCollection<ComicDataModel> _comicList = new BindableCollection<ComicDataModel>();
+        public BindableCollection<ComicDataModel> ComicList
         {
-            get { return _comicBox; }
+            get { return _comicList; }
             private set
             {
-                _comicBox = value;
-                NotifyOfPropertyChange(nameof(ComicBox));
+                _comicList = value;
+                NotifyOfPropertyChange(nameof(ComicList));
             }
         }
         #endregion
@@ -147,36 +157,45 @@ namespace ComicReaderDataManagementUI.ViewModels
         private async Task RetrieveComicsForType()
         {
             ComicsInTypeBox.Clear();
-            ComicBox.Clear();
-            var list = await _sqlUiDbConnection.RetrieveComicsAsync();
+            ComicList.Clear();
+            var list = await _sqlUiDbConnection.RetrieveComicsAsync("");
             var l = list.Where(x => x.TypeId == SelectedItem.Id).Select(x => x);
             if (l != null)
             {
                 SelectedComicInType = l.FirstOrDefault();
             }
             ComicsInTypeBox.AddRange(l);
-            ComicBox.AddRange(list);
-            SelectedComic = ComicBox[0];
+            ComicList.AddRange(list);
         }
-        #endregion
 
-        #region public methods
-        public void AddComicToType()
+        private void AddComicToType(object selectedComicCollection)
         {
-            var succeeded = _sqlUiDbConnection.SaveTypeAssoc(SelectedComic.Id, SelectedItem.Id);
+            var selectedComicIds = new List<int>();
+            foreach (ComicDataModel comic in selectedComicCollection as IList)
+            {
+                selectedComicIds.Add(comic.Id);
+            }
+
+            var succeeded = _sqlUiDbConnection.SaveTypeAssoc(selectedComicIds, SelectedItem.Id);
             if (succeeded == true)
             {
-                ComicsInTypeBox.Add(SelectedComic);
+                IList items = (IList)selectedComicCollection;
+                var comicsAdded = items.Cast<ComicDataModel>().ToList();
+                ComicsInTypeBox.AddRange(comicsAdded.Except(ComicsInTypeBox.ToList())) ;
                 _eventAggregator.PublishOnUIThreadAsync(new ComicChangedOnDialogEvent());
-                StatusBar = $"Comic added to type";
+                StatusBar = $"Comic(s) added to type";
             }
             else
             {
-                ComicsInTypeBox.Remove(SelectedComic);
-                StatusBar = $"Add comic failed, check log";
+                IList items = (IList)selectedComicCollection;
+                var comicsNotAdded = items.Cast<ComicDataModel>();
+                ComicsInTypeBox.RemoveRange(comicsNotAdded);
+                StatusBar = $"Add comic(s) failed, check log";
             }
         }
+        #endregion
 
+        #region public methods        
         public void NewType()
         {
             var lastId = TypeBox.OrderByDescending(i => i.Id).First().Id + 1;

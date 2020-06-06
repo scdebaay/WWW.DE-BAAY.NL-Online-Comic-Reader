@@ -2,15 +2,18 @@
 using ComicReaderClassLibrary.DataAccess.DataModels;
 using ComicReaderClassLibrary.DataAccess.Implementations;
 using ComicReaderDataManagementUI.Events;
+using ComicReaderDataManagementUI.ViewModels.Commands;
 using Dapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace ComicReaderDataManagementUI.ViewModels
 {
@@ -34,6 +37,16 @@ namespace ComicReaderDataManagementUI.ViewModels
             {
                 _statusBar = value;
                 NotifyOfPropertyChange(nameof(StatusBar));
+            }
+        }
+        private ICommand _addComicToAuthorCommand;
+        public ICommand AddComicToAuthorCommand
+        {
+            get
+            {
+                if (_addComicToAuthorCommand == null)
+                    _addComicToAuthorCommand = new ParameteredComicDelegatedCommand(AddComicToAuthor);
+                return _addComicToAuthorCommand;
             }
         }
 
@@ -123,7 +136,6 @@ namespace ComicReaderDataManagementUI.ViewModels
             }
         }
 
-        public ComicDataModel SelectedComic { get; set; } = new ComicDataModel();
         public ComicDataModel SelectedComicByAuthor { get; set; } = new ComicDataModel();
 
         private BindableCollection<AuthorDataModel> _authorBox = new BindableCollection<AuthorDataModel>();
@@ -148,14 +160,14 @@ namespace ComicReaderDataManagementUI.ViewModels
             }
         }
 
-        public BindableCollection<ComicDataModel> _comicBox = new BindableCollection<ComicDataModel>();
-        public BindableCollection<ComicDataModel> ComicBox
+        public BindableCollection<ComicDataModel> _comicList = new BindableCollection<ComicDataModel>();
+        public BindableCollection<ComicDataModel> ComicList
         {
-            get { return _comicBox; }
+            get { return _comicList; }
             private set
             {
-                _comicBox = value;
-                NotifyOfPropertyChange(nameof(ComicBox));
+                _comicList = value;
+                NotifyOfPropertyChange(nameof(ComicList));
             }
         }
         #endregion
@@ -203,8 +215,8 @@ namespace ComicReaderDataManagementUI.ViewModels
         private async Task RetrieveComicsByAuthor()
         {
             ComicsByAuthorBox.Clear();
-            ComicBox.Clear();
-            var comiclist = await _sqlUiDbConnection.RetrieveComicsAsync();
+            ComicList.Clear();
+            var comiclist = await _sqlUiDbConnection.RetrieveComicsAsync("");
             var authoridlist = await _sqlUiDbConnection.RetrieveComicsByAuthorIdAsync(SelectedItem.Id);
             var authorlist = new List<ComicDataModel>();
             if (authoridlist != null)
@@ -213,29 +225,39 @@ namespace ComicReaderDataManagementUI.ViewModels
                 SelectedComicByAuthor = authorlist.FirstOrDefault();
             }
             ComicsByAuthorBox.AddRange(authorlist);
-            ComicBox.AddRange(comiclist);
-            SelectedComic = ComicBox[0];
+            ComicList.AddRange(comiclist);
+        }
+
+        private void AddComicToAuthor(object selectedComicCollection)
+        {
+            List<ComicToAuthorsDataModel> comicToAuthorAssoc = new List<ComicToAuthorsDataModel>();
+
+            foreach (ComicDataModel comic in selectedComicCollection as IList)
+            {
+                comicToAuthorAssoc.Add(new ComicToAuthorsDataModel { ComicId = comic.Id, AuthorId = SelectedItem.Id });
+            }
+            
+            var succeeded = _sqlUiDbConnection.SaveAuthorAssoc(comicToAuthorAssoc);
+            if (succeeded == true)
+            {
+                IList items = (IList)selectedComicCollection;
+                var comicsAdded = items.Cast<ComicDataModel>().ToList();
+                ComicsByAuthorBox.AddRange(comicsAdded.Except(ComicsByAuthorBox.ToList()));
+                _eventAggregator.PublishOnUIThreadAsync(new ComicChangedOnDialogEvent());
+                StatusBar = $"Comic(s) added to author";
+            }
+            else
+            {
+                IList items = (IList)selectedComicCollection;
+                var comicsNotAdded = items.Cast<ComicDataModel>();
+                ComicsByAuthorBox.RemoveRange(comicsNotAdded);
+                StatusBar = $"Add comic(s) failed, check log";
+            }
         }
         #endregion
 
         #region public methods
-        public void AddComicToAuthor()
-        {
-            List<ComicToAuthorsDataModel> comicToAuthorAssoc = new List<ComicToAuthorsDataModel>();
-            comicToAuthorAssoc.Add(new ComicToAuthorsDataModel { ComicId = SelectedComic.Id, AuthorId = SelectedItem.Id });
-            var succeeded = _sqlUiDbConnection.SaveAuthorAssoc(comicToAuthorAssoc);
-            if (succeeded == true)
-            {
-                ComicsByAuthorBox.Add(SelectedComic);
-                _eventAggregator.PublishOnUIThreadAsync(new ComicChangedOnDialogEvent());
-                StatusBar = $"Comic added to publisher";
-            }
-            else
-            {
-                ComicsByAuthorBox.Remove(SelectedComic);
-                StatusBar = $"Add comic failed, check log";
-            }
-        }
+
 
         public void NewAuthor()
         {

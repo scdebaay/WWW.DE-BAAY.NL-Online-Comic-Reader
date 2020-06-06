@@ -2,25 +2,32 @@
 using ComicReaderClassLibrary.DataAccess.DataModels;
 using ComicReaderClassLibrary.DataAccess.Implementations;
 using ComicReaderDataManagementUI.Events;
+using ComicReaderDataManagementUI.ViewModels.Commands;
 using Dapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace ComicReaderDataManagementUI.ViewModels
 {
     public class GenreViewModel : Screen, IGenreViewModel, IHandle<ComicChangedOnMainEvent>
     {
+        #region Injected objects
         private readonly IConfiguration _configuration;
         private readonly ISqlUiDbConnection _sqlUiDbConnection;
         private readonly ILogger _logger;
         private IEventAggregator _eventAggregator;
+        #endregion
+
+        #region (backed) fields
         private bool newGenreAdded { get; set; } = false;
         private string _statusBar;
         public string StatusBar
@@ -30,6 +37,16 @@ namespace ComicReaderDataManagementUI.ViewModels
             {
                 _statusBar = value;
                 NotifyOfPropertyChange(nameof(StatusBar));
+            }
+        }
+        private ICommand _addComicToGenreCommand;
+        public ICommand AddComicToGenreCommand
+        {
+            get
+            {
+                if (_addComicToGenreCommand == null)
+                    _addComicToGenreCommand = new ParameteredComicDelegatedCommand(AddComicToGenre);
+                return _addComicToGenreCommand;
             }
         }
 
@@ -63,7 +80,6 @@ namespace ComicReaderDataManagementUI.ViewModels
                 NotifyOfPropertyChange(nameof(GenreName));
             }
         }
-        public ComicDataModel SelectedComic { get; set; } = new ComicDataModel();
         public ComicDataModel SelectedComicInGenre { get; set; } = new ComicDataModel();
 
         private BindableCollection<GenreDataModel> _genreBox = new BindableCollection<GenreDataModel>();
@@ -88,17 +104,19 @@ namespace ComicReaderDataManagementUI.ViewModels
             }
         }
 
-        public BindableCollection<ComicDataModel> _comicBox = new BindableCollection<ComicDataModel>();
-        public BindableCollection<ComicDataModel> ComicBox
+        public BindableCollection<ComicDataModel> _comicList = new BindableCollection<ComicDataModel>();
+        public BindableCollection<ComicDataModel> ComicList
         {
-            get { return _comicBox; }
+            get { return _comicList; }
             private set
             {
-                _comicBox = value;
-                NotifyOfPropertyChange(nameof(ComicBox));
+                _comicList = value;
+                NotifyOfPropertyChange(nameof(ComicList));
             }
         }
+        #endregion
 
+        #region constructor
         public GenreViewModel(IConfiguration configuration, ISqlUiDbConnection sqlUiDbConnection, ILogger<GenreViewModel> logger, IEventAggregator eventAggregator)
         {
             _configuration = configuration;
@@ -115,7 +133,9 @@ namespace ComicReaderDataManagementUI.ViewModels
             };
             _ = RetrieveGenres();
         }
+        #endregion
 
+        #region private methods
         private async Task RetrieveGenres()
         {
             GenreDataModel selectedGenre = SelectedItem as GenreDataModel;
@@ -139,8 +159,8 @@ namespace ComicReaderDataManagementUI.ViewModels
         private async Task RetrieveComicsForGenre()
         {
             ComicsInGenreBox.Clear();
-            ComicBox.Clear();
-            var comiclist = await _sqlUiDbConnection.RetrieveComicsAsync();
+            ComicList.Clear();
+            var comiclist = await _sqlUiDbConnection.RetrieveComicsAsync("");
             var genreidlist = await _sqlUiDbConnection.RetrieveComicsByGenreIdAsync(SelectedItem.Id);
             var genrelist = new List<ComicDataModel>();
             if (genreidlist != null)
@@ -149,28 +169,38 @@ namespace ComicReaderDataManagementUI.ViewModels
                 SelectedComicInGenre = genrelist.FirstOrDefault();
             }
             ComicsInGenreBox.AddRange(genrelist);
-            ComicBox.AddRange(comiclist);
-            SelectedComic = ComicBox[0];
+            ComicList.AddRange(comiclist);
         }
 
-        public void AddComicToGenre()
+        private void AddComicToGenre(object selectedComicCollection)
         {
             List<ComicToGenreDataModel> comicToGenreAssoc = new List<ComicToGenreDataModel>();
-            comicToGenreAssoc.Add(new ComicToGenreDataModel { ComicId = SelectedComic.Id, GenreId = SelectedItem.Id });
+
+            foreach (ComicDataModel comic in selectedComicCollection as IList)
+            {
+                comicToGenreAssoc.Add(new ComicToGenreDataModel { ComicId = comic.Id, GenreId = SelectedItem.Id });
+            }
+
             var succeeded = _sqlUiDbConnection.SaveGenreAssoc(comicToGenreAssoc);
             if (succeeded == true)
             {
-                ComicsInGenreBox.Add(SelectedComic);
+                IList items = (IList)selectedComicCollection;
+                var comicsAdded = items.Cast<ComicDataModel>().ToList();
+                ComicsInGenreBox.AddRange(comicsAdded.Except(ComicsInGenreBox.ToList()));
                 _eventAggregator.PublishOnUIThreadAsync(new ComicChangedOnDialogEvent());
-                StatusBar = $"Comic added to genre";
+                StatusBar = $"Comic(s) added to genre";
             }
             else
             {
-                ComicsInGenreBox.Remove(SelectedComic);
-                StatusBar = $"Add comic failed, check log";
+                IList items = (IList)selectedComicCollection;
+                var comicsNotAdded = items.Cast<ComicDataModel>();
+                ComicsInGenreBox.RemoveRange(comicsNotAdded);
+                StatusBar = $"Add comic(s) failed, check log";
             }
         }
+        #endregion
 
+        #region public methods
         public void NewGenre()
         {
             var lastId = GenreBox.OrderByDescending(i => i.Id).First().Id + 1;
@@ -244,7 +274,9 @@ namespace ComicReaderDataManagementUI.ViewModels
                 }
             }
         }
+        #endregion
 
+        #region aux methods
         protected override Task OnDeactivateAsync(bool close, CancellationToken cancellationToken)
         {
             PropertyChanged -= (sender, args) =>
@@ -260,5 +292,6 @@ namespace ComicReaderDataManagementUI.ViewModels
         {
             await RetrieveComicsForGenre();
         }
+        #endregion
     }
 }

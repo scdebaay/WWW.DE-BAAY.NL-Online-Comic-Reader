@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ComicReaderDataManagementUI.Views"
         xmlns:cal="http://www.caliburnproject.org"
         mc:Ignorable="d"
-        Title="Comic Reader Data Management" Background="#FF999999" FontFamily="Eras ITC" FontSize="14" Foreground="Black" Width="1195" Height="560" MinWidth="1195" MinHeight="560">
+        Title="Comic Reader Data Management" Background="#FF999999" FontFamily="Eras ITC" FontSize="14" Foreground="Black" Width="1195" Height="600" MinWidth="1195" MinHeight="560">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
@@ -60,7 +60,21 @@
         </Grid.RowDefinitions>
         <!-- column one -->
         <Label x:Name="BannerTitle" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Content="Comic Reader Data Management" Grid.ColumnSpan="10" FontSize="35" FontFamily="Eras ITC" FontWeight="Bold" Foreground="#FFFBB03B" Background="#FF1A1A1A" Padding="20,20,0,10" BorderBrush="#FBB03B" BorderThickness="0,0,0,4"/>
-        <ListBox x:Name="ComicList" Margin="0,10,10,0" Width="300" Height="380" Grid.Column="1" Grid.Row="2" Grid.RowSpan="8" SelectedItem="{ Binding SelectedItem }">
+        <Grid Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Margin="0, 5, 10, 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <!--0-->
+                <ColumnDefinition Width="auto"/>
+                <!--1-->                
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="SearchBox" Width="220" Margin="0, 0, 0, 0" Padding="10,0" HorizontalAlignment="Left" Height="20" Grid.Column="0">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Enter" Command="{Binding SearchCommand}"/>
+                </TextBox.InputBindings>
+            </TextBox>
+            <Button x:Name="Search" Content="Search" Margin="10, 0, 0, 0" Padding="10,0" HorizontalAlignment="Right" Height="20" Grid.Column="1" Command="{Binding SearchCommand}"/>
+        </Grid>
+        <ListBox x:Name="ComicList" Margin="0,10,10,0" Width="300" Height="340" Grid.Column="1" Grid.Row="3" Grid.RowSpan="7" SelectedItem="{ Binding SelectedItem }">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">

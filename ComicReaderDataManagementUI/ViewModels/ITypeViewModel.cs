@@ -3,6 +3,7 @@ using ComicReaderClassLibrary.DataAccess.DataModels;
 using ComicReaderDataManagementUI.Events;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace ComicReaderDataManagementUI.ViewModels
 {
@@ -11,7 +12,7 @@ namespace ComicReaderDataManagementUI.ViewModels
         /// <summary>
         /// Backing field for the Comic dropdown
         /// </summary>
-        BindableCollection<ComicDataModel> ComicBox { get; }
+        BindableCollection<ComicDataModel> ComicList { get; }
         /// <summary>
         /// Backing field for the Comics in Type listbox
         /// </summary>
@@ -19,7 +20,7 @@ namespace ComicReaderDataManagementUI.ViewModels
         /// <summary>
         /// Backing field for the Selected Comic in the Comic dropdown
         /// </summary>
-        ComicDataModel SelectedComic { get; set; }
+        //BindableCollection<ComicDataModel> SelectedComics { get; set; }
         /// <summary>
         /// Backing field for the Selected Comic in Comic in Type listbox
         /// </summary>
@@ -33,6 +34,10 @@ namespace ComicReaderDataManagementUI.ViewModels
         /// </summary>
         string StatusBar { get; set; }
         /// <summary>
+        /// Command to add Comics to Type
+        /// </summary>
+        ICommand AddComicToTypeCommand { get; }
+        /// <summary>
         /// Backing field for the Type dropdown
         /// </summary>
         BindableCollection<TypeDataModel> TypeBox { get; }
@@ -40,11 +45,6 @@ namespace ComicReaderDataManagementUI.ViewModels
         /// Backing field for the Type name
         /// </summary>
         string TypeName { get; set; }
-
-        /// <summary>
-        /// Method for the Add Comic to Type button
-        /// </summary>
-        void AddComicToType();
         /// <summary>
         /// Method for the Delete Type button
         /// </summary>

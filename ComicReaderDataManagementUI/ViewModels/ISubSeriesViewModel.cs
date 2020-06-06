@@ -4,6 +4,7 @@ using ComicReaderDataManagementUI.Events;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace ComicReaderDataManagementUI.ViewModels
 {
@@ -12,7 +13,7 @@ namespace ComicReaderDataManagementUI.ViewModels
         /// <summary>
         /// Backing field for the Comic dropdown
         /// </summary>
-        BindableCollection<ComicDataModel> ComicBox { get; set; }
+        BindableCollection<ComicDataModel> ComicList { get; set; }
         /// <summary>
         /// Backing field for the Comics in SubSeries listbox
         /// </summary>
@@ -30,10 +31,6 @@ namespace ComicReaderDataManagementUI.ViewModels
         /// </summary>
         BindableCollection<SeriesDataModel> ParentSeries { get; set; }
         /// <summary>
-        /// Backing field for the Selected Comic in the Comic dropdown
-        /// </summary>
-        ComicDataModel SelectedComic { get; set; }
-        /// <summary>
         /// Backing field for the Selected Comic in the Comic in Subseries Listbox
         /// </summary>
         ComicDataModel SelectedComicInSeries { get; set; }
@@ -50,6 +47,10 @@ namespace ComicReaderDataManagementUI.ViewModels
         /// </summary>
         string StatusBar { get; set; }
         /// <summary>
+        /// Command to add Comis to SubSerie
+        /// </summary>
+        ICommand AddComicToSubSerieCommand { get; }
+        /// <summary>
         /// Backing field for the Selected SubSerie in the SubSerie Listbox
         /// </summary>
         BindableCollection<SubSeriesDataModel> SubSeriesSelection { get; set; }
@@ -57,11 +58,6 @@ namespace ComicReaderDataManagementUI.ViewModels
         /// Backing field for the Selected Series Title textbox
         /// </summary>
         string SubSeriesTitle { get; set; }
-
-        /// <summary>
-        /// Method for the Add Comic to Series button
-        /// </summary>
-        void AddComicToSubSerie();
         /// <summary>
         /// Method for the Delete SubSeries button
         /// </summary>
