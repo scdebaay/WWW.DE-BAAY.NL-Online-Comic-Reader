@@ -16,6 +16,6 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
         /// <param name="pageLimit">Int, Optional, representing the amount of records to retrieve in one request.</param>
         /// <param name="page">Int, Optional, representing the set of records to be retrieved.</param>
         /// <returns>Ojects that implements IRootModel containing database query results or one dummy record.</returns>
-        public IRootModel RetrieveComics(int? pageLimit, int? page);
+        public IRootModel RetrieveComics(int? pageLimit, int? page, string? searchText);
     }
 }

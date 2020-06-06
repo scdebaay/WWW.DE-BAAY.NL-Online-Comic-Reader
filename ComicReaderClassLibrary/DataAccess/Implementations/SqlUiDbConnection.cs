@@ -2160,6 +2160,7 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             }
         }
         #endregion
+
         #region Helpers
         /// <summary>
         /// Helper to convert IEnumerable to DataTable used to input a colection of int into the database.

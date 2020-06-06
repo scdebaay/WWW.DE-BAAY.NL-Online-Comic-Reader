@@ -42,7 +42,7 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
         /// <param name="pageLimit">Int, Optional, representing the amount of records to retrieve in one request.</param>
         /// <param name="page">Int, Optional, representing the set of records to be retrieved.</param>
         /// <returns>Ojects that implements IRootModel containing database query results or one dummy record.</returns>
-        public IRootModel RetrieveComics(int? pageLimit, int? page)
+        public IRootModel RetrieveComics(int? pageLimit, int? page, string? searchText)
         {
             _rootModel.folder = new FolderModel { name = "pub", currentPage = page.ToString() };
 
@@ -50,9 +50,17 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             {
                 try
                 {
-                    _rootModel.folder.files = connection.Query<int>("SELECT COUNT(*) FROM [dbo].[Comics]").AsList()[0].ToString();
+                    if (!string.IsNullOrEmpty(searchText))
+                    {
+                        _rootModel.folder.files = connection.Query<int>($"SELECT COUNT(*) FROM [dbo].[Comics] WHERE [ComicDeleted] = 0 AND @SearchText = '' OR [ComicDeleted] = 0 AND [Name] LIKE '%' + @SearchText + '%' OR [ComicDeleted] = 0 AND[Path] LIKE '%' + @SearchText + '%';", new { SearchText = searchText }).AsList()[0].ToString();
+                    }
+                    else 
+                    {
+                        _rootModel.folder.files = connection.Query<int>($"SELECT COUNT(*) FROM [dbo].[Comics];").AsList()[0].ToString();
+                        searchText = "";
+                    }
                     _rootModel.folder.totalPages = (int.Parse(_rootModel.folder.files) / pageLimit).ToString();
-                    _rootModel.folder.file = connection.Query<FileModel>("dbo.spRetrievePagedListOfComics @pageLimit, @page", new { pageLimit = pageLimit, page = page }).AsList();
+                    _rootModel.folder.file = connection.Query<FileModel>("dbo.spRetrievePagedListOfComics @pageLimit, @page, @SearchText", new { pageLimit = pageLimit, page = page, SearchText = searchText }).AsList();
                     return _rootModel;
                 }
                 catch (SqlException ex)
