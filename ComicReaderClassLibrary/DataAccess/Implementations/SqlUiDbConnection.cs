@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System;
 using System.Globalization;
 using Caliburn.Micro;
+using System.Collections;
 
 namespace ComicReaderClassLibrary.DataAccess.Implementations
 {
@@ -595,12 +596,10 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
                 {
                     try
                     {
+                        var table = ToDataTable(comicAuthorAssoc);
                         var insertAssoc = new DynamicParameters();
-                        for (int i = 0; i < comicAuthorAssoc.Count; i++)
-                        {
-                            insertAssoc.Add("@ComicId", comicAuthorAssoc[i].ComicId);
-                            insertAssoc.Add("@AuthorId", comicAuthorAssoc[i].AuthorId);
-                        }
+                        insertAssoc.Add("@Ids", table.AsTableValuedParameter("[dbo].[uComicIdPropIdTVP]"));
+                        
                         var exec = connection.Query<int>("dbo.spInsertComicToAuthor", insertAssoc, transaction, commandType: CommandType.StoredProcedure);
                         var result = exec.AsList();
                         var success = (result.Count == 0) ? true : false;
@@ -781,12 +780,10 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
                 {
                     try
                     {
+                        var table = ToDataTable(comicPublisherAssoc);
                         var insertAssoc = new DynamicParameters();
-                        for (int i = 0; i < comicPublisherAssoc.Count; i++)
-                        {
-                            insertAssoc.Add("@ComicId", comicPublisherAssoc[i].ComicId);
-                            insertAssoc.Add("@PublisherId", comicPublisherAssoc[i].PublisherId);
-                        }
+                        insertAssoc.Add("@Ids", table.AsTableValuedParameter("[dbo].[uComicIdPropIdTVP]"));
+
                         var exec = connection.Query<int>("dbo.spInsertComicToPublisher", insertAssoc, transaction, commandType: CommandType.StoredProcedure);
                         var result = exec.AsList();
                         var success = (result.Count == 0) ? true : false;
@@ -942,12 +939,10 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
                 {
                     try
                     {
+                        var table = ToDataTable(comicGenreAssoc);
                         var insertAssoc = new DynamicParameters();
-                        for (int i = 0; i < comicGenreAssoc.Count; i++)
-                        {
-                            insertAssoc.Add("@ComicId", comicGenreAssoc[i].ComicId);
-                            insertAssoc.Add("@GenreId", comicGenreAssoc[i].GenreId);
-                        }
+                        insertAssoc.Add("@Ids", table.AsTableValuedParameter("[dbo].[uComicIdPropIdTVP]"));
+
                         var exec = connection.Query<int>("dbo.spInsertComicToGenre", insertAssoc, transaction, commandType: CommandType.StoredProcedure);
                         var result = exec.AsList();
                         var success = (result.Count == 0) ? true : false;
@@ -1095,7 +1090,7 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
         /// <param name="comicId">Int, representing the Id field of the Comic with which the language is to be associated.</param>
         /// <param name="languageId">Int, representing the Id field of the Language with which the comic is to be associated.</param>
         /// <returns>Boolean, true if storage was usccessfull and false if something went wrong.</returns>
-        public bool SaveLanguageAssoc(int comicId, int languageId)
+        public bool SaveLanguageAssoc(IEnumerable<int> comicIds, int languageId)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
             {
@@ -1104,11 +1099,13 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
                 {
                     try
                     {
+                        DataTable table = ToDataTable(comicIds);
+
                         var insertAssoc = new DynamicParameters();
-                        insertAssoc.Add("@Id", comicId);
+                        insertAssoc.Add("@Ids", table.AsTableValuedParameter("[dbo].[uComicIdTVP]"));
                         insertAssoc.Add("@LanguageId", languageId);
 
-                        var exec = connection.Query<int>("dbo.spUpdateComicToLanguageById", insertAssoc, transaction, commandType: CommandType.StoredProcedure);
+                        var exec = connection.Query<int>("dbo.spUpdateComicToLanguageByIds", insertAssoc, transaction, commandType: CommandType.StoredProcedure);
                         var result = exec.AsList();
                         var success = (result.Count == 0) ? true : false;
                         transaction.Commit();
@@ -1123,7 +1120,7 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
                         }
                         else
                         {
-                            _logger.LogError($"Error updating language in database: {ex.Message}");
+                            _logger.LogError($"Error updating languages in database: {ex.Message}");
                             _logger.LogError($"SQL Error number is: {ex.Number}");
                             _logger.LogError($"Stacktrace: {ex.StackTrace}");
                             transaction.Rollback();
@@ -1252,11 +1249,11 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
         /// <summary>
         /// Method to store a Type to Comic Association in the database
         /// </summary>
-        /// <param name="comicId">Int, representing the Id field of the Comic with which the type is to be associated.</param>
+        /// <param name="comicIds">IEnumerable<int>, representing the Id fields of the Comics with which the type is to be associated.</param>
         /// <param name="typeId">Int, representing the Id field of the Type with which the comic is to be associated.</param>
         /// <returns>Boolean, true if storage was usccessfull and false if something went wrong.</returns>
-        public bool SaveTypeAssoc(int comicId, int typeId)
-        {
+        public bool SaveTypeAssoc(IEnumerable<int> comicIds, int typeId)
+        {   
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
             {
                 connection.Open();
@@ -1264,11 +1261,13 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
                 {
                     try
                     {
+                        DataTable table = ToDataTable(comicIds);
+
                         var insertAssoc = new DynamicParameters();
-                        insertAssoc.Add("@Id", comicId);
+                        insertAssoc.Add("@Ids", table.AsTableValuedParameter("[dbo].[uComicIdTVP]"));
                         insertAssoc.Add("@TypeId", typeId);
 
-                        var exec = connection.Query<int>("dbo.spUpdateComicToTypeById", insertAssoc, transaction, commandType: CommandType.StoredProcedure);
+                        var exec = connection.Query<int>("dbo.spUpdateComicToTypeByIds", insertAssoc, transaction, commandType: CommandType.StoredProcedure);
                         var result = exec.AsList();
                         var success = (result.Count == 0) ? true : false;
                         transaction.Commit();
@@ -1413,9 +1412,9 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
         /// Method to store a Serie to Comic Association in the database
         /// </summary>
         /// <param name="comicId">Int, representing the Id field of the Comic with which the serie is to be associated.</param>
-        /// <param name="serieId">Int, representing the Id field of the Serie with which the comic is to be associated.</param>
+        /// <param name="serieIds">IEnumerable<int>, representing the Id fields of the Series with which the comic is to be associated.</param>
         /// <returns>Boolean, true if storage was usccessfull and false if something went wrong.</returns>
-        public bool SaveSerieAssoc(int comicId, int serieId)
+        public bool SaveSerieAssoc(IEnumerable<int> comicIds, int serieId)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
             {
@@ -1424,11 +1423,13 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
                 {
                     try
                     {
+                        DataTable table = ToDataTable(comicIds);
+
                         var insertAssoc = new DynamicParameters();
-                        insertAssoc.Add("@Id", comicId);
+                        insertAssoc.Add("@Ids", table.AsTableValuedParameter("[dbo].[uComicIdTVP]"));
                         insertAssoc.Add("@SerieId", serieId);
 
-                        var exec = connection.Query<int>("dbo.spUpdateComicToSerieById", insertAssoc, transaction, commandType: CommandType.StoredProcedure);
+                        var exec = connection.Query<int>("dbo.spUpdateComicToSerieByIds", insertAssoc, transaction, commandType: CommandType.StoredProcedure);
                         var result = exec.AsList();
                         var success = (result.Count == 0) ? true : false;
                         transaction.Commit();
@@ -1583,7 +1584,7 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
         /// <param name="comicId">Int, representing the Id field of the Comic with which the subserie is to be associated.</param>
         /// <param name="subSerieId">Int, representing the Id field of the SubSerie with which the comic is to be associated.</param>
         /// <returns>Boolean, true if storage was usccessfull and false if something went wrong.</returns>
-        public bool SaveSubSerieAssoc(int comicId, int subSerieId)
+        public bool SaveSubSerieAssoc(IEnumerable<int> comicIds, int subSerieId)
         {
             using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
             {
@@ -1592,11 +1593,13 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
                 {
                     try
                     {
+                        DataTable table = ToDataTable(comicIds);
+
                         var insertAssoc = new DynamicParameters();
-                        insertAssoc.Add("@Id", comicId);
+                        insertAssoc.Add("@Ids", table.AsTableValuedParameter("[dbo].[uComicIdTVP]"));
                         insertAssoc.Add("@SubSerieId", subSerieId);
 
-                        var exec = connection.Query<int>("dbo.spUpdateComicToSubSerieById", insertAssoc, transaction, commandType: CommandType.StoredProcedure);
+                        var exec = connection.Query<int>("dbo.spUpdateComicToSubSerieByIds", insertAssoc, transaction, commandType: CommandType.StoredProcedure);
                         var result = exec.AsList();
                         var success = (result.Count == 0) ? true : false;
                         transaction.Commit();
@@ -2155,6 +2158,71 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
                     }
                 }
             }
+        }
+        #endregion
+        #region Helpers
+        /// <summary>
+        /// Helper to convert IEnumerable to DataTable used to input a colection of int into the database.
+        /// </summary>
+        /// <param name="enumerable">IEnumerable to convert to DataTable</param>
+        /// <returns>DataTable object which can then be inserted into the Database.</returns>
+        private DataTable ToDataTable(IEnumerable enumerable)
+        {
+            DataTable table = new System.Data.DataTable();
+            table.Columns.Add("Id");
+            foreach (var item in enumerable)
+            {
+                table.Rows.Add(item);
+            }
+            return table;
+        }
+
+        private DataTable ToDataTable(List<ComicToAuthorsDataModel> comicDataModels)
+        {
+            DataTable table = new System.Data.DataTable();
+            table.Columns.Add("Id");
+            table.Columns.Add("PropId");
+
+            foreach (var item in comicDataModels)
+            {
+                DataRow row = table.NewRow();
+                row["Id"] = item.ComicId;
+                row["PropId"] = item.AuthorId;
+                table.Rows.Add(row);
+            }
+            return table;
+        }
+
+        private DataTable ToDataTable(List<ComicToGenreDataModel> comicDataModels)
+        {
+            DataTable table = new System.Data.DataTable();
+            table.Columns.Add("Id");
+            table.Columns.Add("PropId");
+
+            foreach (var item in comicDataModels)
+            {
+                DataRow row = table.NewRow();
+                row["Id"] = item.ComicId;
+                row["PropId"] = item.GenreId;
+                table.Rows.Add(row);
+            }
+            return table;
+        }
+
+        private DataTable ToDataTable(List<ComicToPublishersDataModel> comicDataModels)
+        {
+            DataTable table = new System.Data.DataTable();
+            table.Columns.Add("Id");
+            table.Columns.Add("PropId");
+
+            foreach (var item in comicDataModels)
+            {
+                DataRow row = table.NewRow();
+                row["Id"] = item.ComicId;
+                row["PropId"] = item.PublisherId;
+                table.Rows.Add(row);
+            }
+            return table;
         }
         #endregion
     }

@@ -190,10 +190,10 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
         /// <summary>
         /// Method to store a Language to Comic Association in the database
         /// </summary>
-        /// <param name="comicId">Int, representing the Id field of the Comic with which the language is to be associated.</param>
+        /// <param name="comicIds">IEnumerable<int>, representing the Id fields of the Comics with which the language is to be associated.</param>
         /// <param name="languageId">Int, representing the Id field of the Language with which the comic is to be associated.</param>
         /// <returns>Boolean, true if storage was usccessfull and false if something went wrong.</returns>
-        public bool SaveLanguageAssoc(int comicId, int languageId);
+        public bool SaveLanguageAssoc(IEnumerable<int> comicIds, int languageId);
 
         /// <summary>
         /// Method to insert a Language record in the database. The language does not yet exists in the database.
@@ -213,10 +213,10 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
         /// <summary>
         /// Method to store a Type to Comic Association in the database
         /// </summary>
-        /// <param name="comicId">Int, representing the Id field of the Comic with which the type is to be associated.</param>
+        /// <param name="comicIds">IEnumerable<int>, representing the Id fields of the Comics with which the type is to be associated.</param>
         /// <param name="typeId">Int, representing the Id field of the Type with which the comic is to be associated.</param>
         /// <returns>Boolean, true if storage was usccessfull and false if something went wrong.</returns>
-        public bool SaveTypeAssoc(int comicId, int TypeId);
+        public bool SaveTypeAssoc(IEnumerable<int> comicIds, int typeId);
 
         /// <summary>
         /// Method to insert a Type record in the database. The type does not yet exists in the database.
@@ -236,10 +236,10 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
         /// <summary>
         /// Method to store a Serie to Comic Association in the database
         /// </summary>
-        /// <param name="comicId">Int, representing the Id field of the Comic with which the serie is to be associated.</param>
-        /// <param name="serieId">Int, representing the Id field of the Serie with which the comic is to be associated.</param>
+        /// <param name="comicIds">Int, representing the Id fields of the Comics with which the serie is to be associated.</param>
+        /// <param name="serieId">IEnumerable<int>, representing the Id field of the Series with which the comic is to be associated.</param>
         /// <returns>Boolean, true if storage was usccessfull and false if something went wrong.</returns>
-        public bool SaveSerieAssoc(int comicId, int serieId);
+        public bool SaveSerieAssoc(IEnumerable<int> comicIds, int serieId);
 
         /// <summary>
         /// Method to update a Serie record in the database. The serie exists in the database.
@@ -263,10 +263,10 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
         /// <summary>
         /// Method to store a SubSerie to Comic Association in the database
         /// </summary>
-        /// <param name="comicId">Int, representing the Id field of the Comic with which the subserie is to be associated.</param>
+        /// <param name="comicIds">IEnumerable<int>, representing the Id fields of the Comics with which the subserie is to be associated.</param>
         /// <param name="subSerieId">Int, representing the Id field of the SubSerie with which the comic is to be associated.</param>
         /// <returns>Boolean, true if storage was usccessfull and false if something went wrong.</returns>
-        public bool SaveSubSerieAssoc(int comicId, int subSerieId);
+        public bool SaveSubSerieAssoc(IEnumerable<int> comicIds, int subSerieId);
 
         /// <summary>
         /// Method to update a SubSerie record in the database. The subserie exists in the database.
