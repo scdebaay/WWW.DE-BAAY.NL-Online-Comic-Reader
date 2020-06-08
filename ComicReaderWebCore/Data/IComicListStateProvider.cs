@@ -9,6 +9,10 @@
         /// Int, keeps the current List page for each session on the website 
         /// </summary>
         int CurrentListPage { get; set; }
+        /// <summary>
+        /// String, keeps the searchtext for each session on the website 
+        /// </summary>
+        string SearchText { get; set; }
 
         /// <summary>
         /// Fired when current List page is changed

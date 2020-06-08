@@ -48,7 +48,7 @@ namespace ComicReaderWebCore.Data
             }
         }
 
-        public async Task<ComicListModel> GetFolderListAsync(int? page = 1)
+        public async Task<ComicListModel> GetFolderListAsync(string? searchText, int? page = 1)
         {
             HttpClient client = new HttpClient
             {
@@ -56,6 +56,10 @@ namespace ComicReaderWebCore.Data
             };
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             var request = $"{client.BaseAddress}folder/comic/{page}?pagelimit={_config.GetValue<int>("PageLimit")}";
+            if (!String.IsNullOrEmpty(searchText))
+            {
+                request = $"{request}&searchText={searchText}";
+            }
             HttpResponseMessage response = await client.GetAsync(request);
             response.EnsureSuccessStatusCode();
             JObject jObject = JsonConvert.DeserializeObject<JObject>(response.Content.ReadAsStringAsync().Result);

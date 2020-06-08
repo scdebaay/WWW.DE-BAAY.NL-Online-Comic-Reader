@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ComicReaderWebCore.Data;
+using Microsoft.AspNetCore.Components.Routing;
 
 namespace ComicReaderWebCore
 {

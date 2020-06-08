@@ -22,7 +22,18 @@
 else
 {
     <div id="ComicPage">
-        <div id="ComicHeader">Comics available</div>
+
+        <div id="ComicHeader">
+            Comics available<div id="Searcher">
+                <button class="btn" type="button" @onclick="@SetSearchActive" width="30" height="30" id="SearchIcon"  />
+            @if (SearchActive == true) { 
+                <input id="SearchText" type="text" @bind="@this.SearchText" @onkeyup="@SearchBoxKeyPress" />
+                <button class="btn" type="button" @onclick="@SearchClick">Search</button>
+                <button class="btn" type="button" @onclick="@ClearClick">Clear</button>
+            }
+            </div>
+        </div>
+
         <div id="TableDiv">
             <div id="ComicTable">
                 @foreach (var comic in comiclist.Files)
@@ -77,7 +88,7 @@ else
                 @if (currentComicListPage != comiclist.TotalPages)
                 {
                     <li class="paging" @onclick="LastPage">Last</li>
-                }                
+                }
             </ul>
         </div>
         <div id="nextPage">
@@ -91,6 +102,8 @@ else
 @code {
     #region fields
     private ComicListModel comiclist;
+    private string SearchText;
+    private bool SearchActive { get; set; } = false;
 
     [Parameter]
     public int currentComicListPage { get; set; }
@@ -115,7 +128,12 @@ else
         {
             ComicListStateProvider.CurrentListPage = currentComicListPage;
         }
-        comiclist = await ApiCallService.GetFolderListAsync(ComicListStateProvider.CurrentListPage);
+
+        if (!String.IsNullOrEmpty(ComicListStateProvider.SearchText))
+        {
+            SearchText = ComicListStateProvider.SearchText;
+        }
+        comiclist = await ApiCallService.GetFolderListAsync(SearchText, ComicListStateProvider.CurrentListPage);
     }
     #endregion
 
@@ -128,12 +146,12 @@ else
     {
         if (currentComicListPage <= 0)
         {
-            comiclist = await ApiCallService.GetFolderListAsync(0);
+            comiclist = await ApiCallService.GetFolderListAsync(SearchText, 0);
             NavigationManager.NavigateTo($"ComicListPage/{currentComicListPage}");
         }
         else
         {
-            comiclist = await ApiCallService.GetFolderListAsync(currentComicListPage - 1);
+            comiclist = await ApiCallService.GetFolderListAsync(SearchText, currentComicListPage - 1);
             currentComicListPage -= 1;
             NavigationManager.NavigateTo($"ComicListPage/{currentComicListPage}");
         }
@@ -147,12 +165,12 @@ else
     {
         if (currentComicListPage >= comiclist.TotalPages)
         {
-            comiclist = await ApiCallService.GetFolderListAsync(comiclist.TotalPages);
+            comiclist = await ApiCallService.GetFolderListAsync(SearchText, comiclist.TotalPages);
             NavigationManager.NavigateTo($"ComicListPage/{currentComicListPage}");
         }
         else
         {
-            comiclist = await ApiCallService.GetFolderListAsync(currentComicListPage + 1);
+            comiclist = await ApiCallService.GetFolderListAsync(SearchText, currentComicListPage + 1);
             currentComicListPage += 1;
             NavigationManager.NavigateTo($"ComicListPage/{currentComicListPage}");
         }
@@ -164,7 +182,7 @@ else
 
     private async Task FirstPage()
     {
-        comiclist = await ApiCallService.GetFolderListAsync(0);
+        comiclist = await ApiCallService.GetFolderListAsync(SearchText, 0);
         currentComicListPage = 0;
         NavigationManager.NavigateTo($"ComicListPage/{currentComicListPage}");
         ComicListStateProvider.CurrentListPage = currentComicListPage;
@@ -176,7 +194,7 @@ else
     private async Task LastPage()
     {
 
-        comiclist = await ApiCallService.GetFolderListAsync(comiclist.TotalPages);
+        comiclist = await ApiCallService.GetFolderListAsync(SearchText, comiclist.TotalPages);
         currentComicListPage = comiclist.TotalPages;
         NavigationManager.NavigateTo($"ComicListPage/{currentComicListPage}");
         ComicListStateProvider.CurrentListPage = currentComicListPage;
@@ -195,22 +213,62 @@ else
         if (page <= 0)
         {
             NavigationManager.NavigateTo($"ComicListPage/0");
-            comiclist = await ApiCallService.GetFolderListAsync(0);
+            comiclist = await ApiCallService.GetFolderListAsync(SearchText, 0);
         }
         else if (page >= comiclist.TotalPages)
         {
             NavigationManager.NavigateTo($"ComicListPage/{comiclist.TotalPages}");
-            comiclist = await ApiCallService.GetFolderListAsync(comiclist.TotalPages);
+            comiclist = await ApiCallService.GetFolderListAsync(SearchText, comiclist.TotalPages);
         }
         else
         {
             NavigationManager.NavigateTo($"ComicListPage/{currentComicListPage}");
-            comiclist = await ApiCallService.GetFolderListAsync(page);
+            comiclist = await ApiCallService.GetFolderListAsync(SearchText, page);
         }
         ComicListStateProvider.CurrentListPage = currentComicListPage;
         ComicListStateProvider.PageChangeEventArgs args = new ComicListStateProvider.PageChangeEventArgs();
         args.Page = currentComicListPage;
         ComicListStateProvider.OnComicListPageChanged(this, args);
+    }
+    #endregion
+
+    #region searching
+    private async Task Search()
+    {
+        ComicListStateProvider.SearchText = SearchText;
+        ComicListStateProvider.PageChangeEventArgs args = new ComicListStateProvider.PageChangeEventArgs();
+        args.SearchText = SearchText;
+        args.Page = 0;
+        comiclist = await ApiCallService.GetFolderListAsync(SearchText, 0);
+        currentComicListPage = 0;
+        NavigationManager.NavigateTo($"ComicListPage/{currentComicListPage}");
+        ComicListStateProvider.OnComicListPageChanged(this, args);
+    }
+
+    protected async Task SearchBoxKeyPress(KeyboardEventArgs ev)
+    {
+        if (ev.Key == "Enter")
+        {
+            await Search();
+        }
+    }
+
+    protected async Task SearchClick(MouseEventArgs ev)
+    {
+        await Search();
+    }
+
+    protected void ClearClick(MouseEventArgs ev)
+    {
+        SearchText = "";
+    }
+
+    protected void SetSearchActive(MouseEventArgs ev)
+    {
+        if (SearchActive == false)
+        { SearchActive = true; }
+        else
+        { SearchActive = false; }
     }
     #endregion
 

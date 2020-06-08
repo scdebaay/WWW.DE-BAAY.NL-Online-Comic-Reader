@@ -8,6 +8,7 @@ namespace ComicReaderWebCore.Data
     public class ComicListStateProvider : IComicListStateProvider
     {
         public int CurrentListPage { get; set; }
+        public string SearchText { get; set; }
 
         public event EventHandler ComicListPageChanged;
 
@@ -22,6 +23,7 @@ namespace ComicReaderWebCore.Data
         public class PageChangeEventArgs : EventArgs
         {
             public int Page { get; set; }
+            public string SearchText { get; set; }
         }
     }
 }

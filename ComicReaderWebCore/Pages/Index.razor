@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using ComicReaderWebCore.Data
 @inject IComicListStateProvider ComicListStateProvider
+@inject NavigationManager NavigationManager
 
 <div id="ComicPage">
     <div id="ComicHeader">Comics available</div>
@@ -9,12 +10,12 @@
 
         <p>Welcome to the Comic Cloud Web Reader.</p>
         <p>
-            Proof of concept website where my collection of digital comics can be found.<rb/>
+            Proof of concept website where my collection of digital comics can be found.<rb />
             The site is based on Blazor pages and uses a self-developed API to stream comic pages from CBR/CBZ format.
         </p>
         <p>
-            The link below takes you to the comic list. You can browse the list (currently 118 pages).<br/>
-            Click on any comic to read the comic. The site should remember which comic is read and to which page you've gotten.<br/>
+            The link below takes you to the comic list. You can browse the list (currently 118 pages).<br />
+            Click on any comic to read the comic. The site should remember which comic is read and to which page you've gotten.<br />
             This data is session based, so may be lost when navigating away from the site for longer periods.
         </p>
         <p>
@@ -25,6 +26,12 @@
                 To the comic list
             </NavLink>
         </h3>
+        <h3>or search the comic list:</h3>
+        <div>
+            <input type="text" @bind="@this.SearchText" @onkeyup="@SearchBoxKeyPress" />
+            <button class="btn" type="button" @onclick="@SearchClick">Search</button>
+            <button class="btn" type="button" @onclick="@ClearClick">Clear</button>
+        </div>
 
     </div>
 </div>
@@ -55,5 +62,35 @@
         Href = $"ComicListPage/{e.Page}";
         InvokeAsync(StateHasChanged);
     }
+
+    private string SearchText { get; set; }
+
+    private void Search()
+    {
+        ComicListStateProvider.SearchText = SearchText;
+        ComicListStateProvider.PageChangeEventArgs args = new ComicListStateProvider.PageChangeEventArgs();
+        args.SearchText = SearchText;
+        ComicListStateProvider.OnComicListPageChanged(this, args);
+        NavigationManager.NavigateTo(Href);
+    }
+
+    protected void SearchBoxKeyPress(KeyboardEventArgs ev)
+    {
+        if (ev.Key == "Enter")
+        {
+            Search();
+        }
+    }
+
+    protected void SearchClick(MouseEventArgs ev)
+    {
+        Search();
+    }
+
+    protected void ClearClick(MouseEventArgs ev)
+    {
+        SearchText = "";
+    }
 }
+
 

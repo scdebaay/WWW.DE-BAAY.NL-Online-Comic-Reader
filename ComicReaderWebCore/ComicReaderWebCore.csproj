@@ -2,14 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AssemblyVersion>2020.05.2.5</AssemblyVersion>
-    <FileVersion>2020.05.2.5</FileVersion>
-    <Version>2020.05.2.5</Version>
+    <AssemblyVersion>2020.06.2.6</AssemblyVersion>
+    <FileVersion>2020.06.2.6</FileVersion>
+    <Version>2020.06.2.6</Version>
     <Description>.NET Core implementation of the Comic Web Reader.</Description>
     <PackageIcon>Comic Cloud Web.png</PackageIcon>
     <ApplicationIcon>Comic Cloud Web.ico</ApplicationIcon>
     <Copyright>Copyright Solino de Baay © 2020</Copyright>
-    <PackageReleaseNotes>Comic Cloud Web Core version 2, Release 2020.05.2.5. 
+    <PackageReleaseNotes>Comic Cloud Web Core version 2, Release 2020.06.2.6. 
+Implemented Search on Comic List page and Initial page. Need API Version 2020.06.1.6 and CL Version 2020.06.1.5 to function.
+
+Comic Cloud Web Core version 2, Release 2020.05.2.5. 
 All code has been annotated and documented, also interfaces for Service providers added and configured in app configuration
 Now using API Version2, with SQL support.</PackageReleaseNotes>
     <Authors>Solino de Baay</Authors>

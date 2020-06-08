@@ -74,6 +74,30 @@ a {
     background-color: #58595B;
 }
 
+#Searcher {
+    margin-top: 0px;
+}
+
+#Searcher > button, #SearchText {
+    margin: 0px 0px 0px 15px;
+    height: 30px;
+    grid-area: ComicHeader;
+    display: inline-block;
+    align-items: center;
+    padding: 0px;
+}
+
+#Searcher > button#SearchIcon {
+    display: inline-block;
+    background-image: url(../Images/ComicCloudSearch.svg);
+    background-repeat: no-repeat;
+    width: 50px;
+    height: 50px;
+    margin-left: 20px;
+    border: none;
+    margin-top: 10px;
+}
+
 @media screen and (min-width: 736px) {
     #SiteHeader {
         position: fixed;
@@ -86,6 +110,7 @@ a {
         border-top: solid 15px #FBB03B;
         margin-top: -135px;
         width: 100%;
+        padding-bottom: 20px;
     }
 
     #Logo {
@@ -108,7 +133,6 @@ a {
     #SubTitle {
         font-size: 21px;
         color: white;
-        margin-bottom: 20px;
     }
 
     #MenuBar {
@@ -376,7 +400,6 @@ li > a {
     grid-area: header;
     justify-self: center;
     align-self: center;
-    z-index: 1;
 }
 
     #header a {
@@ -433,8 +456,8 @@ li > a {
         justify-content: center;
         cursor: pointer;
     }
-    
-    #ComicBottomMargin {
+
+#ComicBottomMargin {
     height: 40px;
 }
 

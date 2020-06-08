@@ -27,6 +27,6 @@ namespace ComicReaderWebCore.Data
         /// </summary>
         /// <param name="page">Int, Optional, representing the page number to be retrieved from the API.</param>
         /// <returns></returns>
-        Task<ComicListModel> GetFolderListAsync(int? page = 1);
+        Task<ComicListModel> GetFolderListAsync(string? searchText, int? page = 1);
     }
 }
