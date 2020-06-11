@@ -152,7 +152,8 @@ else
         {
             NavigationManager.NavigateTo($"comicpage/{Path}/{Filename}/0");
             comicPage = $"{ApiCallService.ApiLocation}comic/{Path}/{Filename}/0?size={currentSize}";
-            ComicStateProvider.ComicsVisited[ComicStateProvider.CurrentComic.Path] = 0;
+            ComicStateProvider.ComicsVisited.Remove(ComicStateProvider.CurrentComic.Title);
+            NavigationManager.NavigateTo(Href);
         }
         else
         {
