@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AssemblyVersion>2020.06.1.5</AssemblyVersion>
-    <FileVersion>2020.06.1.5</FileVersion>
-    <Version>2020.06.1.5</Version>
+    <AssemblyVersion>2020.06.1.6</AssemblyVersion>
+    <FileVersion>2020.06.1.6</FileVersion>
+    <Version>2020.06.1.6</Version>
     <Authors>Solino de Baay</Authors>
     <Company>WWW.DE-BAAY.NL</Company>
     <Product>Comic Reader Class Library</Product>
@@ -13,7 +13,10 @@
     <PackageIcon>Comic Cloud Service.png</PackageIcon>
     <RepositoryUrl>https://github.com/scdebaay/WWW.DE-BAAY.NL-Online-Comic-Reader</RepositoryUrl>
     <ApplicationIcon>Comic Cloud Service.ico</ApplicationIcon>
-    <PackageReleaseNotes>ComicReader Class Library, Version 1.0, Release 2020.06.1.5,
+    <PackageReleaseNotes>ComicReader Class Library, Version 1.0, Release 2020.06.1.6,
+Added an AboutDataModel to be used by other applications to provide version information in a uniform manner.
+
+ComicReader Class Library, Version 1.0, Release 2020.06.1.5,
 Implemented API Search, added searchTextParameter to the retrievecomic method in the API DB Implementation. Need database implementation 2020.06.1.5 or later. Added searchText parameter to retrieve paged list stored procedure.
 
 ComicReader Class Library, Version 1.0, Release 2020.06.1.4,
@@ -41,12 +44,12 @@ ComicReader Class Library, Version 0.1, 2020.04.0.1. Built on .NET Core 3.1, Imp
     <PackageReference Include="Dapper" Version="2.0.35" />
     <PackageReference Include="Dapper.Contrib" Version="2.0.35" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="2.0.0-preview2.20084.1" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.4" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.4" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.5" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.5" />
     <PackageReference Include="NLog" Version="4.7.2" />
     <PackageReference Include="SharpCompress" Version="0.25.1" />
     <PackageReference Include="SkiaSharp" Version="1.68.3" />
-    <PackageReference Include="System.IO.Abstractions" Version="11.0.6" />
+    <PackageReference Include="System.IO.Abstractions" Version="11.0.7" />
   </ItemGroup>
 
   <ItemGroup>
