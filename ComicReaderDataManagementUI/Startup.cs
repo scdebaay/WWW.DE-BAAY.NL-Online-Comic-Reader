@@ -53,6 +53,7 @@ namespace ComicReaderDataManagementUI
                services.AddTransient<IPublisherViewModel, PublisherViewModel>();
                services.AddTransient<IGenreViewModel, GenreViewModel>();
                services.AddTransient<IAuthorViewModel, AuthorViewModel>();
+               services.AddTransient<IAboutViewModel, AboutViewModel>();
                services.AddTransient<IFileSystem, FileSystem>();
                services.AddLogging();
                GetType().Assembly.GetTypes()

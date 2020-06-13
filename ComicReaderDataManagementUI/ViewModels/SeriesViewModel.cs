@@ -49,12 +49,45 @@ namespace ComicReaderDataManagementUI.ViewModels
             }
         }
 
+        private ICommand _newSerieCommand;
+        public ICommand NewSerieCommand
+        {
+            get
+            {
+                if (_newSerieCommand == null)
+                    _newSerieCommand = new ComicDelegatedCommand(NewSerie);
+                return _newSerieCommand;
+            }
+        }
+
+        private ICommand _saveSerieCommand;
+        public ICommand SaveSerieCommand
+        {
+            get
+            {
+                if (_saveSerieCommand == null)
+                    _saveSerieCommand = new ComicDelegatedCommand(SaveSerie);
+                return _saveSerieCommand;
+            }
+        }
+
+        private ICommand _deleteSerieCommand;
+        public ICommand DeleteSerieCommand
+        {
+            get
+            {
+                if (_deleteSerieCommand == null)
+                    _deleteSerieCommand = new ComicDelegatedCommand(DeleteSerie);
+                return _deleteSerieCommand;
+            }
+        }
+
         private string _seriesTitle = "Select a series";
         public string SeriesTitle
         {
             get { return _seriesTitle; }
-            set 
-            { 
+            set
+            {
                 _seriesTitle = value;
                 NotifyOfPropertyChange(nameof(SeriesTitle));
             }
@@ -89,8 +122,8 @@ namespace ComicReaderDataManagementUI.ViewModels
         public SeriesDataModel SelectedSeries
         {
             get { return _selectedSeries; }
-            set 
-            { 
+            set
+            {
                 _selectedSeries = value;
                 if (SelectedSeries != null)
                 {
@@ -111,8 +144,8 @@ namespace ComicReaderDataManagementUI.ViewModels
         public SubSeriesDataModel SelectedSubSeries
         {
             get { return _selectedSubSeries; }
-            set 
-            { 
+            set
+            {
                 _selectedSubSeries = value;
                 NotifyOfPropertyChange(nameof(SelectedSubSeries));
             }
@@ -121,12 +154,12 @@ namespace ComicReaderDataManagementUI.ViewModels
         public ComicDataModel SelectedComicInSeries
         {
             get { return _selectedComicInSeries; }
-            set 
-            { 
+            set
+            {
                 _selectedComicInSeries = value;
                 NotifyOfPropertyChange(nameof(SelectedComicInSeries));
             }
-        }        
+        }
 
 
         private BindableCollection<SeriesDataModel> _seriesSelection = new BindableCollection<SeriesDataModel>();
@@ -283,10 +316,7 @@ namespace ComicReaderDataManagementUI.ViewModels
                 StatusBar = $"Add comic(s) failed, check log";
             }
         }
-        #endregion
-
-        #region public methods        
-        public void NewSerie()
+        private void NewSerie()
         {
             var lastId = SeriesSelection.OrderByDescending(i => i.Id).First().Id + 1;
             SelectedSeries = new SeriesDataModel
@@ -299,7 +329,7 @@ namespace ComicReaderDataManagementUI.ViewModels
             SeriesSelection.Add(SelectedSeries);
             newSerieAdded = true;
         }
-        public void SaveSerie()
+        private void SaveSerie()
         {
             int serieToUpdatePos = SeriesSelection.IndexOf(SelectedSeries);
             if (newSerieAdded == false)
@@ -341,7 +371,7 @@ namespace ComicReaderDataManagementUI.ViewModels
             }
             _ = RetrieveSeries();
         }
-        public void DeleteSerie()
+        private void DeleteSerie()
         {
             MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Are you sure?", "Delete Confirmation", System.Windows.MessageBoxButton.YesNo);
             if (messageBoxResult == MessageBoxResult.Yes)
@@ -361,6 +391,9 @@ namespace ComicReaderDataManagementUI.ViewModels
                 }
             }
         }
+        #endregion
+
+        #region public methods
         #endregion
 
         #region event handlers

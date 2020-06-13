@@ -18,6 +18,18 @@ namespace ComicReaderDataManagementUI.ViewModels
         /// </summary>
         public ICommand AddComicToLanguageCommand { get; }
         /// <summary>
+        /// Command for the New Language button
+        /// </summary>
+        public ICommand NewLanguageCommand { get; }
+        /// <summary>
+        /// Command for the Save Language button
+        /// </summary>
+        public ICommand SaveLanguageCommand { get; }
+        /// <summary>
+        /// Command for the Delete Language button
+        /// </summary>
+        public ICommand DeleteLanguageCommand { get; }
+        /// <summary>
         /// Backing field for the Comic dropdown
         /// </summary>
         BindableCollection<ComicDataModel> ComicList { get; }
@@ -41,18 +53,6 @@ namespace ComicReaderDataManagementUI.ViewModels
         /// Backing field for the Selected Language in the Language dropdown
         /// </summary>
         LanguageDataModel SelectedItem { get; set; }
-        /// <summary>
-        /// Method for the New Language button
-        /// </summary>
-        void NewLanguage();
-        /// <summary>
-        /// Method for the Save Language button
-        /// </summary>
-        void SaveLanguage();
-        /// <summary>
-        /// Method for the Delete Language button
-        /// </summary>
-        void DeleteLanguage();
         /// <summary>
         /// Event handler for when a Comic was changed in the MainViewModel
         /// </summary>

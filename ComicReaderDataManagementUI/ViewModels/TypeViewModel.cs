@@ -47,6 +47,38 @@ namespace ComicReaderDataManagementUI.ViewModels
             }
         }
 
+        private ICommand _newTypeCommand;
+        public ICommand NewTypeCommand
+        {
+            get
+            {
+                if (_newTypeCommand == null)
+                    _newTypeCommand = new ComicDelegatedCommand(NewType);
+                return _newTypeCommand;
+            }
+        }
+
+        private ICommand _saveTypeCommand;
+        public ICommand SaveTypeCommand
+        {
+            get
+            {
+                if (_saveTypeCommand == null)
+                    _saveTypeCommand = new ComicDelegatedCommand(SaveType);
+                return _saveTypeCommand;
+            }
+        }
+
+        private ICommand _deleteTypeCommand;
+        public ICommand DeleteTypeCommand
+        {
+            get
+            {
+                if (_deleteTypeCommand == null)
+                    _deleteTypeCommand = new ComicDelegatedCommand(DeleteType);
+                return _deleteTypeCommand;
+            }
+        }
 
         private TypeDataModel _selectedItem = new TypeDataModel();
         public TypeDataModel SelectedItem
@@ -181,7 +213,7 @@ namespace ComicReaderDataManagementUI.ViewModels
             {
                 IList items = (IList)selectedComicCollection;
                 var comicsAdded = items.Cast<ComicDataModel>().ToList();
-                ComicsInTypeBox.AddRange(comicsAdded.Except(ComicsInTypeBox.ToList())) ;
+                ComicsInTypeBox.AddRange(comicsAdded.Except(ComicsInTypeBox.ToList()));
                 _eventAggregator.PublishOnUIThreadAsync(new ComicChangedOnDialogEvent());
                 StatusBar = $"Comic(s) added to type";
             }
@@ -193,10 +225,8 @@ namespace ComicReaderDataManagementUI.ViewModels
                 StatusBar = $"Add comic(s) failed, check log";
             }
         }
-        #endregion
 
-        #region public methods        
-        public void NewType()
+        private void NewType()
         {
             var lastId = TypeBox.OrderByDescending(i => i.Id).First().Id + 1;
             SelectedItem = new TypeDataModel
@@ -208,7 +238,7 @@ namespace ComicReaderDataManagementUI.ViewModels
             newTypeAdded = true;
         }
 
-        public void SaveType()
+        private void SaveType()
         {
             int typeToUpdatePos = TypeBox.IndexOf(SelectedItem);
             if (newTypeAdded == false)
@@ -249,7 +279,7 @@ namespace ComicReaderDataManagementUI.ViewModels
             _ = RetrieveTypes();
         }
 
-        public void DeleteType()
+        private void DeleteType()
         {
             MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Are you sure?", "Delete Confirmation", System.Windows.MessageBoxButton.YesNo);
             if (messageBoxResult == MessageBoxResult.Yes)
@@ -269,6 +299,9 @@ namespace ComicReaderDataManagementUI.ViewModels
                 }
             }
         }
+        #endregion
+
+        #region public methods
         #endregion
 
         #region event handlers

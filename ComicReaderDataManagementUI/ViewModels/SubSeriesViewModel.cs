@@ -49,6 +49,39 @@ namespace ComicReaderDataManagementUI.ViewModels
             }
         }
 
+        private ICommand _newSubSerieCommand;
+        public ICommand NewSubSerieCommand
+        {
+            get
+            {
+                if (_newSubSerieCommand == null)
+                    _newSubSerieCommand = new ComicDelegatedCommand(NewSubSerie);
+                return _newSubSerieCommand;
+            }
+        }
+
+        private ICommand _saveSubSerieCommand;
+        public ICommand SaveSubSerieCommand
+        {
+            get
+            {
+                if (_saveSubSerieCommand == null)
+                    _saveSubSerieCommand = new ComicDelegatedCommand(SaveSubSerie);
+                return _saveSubSerieCommand;
+            }
+        }
+
+        private ICommand _deleteSubSerieCommand;
+        public ICommand DeleteSubSerieCommand
+        {
+            get
+            {
+                if (_deleteSubSerieCommand == null)
+                    _deleteSubSerieCommand = new ComicDelegatedCommand(DeleteSubSerie);
+                return _deleteSubSerieCommand;
+            }
+        }
+
         private string _subSeriesTitle = "Select a subseries";
         public string SubSeriesTitle
         {
@@ -127,7 +160,7 @@ namespace ComicReaderDataManagementUI.ViewModels
                 NotifyOfPropertyChange(nameof(SelectedComicInSeries));
             }
         }
-        
+
         private BindableCollection<SubSeriesDataModel> _subSeriesSelection = new BindableCollection<SubSeriesDataModel>();
         public BindableCollection<SubSeriesDataModel> SubSeriesSelection
         {
@@ -267,10 +300,7 @@ namespace ComicReaderDataManagementUI.ViewModels
                 StatusBar = $"Add comic failed, check log";
             }
         }
-        #endregion
-
-        #region public methods
-        public void NewSubSerie()
+        private void NewSubSerie()
         {
             var lastId = SubSeriesSelection.OrderByDescending(i => i.Id).First().Id + 1;
             SelectedSubSeries = new SubSeriesDataModel
@@ -284,7 +314,7 @@ namespace ComicReaderDataManagementUI.ViewModels
             SubSeriesSelection.Add(SelectedSubSeries);
             newSubSerieAdded = true;
         }
-        public void SaveSubSerie()
+        private void SaveSubSerie()
         {
             int subSerieToUpdatePos = SubSeriesSelection.IndexOf(SelectedSubSeries);
             if (newSubSerieAdded == false)
@@ -327,7 +357,7 @@ namespace ComicReaderDataManagementUI.ViewModels
             }
             _ = RetrieveSubSeries();
         }
-        public void DeleteSubSerie()
+        private void DeleteSubSerie()
         {
             MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Are you sure?", "Delete Confirmation", System.Windows.MessageBoxButton.YesNo);
             if (messageBoxResult == MessageBoxResult.Yes)
@@ -347,6 +377,9 @@ namespace ComicReaderDataManagementUI.ViewModels
                 }
             }
         }
+        #endregion
+
+        #region public methods
         #endregion
 
         #region event handlers

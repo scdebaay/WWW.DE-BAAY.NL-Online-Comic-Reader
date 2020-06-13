@@ -6,10 +6,14 @@
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Comic Cloud Management.ico</ApplicationIcon>
     <PackageIcon>Comic Cloud Management.png</PackageIcon>
-    <AssemblyVersion>2020.06.1.0</AssemblyVersion>
-    <FileVersion>2020.06.1.0</FileVersion>
-    <Version>2020.06.1.0</Version>
-    <PackageReleaseNotes>ComicReader Metadata Management UI, Version 1.0, Release, 2020.06.1.0.
+    <AssemblyVersion>2020.06.1.1</AssemblyVersion>
+    <FileVersion>2020.06.1.1</FileVersion>
+    <Version>2020.06.1.1</Version>
+    <PackageReleaseNotes>ComicReader Metadata Management UI, Version 1.0, Release, 2020.06.1.1.
+Refactored all public methods into Commands for UI implementation. Added menubar with active menu items.
+Added an About screen with application, library and API information. Needs CL Version 2020.06.1.6 or above
+
+ComicReader Metadata Management UI, Version 1.0, Release, 2020.06.1.0.
 Re-implemented a number of functions and changed the UI for property editing. The comic drop down was replaced with a listbox and multiple comics can be selected to do bulk changes. 
 Also Search on Enter was implemented for the SearchBox
  
@@ -55,13 +59,13 @@ All functionality implemented. Needs heavy code review and refactoring. Also a n
   <ItemGroup>
     <PackageReference Include="Caliburn.Micro" Version="4.0.105-alpha" />
     <PackageReference Include="Caliburn.Micro.Core" Version="4.0.105-alpha" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.4" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="3.1.4" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.4" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.4" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="3.1.4" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.5" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="3.1.5" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.5" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.5" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="3.1.5" />
     <PackageReference Include="NLog" Version="4.7.2" />
-    <PackageReference Include="NLog.Extensions.Logging" Version="1.6.3" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="1.6.4" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.2" />
     <PackageReference Include="SkiaSharp" Version="1.68.3" />
   </ItemGroup>

@@ -5,30 +5,30 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ComicReaderDataManagementUI.Views"
         mc:Ignorable="d"
-        Title="Series Data Management" Background="#FF999999" FontFamily="Eras ITC" FontSize="14" Foreground="Black" Width="1390" Height="450" MinWidth="1090" MinHeight="450">
+        Title="Series Data Management" Background="#FF999999" FontFamily="Eras ITC" FontSize="14" Foreground="Black" Width="1390" Height="450" MinWidth="1090" MinHeight="450" ResizeMode="CanResizeWithGrip">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="300"/>
-            <ColumnDefinition Width="300"/>
-            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="300*"/>
+            <ColumnDefinition Width="300*"/>
+            <ColumnDefinition Width="300*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         <!-- banner -->
@@ -46,8 +46,8 @@
         <Label Content="Series end" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center" Grid.Column="1" Grid.Row="6"/>
         <Label Content="" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center" Grid.Column="1" Grid.Row="7"/>
         <Label Content="" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center" Grid.Column="1" Grid.Row="8"/>
-        <Button x:Name="NewSerie" Content="New Series" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center" Padding="2" Grid.Column="1" Grid.Row="9"/>
-        <Label x:Name="StatusBar" Content="{Binding StatusBar}" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center" Grid.Column="1" Grid.Row="8"/>
+        <Button x:Name="NewSerie" Content="New Series" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Bottom" Padding="2,5" Grid.Column="1" Grid.Row="9" Command="{Binding NewSerieCommand}"/>
+        <Label x:Name="StatusBar" Content="{Binding StatusBar}" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="8"/>
         <!-- column two -->
         <ComboBox x:Name="SeriesSelection" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Center" Width="222" Grid.Column="2" Grid.Row="2" SelectedItem="{ Binding SelectedSeries }">
             <ComboBox.ItemTemplate>
@@ -64,18 +64,18 @@
         <TextBox x:Name="SeriesTitle" HorizontalAlignment="Right" Margin="5" Text="Title" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Grid.Column="2" Grid.Row="4"/>
         <DatePicker x:Name="DateSeriesStart" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Center" Width="180" Grid.Column="2" Grid.Row="5"/>
         <DatePicker x:Name="DateSeriesEnd" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Center" Width="180" Grid.Column="2" Grid.Row="6"/>
-        <Grid Grid.Row="9" Grid.Column="2" HorizontalAlignment="Right" Margin="5">
+        <Grid Grid.Row="9" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="SaveSerie" Content="Save" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Center" Padding="3" Grid.Column="1"/>
-            <Button x:Name="DeleteSerie" Content="Delete" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Center" Padding="3" Grid.Column="2"/>
+            <Button x:Name="SaveSerie" Content="Save" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Bottom" Padding="2,5" Grid.Column="1" Command="{Binding SaveSerieCommand}"/>
+            <Button x:Name="DeleteSerie" Content="Delete" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Bottom" Padding="2,5" Grid.Column="2" Command="{Binding DeleteSerieCommand}"/>
         </Grid>
         <!-- column three -->
         <Label Content="Comics available" FontSize="24" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center" Grid.Column="3" Grid.Row="2"/>
-        <ListBox x:Name="ComicList" VerticalAlignment="Center" Margin="5,5,5,5" Height="220" Width="290"  Grid.Column="3" Grid.Row="3" Grid.RowSpan="6" SelectionMode="Extended">
+        <ListBox x:Name="ComicList" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="5,5,5,5" MinHeight="550" MinWidth="290" Grid.Column="3" Grid.Row="3" Grid.RowSpan="6" SelectionMode="Extended">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">
@@ -87,12 +87,12 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Button x:Name="AddComicToSerie" Content="Add Comic to Series" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Center" Padding="2" Grid.Column="3" Grid.Row="9"
+        <Button x:Name="AddComicToSerie" Content="Add Comic to Series" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Bottom" Padding="2,5" Grid.Column="3" Grid.Row="9"
                 Command="{Binding AddComicToSerieCommand}"
                 CommandParameter="{Binding ElementName=ComicList, Path=SelectedItems}"/>
         <!-- column four -->
         <Label Content="Sub-Series in this Series" FontSize="24" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center" Grid.Column="4" Grid.Row="2"/>
-        <ListBox x:Name="SubSeriesInSeries" Margin="5" Height="220" Width="290" Grid.Column="4" Grid.Row="3" Grid.RowSpan="6"  SelectedItem="{ Binding SelectedSubSeries }">
+        <ListBox x:Name="SubSeriesInSeries" Margin="5" VerticalAlignment="Top" HorizontalAlignment="Stretch" MinHeight="550" MinWidth="290" Grid.Column="4" Grid.Row="3" Grid.RowSpan="6"  SelectedItem="{ Binding SelectedSubSeries }">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">
@@ -106,7 +106,7 @@
         </ListBox>
         <!-- column five -->
         <Label Content="Comics in this Series" FontSize="24" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center" Grid.Column="5" Grid.Row="2"/>
-        <ListBox x:Name="ComicInSeries" Margin="5" Height="220" Width="290" Grid.Column="5" Grid.Row="3" Grid.RowSpan="6" SelectedItem="{ Binding SelectedComicInSeries }">
+        <ListBox x:Name="ComicInSeries" Margin="5" HorizontalAlignment="Stretch" VerticalAlignment="Top" MinHeight="550" MinWidth="290" Grid.Column="5" Grid.Row="3" Grid.RowSpan="6" SelectedItem="{ Binding SelectedComicInSeries }">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">

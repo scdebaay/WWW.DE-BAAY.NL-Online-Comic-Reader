@@ -42,20 +42,20 @@ namespace ComicReaderDataManagementUI.ViewModels
         /// </summary>
         ICommand AddComicToGenreCommand { get; }
         /// <summary>
-        /// Method for the Delete Genre button
+        /// Command for the New Genre button
         /// </summary>
-        void DeleteGenre();
+        ICommand NewGenreCommand { get; }
+        /// <summary>
+        /// Command for the Save Genre button
+        /// </summary>
+        ICommand SaveGenreCommand { get; }
+        /// <summary>
+        /// Command for the Delete Genre button
+        /// </summary>
+        ICommand DeleteGenreCommand { get; }
         /// <summary>
         /// Event handler for when a Comic was changed in the MainViewModel
         /// </summary>
         Task HandleAsync(ComicChangedOnMainEvent message, CancellationToken cancellationToken);
-        /// <summary>
-        /// Method for the New Genre button
-        /// </summary>
-        void NewGenre();
-        /// <summary>
-        /// Method for the Save Genre button
-        /// </summary>
-        void SaveGenre();
     }
 }

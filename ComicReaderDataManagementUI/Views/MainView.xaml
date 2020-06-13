@@ -6,22 +6,23 @@
         xmlns:local="clr-namespace:ComicReaderDataManagementUI.Views"
         xmlns:cal="http://www.caliburnproject.org"
         mc:Ignorable="d"
-        Title="Comic Reader Data Management" Background="#FF999999" FontFamily="Eras ITC" FontSize="14" Foreground="Black" Width="1195" Height="600" MinWidth="1195" MinHeight="560">
+        Title="Comic Reader Data Management" Background="#FF999999" FontFamily="Eras ITC" FontSize="14" Foreground="Black" Width="1195" Height="830" MinWidth="1195" MinHeight="830" ResizeMode="CanResizeWithGrip">
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
             <!--margin-->
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="310*"/>
             <!--1-->
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="150*"/>
             <!--2-->
             <ColumnDefinition Width="auto"/>
             <!--3-->
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="165*"/>
             <!--4-->
             <ColumnDefinition Width="auto"/>
             <!--5-->
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="200*"/>
             <!--6-->
             <ColumnDefinition Width="auto"/>
             <!--7-->
@@ -33,48 +34,79 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
             <!--margin-->
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="80"/>
             <!--1-->
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="40"/>
             <!--2-->
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="40"/>
             <!--3-->
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="40"/>
             <!--4-->
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="40"/>
             <!--5-->
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="40"/>
             <!--6-->
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="40"/>
             <!--7-->
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
             <!--8-->
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="10*"/>
             <!--9-->
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
             <!--10-->
             <RowDefinition Height="*"/>
             <!--11-->
+            <RowDefinition Height="40"/>
+            <!--12-->
             <RowDefinition Height="20"/>
             <!--margin-->
         </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" Grid.ColumnSpan="10">
+            <Menu DockPanel.Dock="Top" FontFamily="Eras ITC" FontWeight="Bold" Foreground="#FFFBB03B" Background="#FF1A1A1A" BorderThickness="0" >
+                <MenuItem Header="_File" Margin="0, 0, 15, 0">
+                    <MenuItem Header="_Open Comic" Command="{Binding OpenComicCommand}"/>
+                    <Separator />
+                    <MenuItem Header="_Exit" Command="{Binding ExitCommand}"/>
+                </MenuItem>
+                <MenuItem Header="_Edit" Margin="0, 0, 15, 0">
+                    <MenuItem Header="Cu_t" Command="Cut"/>
+                    <MenuItem Header="_Copy" Command="Copy"/>
+                    <MenuItem Header="_Paste" Command="Paste"/>
+                </MenuItem>
+                <MenuItem Header="_View" Margin="0, 0, 15, 0">
+                    <MenuItem Header="_Author" Command="{Binding AuthorCommand}"/>
+                    <MenuItem Header="_Language" Command="{Binding LanguageCommand}"/>
+                    <MenuItem Header="_Type" Command="{Binding TypeCommand}"/>
+                    <MenuItem Header="_Series" Command="{Binding SeriesCommand}"/>
+                    <MenuItem Header="S_ubSeries" Command="{Binding SubSeriesCommand}"/>
+                    <MenuItem Header="_Publisher" Command="{Binding PublisherCommand}"/>
+                    <MenuItem Header="_Genre" Command="{Binding GenreCommand}"/>
+                    <Separator />
+                    <MenuItem Header="_Settings" Command="{Binding AboutCommand}" />
+                </MenuItem>
+                <MenuItem Header="_Help" Margin="0, 0, 15, 0">
+                    <MenuItem Header="_About" Command="{Binding AboutCommand}"/>
+                </MenuItem>
+            </Menu>
+            <TextBox AcceptsReturn="True" />
+        </DockPanel>
         <!-- column one -->
-        <Label x:Name="BannerTitle" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Content="Comic Reader Data Management" Grid.ColumnSpan="10" FontSize="35" FontFamily="Eras ITC" FontWeight="Bold" Foreground="#FFFBB03B" Background="#FF1A1A1A" Padding="20,20,0,10" BorderBrush="#FBB03B" BorderThickness="0,0,0,4"/>
-        <Grid Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Margin="0, 5, 10, 0">
+        <Label x:Name="BannerTitle" Grid.Row="1" Grid.Column="0" Content="Comic Reader Data Management" Grid.ColumnSpan="10" FontSize="35" FontFamily="Eras ITC" FontWeight="Bold" Foreground="#FFFBB03B" Background="#FF1A1A1A" Padding="20,20,0,10" BorderBrush="#FBB03B" BorderThickness="0,0,0,4"/>
+        <Grid Grid.Row="2" Grid.Column="1" MinWidth="220" MinHeight="36" HorizontalAlignment="Stretch" Margin="0, 5, 10, 0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="220*"/>
                 <!--0-->
                 <ColumnDefinition Width="auto"/>
                 <!--1-->                
             </Grid.ColumnDefinitions>
-            <TextBox x:Name="SearchBox" Width="220" Margin="0, 0, 0, 0" Padding="10,0" HorizontalAlignment="Left" Height="20" Grid.Column="0">
+            <TextBox x:Name="SearchBox" MinWidth="520" MaxWidth="400" Margin="0, 0, 0, 0" Padding="10,0" HorizontalAlignment="Left" Height="30" Grid.Column="0" VerticalContentAlignment="Center">
                 <TextBox.InputBindings>
                     <KeyBinding Key="Enter" Command="{Binding SearchCommand}"/>
                 </TextBox.InputBindings>
             </TextBox>
-            <Button x:Name="Search" Content="Search" Margin="10, 0, 0, 0" Padding="10,0" HorizontalAlignment="Right" Height="20" Grid.Column="1" Command="{Binding SearchCommand}"/>
+            <Button x:Name="Search" Content="Search" Margin="10, 0, 0, 0" Padding="10,0" HorizontalAlignment="Right" Height="30" Grid.Column="1" Command="{Binding SearchCommand}"/>
         </Grid>
-        <ListBox x:Name="ComicList" Margin="0,10,10,0" Width="300" Height="340" Grid.Column="1" Grid.Row="3" Grid.RowSpan="7" SelectedItem="{ Binding SelectedItem }">
+        <ListBox x:Name="ComicList" Margin="0,10,10,0" MinWidth="300" MinHeight="340" MaxHeight="550" Grid.Column="1" Grid.Row="3" Grid.RowSpan="7" SelectedItem="{ Binding SelectedItem }" VerticalAlignment="Top">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">
@@ -86,17 +118,17 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Label x:Name="StatusBar" Content="{Binding StatusBar}" HorizontalAlignment="Left" Height="26" Grid.Column="1" Grid.Row="11"/>
+        <Label x:Name="StatusBar" Content="{Binding StatusBar}" HorizontalAlignment="Left" Height="26" Grid.Column="1" Grid.Row="12" VerticalAlignment="Bottom"/>
         <!-- column two -->
-        <Button x:Name="OpenComic" Height="161" Width="138" Grid.Column="2" Grid.Row="1" Grid.RowSpan="5" Margin="5,20,5,5" >
+        <Button x:Name="OpenComic" MinHeight="161" MaxHeight="320" MinWidth="138" MaxWidth="220" Grid.Column="2" Grid.Row="3" Grid.RowSpan="4" Margin="5,10,5,5" VerticalAlignment="Top" HorizontalAlignment="Stretch" Command="{Binding OpenComicCommand}">
             <Button.Template>
                 <ControlTemplate>
-                    <Image x:Name="ThumbNail" Height="161" Width="138" Grid.Column="2" Grid.Row="1" Grid.RowSpan="5" Margin="5,20,5,5" Source="{Binding ThumbUrl}" />
+                    <Image x:Name="ThumbNail" MinHeight="161" MinWidth="138" Margin="5,0,5,5" Source="{Binding ThumbUrl}"  VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
                 </ControlTemplate>
             </Button.Template>
         </Button>
         <Label Content="Authors" HorizontalAlignment="Left" Height="26" Grid.Column="2" Grid.Row="7"/>
-        <ListBox x:Name="AuthorList" Height="150" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="8" Margin="0,0,10,0" SelectedItem="{ Binding SelectedAuthor }">
+        <ListBox x:Name="AuthorList" MinHeight="150" MaxHeight="400" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="8" Grid.RowSpan="2" Margin="0,0,10,0" SelectedItem="{ Binding SelectedAuthor }" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">
@@ -109,18 +141,18 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <!-- column three -->
-        <Label Content="Title" Margin="5,0,10,0" Height="26" Grid.Column="3" Grid.Row="2" VerticalAlignment="Top"/>
-        <TextBox x:Name="TitleInput" Text="TextBox" TextWrapping="Wrap" Margin="40,0,10,0" Height="36" Grid.Column="3" Grid.ColumnSpan="2" Width="250" Grid.Row="2"/>
-        <Label Content="Path" Margin="5,0,10,0" Height="26" Grid.Column="3" Grid.Row="3" VerticalAlignment="Top"/>
-        <TextBox x:Name="PathInput" Text="TextBox" TextWrapping="Wrap" Margin="40,0,10,0" Height="36" Grid.Column="3" Grid.ColumnSpan="2" Width="250" Grid.Row="3"/>
+        <Label Content="Title" Margin="5,5,10,0" Height="26" Grid.Column="3" Grid.Row="2" VerticalAlignment="Top"/>
+        <TextBox x:Name="TitleInput" Text="TextBox" TextWrapping="Wrap" Margin="40,10,10,0" Height="36" Grid.Column="3" Grid.ColumnSpan="2" Width="250" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
+        <Label Content="Path" Margin="5,5,10,0" Height="26" Grid.Column="3" Grid.Row="3" VerticalAlignment="Top"/>
+        <TextBox x:Name="PathInput" Text="TextBox" TextWrapping="Wrap" Margin="40,10,10,0" Height="36" Grid.Column="3" Grid.ColumnSpan="2" Width="250" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
         <Label Content="Total Pages" Margin="5,0,10,0" Height="26" Grid.Column="3" Grid.Row="4"/>
         <Label Content="Publication Date" Margin="5,0,10,0" Height="26" Grid.Column="3" Grid.Row="5"/>
         <Label Content="Release Date" Margin="5,7.10,10,7.10" Height="26" Grid.Column="3" Grid.Row="6"/>
         <!-- column four -->
-        <TextBox x:Name="TotalPagesInput" Text="TextBox" TextWrapping="Wrap" Margin="0,0,10,0" Height="18" Grid.Column="4" Width="150" Grid.Row="4"/>
+        <TextBox x:Name="TotalPagesInput" Text="TextBox" TextWrapping="Wrap" Margin="0,0,10,0" Height="18" Grid.Column="4" Width="150" Grid.Row="4" HorizontalAlignment="Stretch"/>
         <DatePicker x:Name="PublicationDatePicker" Margin="0,0,10,0" Width="150" Height="24" Grid.Column="4" Grid.Row="5"/>
         <DatePicker x:Name="ReleaseDatePicker" Margin="0,0,10,0" Width="150" Height="24" Grid.Column="4" Grid.Row="6"/>
-        <Button x:Name="EditAuthor" Content="Edit Author" HorizontalAlignment="Right" Margin="0,5,10,0" Width="82" Height="20" Grid.Row="10" Grid.Column="4"/>
+        <Button x:Name="EditAuthor" Content="Edit Author" HorizontalAlignment="Right" Margin="0,5,10,0" Width="82" Height="20" Grid.Row="10" Grid.Column="4" VerticalAlignment="Top" Command="{Binding AuthorCommand}"/>
         <!-- column five -->
         <Label Content="Language" Margin="5,0,10,0" Width="101" Height="26" Grid.Column="5" Grid.Row="2"/>
         <Label Content="Type" Margin="5,0,10,0" Width="101" Height="26" Grid.Column="5" Grid.Row="3"/>
@@ -128,7 +160,7 @@
         <Label Content="Sub Series" Margin="5,0,10,0" Width="101" Height="26" Grid.Column="5" Grid.Row="5"/>
         <Label Content="Publisher" Margin="5,0,10,0" Width="101" Height="26" Grid.Column="5" Grid.Row="6"/>
         <Label Content="Genres" Margin="5,0,10,0" HorizontalAlignment="Left" Height="26" Grid.Column="5" Grid.Row="7"/>
-        <ListBox x:Name="GenreList" Height="150" Grid.Column="5" Grid.ColumnSpan="3" Grid.Row="8" Margin="0,0,10,0" SelectedItem="{ Binding SelectedGenre }" >
+        <ListBox x:Name="GenreList" MinHeight="150" MaxHeight="500" Grid.Column="5" Grid.ColumnSpan="3" Grid.Row="8" Grid.RowSpan="2" Margin="0,0,10,0" SelectedItem="{ Binding SelectedGenre }" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">
@@ -141,7 +173,7 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <!-- column six -->
-        <ComboBox x:Name="LanguageBox" Width="199" Height="22" Grid.Column="6" Grid.Row="2" SelectedItem="{ Binding SelectedLanguage }">
+        <ComboBox x:Name="LanguageBox" Width="199" Height="30" Grid.Column="6" Grid.Row="2" SelectedItem="{ Binding SelectedLanguage }" HorizontalAlignment="Stretch">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">
@@ -153,7 +185,7 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <ComboBox x:Name="TypeBox" Width="199" Height="22" Grid.Column="6" Grid.Row="3" SelectedItem="{ Binding SelectedType }">
+        <ComboBox x:Name="TypeBox" Width="199" Height="30" Grid.Column="6" Grid.Row="3" SelectedItem="{ Binding SelectedType }" HorizontalAlignment="Stretch">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">
@@ -165,7 +197,7 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <ComboBox x:Name="SeriesBox" Width="199" Height="22" Grid.Column="6" Grid.Row="4" SelectedItem="{ Binding SelectedSerie }">
+        <ComboBox x:Name="SeriesBox" Width="199" Height="30" Grid.Column="6" Grid.Row="4" SelectedItem="{ Binding SelectedSerie }" HorizontalAlignment="Stretch">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">
@@ -177,7 +209,7 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <ComboBox x:Name="SubSeriesBox" Width="199" Height="22" Grid.Column="6" Grid.Row="5" SelectedItem="{ Binding SelectedSubSerie }">
+        <ComboBox x:Name="SubSeriesBox" Width="199" Height="30" Grid.Column="6" Grid.Row="5" SelectedItem="{ Binding SelectedSubSerie }" HorizontalAlignment="Stretch">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">
@@ -189,7 +221,7 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <ComboBox x:Name="PublisherBox" Width="199" Height="22" Grid.Column="6" Grid.Row="6" SelectedItem="{ Binding SelectedPublisher }">
+        <ComboBox x:Name="PublisherBox" Width="199" Height="30" Grid.Column="6" Grid.Row="6" SelectedItem="{ Binding SelectedPublisher }" HorizontalAlignment="Stretch">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">
@@ -201,7 +233,7 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <Grid Grid.Row="11" Grid.Column="6" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="0, 5, 10, 0">
+        <Grid Grid.Row="12" Grid.Column="6" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0, 5, 10, 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <!--0-->
@@ -212,15 +244,15 @@
             </Grid.ColumnDefinitions>
             <Button x:Name="NewComic" Content="New" Margin="10, 0, 0, 0" Padding="10,0" HorizontalAlignment="Right" Height="20" Grid.Column="0"/>
             <Button x:Name="ClearComic" Content="Clear" Margin="10, 0, 0, 0" Padding="10,0" HorizontalAlignment="Right" Height="20" Grid.Column="1"/>
-            <Button x:Name="SaveComic" Content="Save" Margin="10, 0, 0, 0" Padding="10,0" HorizontalAlignment="Right" Height="20" Grid.Column="2" />
+            <Button x:Name="SaveComic" Content="Save" Margin="10, 0, 0, 0" Padding="10,0" HorizontalAlignment="Right" Height="20" Grid.Column="2" Command="{Binding SaveComicCommand}"/>
         </Grid>
         <!-- column seven -->
-        <Button x:Name="EditLanguageAsync" Content="Edit" HorizontalAlignment="Right" Width="43" Height="20" Grid.Column="7" Grid.Row="2" Margin="0,0,10,0" cal:Message.Attach="EditLanguageAsync"/>
-        <Button x:Name="EditType" Content="Edit" HorizontalAlignment="Right" Width="43" Height="20" Grid.Column="7" Grid.Row="3" Margin="0,0,10,0"/>
-        <Button x:Name="EditSeries" Content="Edit" HorizontalAlignment="Right" Width="43" Height="20" Grid.Column="7" Grid.Row="4" Margin="0,0,10,0"/>
-        <Button x:Name="EditSubSeries" Content="Edit" HorizontalAlignment="Right" Width="43" Height="20" Grid.Column="7" Grid.Row="5" Margin="0,0,10,0"/>
-        <Button x:Name="EditPublisher" Content="Edit" HorizontalAlignment="Right" Width="43" Height="20" Grid.Column="7" Grid.Row="6" Margin="0,0,10,0"/>
-        <Button x:Name="EditGenre" Content="Edit Genre" HorizontalAlignment="Right" Width="73" Height="20" Grid.Column="7" Grid.Row="10" Margin="0,5,10,0"/>
+        <Button x:Name="EditLanguageAsync" Content="Edit" HorizontalAlignment="Right" Width="43" Height="20" Grid.Column="7" Grid.Row="2" Margin="0,0,10,0" Command="{Binding LanguageCommand}"/>
+        <Button x:Name="EditType" Content="Edit" HorizontalAlignment="Right" Width="43" Height="20" Grid.Column="7" Grid.Row="3" Margin="0,0,10,0" Command="{Binding TypeCommand}"/>
+        <Button x:Name="EditSeries" Content="Edit" HorizontalAlignment="Right" Width="43" Height="20" Grid.Column="7" Grid.Row="4" Margin="0,0,10,0" Command="{Binding SeriesCommand}"/>
+        <Button x:Name="EditSubSeries" Content="Edit" HorizontalAlignment="Right" Width="43" Height="20" Grid.Column="7" Grid.Row="5" Margin="0,0,10,0" Command="{Binding SubSeriesCommand}"/>
+        <Button x:Name="EditPublisher" Content="Edit" HorizontalAlignment="Right" Width="43" Height="20" Grid.Column="7" Grid.Row="6" Margin="0,0,10,0" Command="{Binding PublisherCommand}"/>
+        <Button x:Name="EditGenre" Content="Edit Genre" HorizontalAlignment="Right" Width="73" Height="20" Grid.Column="7" Grid.Row="10" Margin="0,5,10,0" VerticalAlignment="Top" Command="{Binding GenreCommand}"/>
         <!-- column eight -->
     </Grid>
 </Window>

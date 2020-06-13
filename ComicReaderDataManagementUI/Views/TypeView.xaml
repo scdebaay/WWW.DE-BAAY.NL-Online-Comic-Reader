@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ComicReaderDataManagementUI.Views"
         mc:Ignorable="d"
-        Title="Comic Reader Type Data Management" Background="#FF999999" FontFamily="Eras ITC" FontSize="14" Foreground="Black" Width="970" Height="320" MinWidth="700" MinHeight="320" >
+        Title="Comic Reader Type Data Management" Background="#FF999999" FontFamily="Eras ITC" FontSize="14" Foreground="Black" Width="970" Height="650" MinWidth="970" MinHeight="650" ResizeMode="CanResizeWithGrip">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="190"/>
+            <ColumnDefinition Width="270*"/>
+            <ColumnDefinition Width="270*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
@@ -20,17 +20,17 @@
             <RowDefinition Height="20" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
             <RowDefinition Height="20" />
         </Grid.RowDefinitions>
         <!-- banner -->
@@ -60,19 +60,19 @@
         <Label x:Name="StatusBar" Content="{Binding StatusBar}" HorizontalAlignment="Left" Height="26" Grid.Column="1" Grid.Row="12"/>
         <!-- column two -->
         <TextBox x:Name="TypeName" HorizontalAlignment="Left" Text="Type" TextWrapping="Wrap" VerticalAlignment="Center" Margin="5,5,5,5" Width="180" Grid.Column="2" Grid.Row="6"/>
-        <Grid Grid.Row="11" Grid.Column="1" HorizontalAlignment="Right" Grid.ColumnSpan="2" Margin="5">
+        <Grid Grid.Row="13" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.ColumnSpan="2" Margin="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="SaveType" Content="Save" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,2,5,2" Padding="2" Grid.Column="1"/>
-            <Button x:Name="DeleteType" Content="Delete" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,2,5,2" Padding="2" Grid.Column="2"/>
+            <Button x:Name="SaveType" Content="Save" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,2,5,0" Padding="2,5" Grid.Column="1" Command="{Binding SaveTypeCommand}"/>
+            <Button x:Name="DeleteType" Content="Delete" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,2,5,0" Padding="2,5" Grid.Column="2" Command="{Binding DeleteTypeCommand}"/>
         </Grid>
-        <Button x:Name="NewType" Content="New Type" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="2" Grid.Row="11" Grid.Column="1"/>        
+        <Button x:Name="NewType" Content="New Type" HorizontalAlignment="Left" VerticalAlignment="Bottom" Padding="2,5" Grid.Row="13" Grid.Column="1" Command="{Binding NewTypeCommand}"/>        
         <!-- column three -->
         <Label Content="Comics available" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="3" Grid.Row="3"/>
-        <ListBox x:Name="ComicList" Height="120" Width="260" Margin="5,5,5,5" Grid.Column="3" Grid.Row="4" Grid.RowSpan="8" SelectionMode="Extended">
+        <ListBox x:Name="ComicList" HorizontalAlignment="Stretch" VerticalAlignment="Top" MinHeight="190" MaxHeight="450" MinWidth="260" Margin="5,5,5,5" Grid.Column="3" Grid.Row="4" Grid.RowSpan="8" SelectionMode="Extended">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">
@@ -84,12 +84,12 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Button x:Name="AddComicToType" Content="Add Comic to Type" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5" Padding="2" Grid.Row="12" Grid.Column="3" 
+        <Button x:Name="AddComicToType" Content="Add Comic to Type" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="2,5" Grid.Row="13" Grid.Column="3" 
                 Command="{Binding AddComicToTypeCommand}"
                 CommandParameter="{Binding ElementName=ComicList, Path=SelectedItems}"/>
         <!-- column four-->
         <Label Content="Comics in this category" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="4" Grid.Row="3"/>
-        <ListBox x:Name="ComicsInTypeBox" Height="120" Width="260" Grid.Column="4" Grid.Row="4" Grid.RowSpan="8" Margin="5"  SelectedItem="{ Binding SelectedComicInType }">
+        <ListBox x:Name="ComicsInTypeBox" HorizontalAlignment="Stretch" VerticalAlignment="Top" MinHeight="190" MaxHeight="450" MinWidth="260" Grid.Column="4" Grid.Row="4" Grid.RowSpan="8" Margin="5"  SelectedItem="{ Binding SelectedComicInType }">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">

@@ -19,7 +19,7 @@ using System.Windows.Input;
 
 namespace ComicReaderDataManagementUI.ViewModels
 {
-    
+
     /// <summary>
     /// To Do: Wrap all functions in delegated Commands
     /// </summary>
@@ -36,6 +36,7 @@ namespace ComicReaderDataManagementUI.ViewModels
         private IGenreViewModel _genreViewModel;
         private IPublisherViewModel _publisherViewModel;
         private IAuthorViewModel _authorViewModel;
+        private IAboutViewModel _aboutViewModel;
         private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
         public IEventAggregator _eventAggregator;
         public IWindowManager _windowManager;
@@ -57,21 +58,10 @@ namespace ComicReaderDataManagementUI.ViewModels
         public string SearchBox
         {
             get { return _searchBox; }
-            set 
-            { 
+            set
+            {
                 _searchBox = value;
                 NotifyOfPropertyChange(nameof(SearchBox));
-            }
-        }
-
-        private ICommand _searchCommand;
-        public ICommand SearchCommand
-        {
-            get
-            {
-                if (_searchCommand == null)
-                    _searchCommand = new ComicDelegatedCommandAsync(Search);
-                return _searchCommand;
             }
         }
 
@@ -267,17 +257,18 @@ namespace ComicReaderDataManagementUI.ViewModels
         #endregion
 
         #region constructor
-        public MainViewModel(IConfiguration configuration, 
-                            ISqlUiDbConnection sqlUiDbConnection, 
-                            ILogger<MainViewModel> logger, 
-                            ILanguageViewModel languageViewModel, 
+        public MainViewModel(IConfiguration configuration,
+                            ISqlUiDbConnection sqlUiDbConnection,
+                            ILogger<MainViewModel> logger,
+                            ILanguageViewModel languageViewModel,
                             ITypeViewModel typeViewModel,
                             ISeriesViewModel seriesViewModel,
                             ISubSeriesViewModel subSeriesViewModel,
                             IGenreViewModel genreViewModel,
                             IPublisherViewModel publisherViewModel,
                             IAuthorViewModel authorViewModel,
-                            IEventAggregator eventAggregator, 
+                            IAboutViewModel aboutViewModel,
+                            IEventAggregator eventAggregator,
                             IWindowManager windowManager)
         {
             _configuration = configuration;
@@ -290,6 +281,7 @@ namespace ComicReaderDataManagementUI.ViewModels
             _genreViewModel = genreViewModel;
             _publisherViewModel = publisherViewModel;
             _authorViewModel = authorViewModel;
+            _aboutViewModel = aboutViewModel;
             _eventAggregator = eventAggregator;
             _windowManager = windowManager;
             _eventAggregator.SubscribeOnPublishedThread(this);
@@ -305,7 +297,7 @@ namespace ComicReaderDataManagementUI.ViewModels
             ComicList.AddRange(list);
             SelectedItem = ComicList[0];
         }
-        
+
         private async Task RetrieveAuthors(int id)
         {
             AuthorList.Clear();
@@ -368,48 +360,59 @@ namespace ComicReaderDataManagementUI.ViewModels
             SelectedSubSerie = l.FirstOrDefault();
             NotifyOfPropertyChange(nameof(SelectedSubSerie));
         }
+
         private async Task Search()
         {
             ComicList.Clear();
             var list = await _sqlUiDbConnection.RetrieveComicsAsync(SearchBox);
             ComicList.AddRange(list);
             if (list.Count > 0)
-            { 
+            {
                 SelectedItem = ComicList[0];
             }
         }
-        #endregion
 
-        #region public methods
-        public async Task EditLanguageAsync()
+        private async Task EditLanguageAsync()
         {
             await _windowManager.ShowWindowAsync(_languageViewModel);
         }
-        public async Task EditTypeAsync()
+        
+        private async Task EditTypeAsync()
         {
             await _windowManager.ShowWindowAsync(_typeViewModel);
         }
-        public async Task EditSeriesAsync()
+        
+        private async Task EditSeriesAsync()
         {
             await _windowManager.ShowWindowAsync(_seriesViewModel);
         }
-        public async Task EditSubSeriesAsync()
+        
+        private async Task EditSubSeriesAsync()
         {
             await _windowManager.ShowWindowAsync(_subSeriesViewModel);
         }
-        public async Task EditGenreAsync()
+        
+        private async Task EditGenreAsync()
         {
             await _windowManager.ShowWindowAsync(_genreViewModel);
         }
-        public async Task EditPublisherAsync()
+        
+        private async Task EditPublisherAsync()
         {
             await _windowManager.ShowWindowAsync(_publisherViewModel);
         }
-        public async Task EditAuthorAsync()
+        
+        private async Task EditAuthorAsync()
         {
             await _windowManager.ShowWindowAsync(_authorViewModel);
-        }        
-        public void SaveComic()
+        }
+
+        private async Task AboutAsync()
+        {
+            await _windowManager.ShowWindowAsync(_aboutViewModel);
+        }
+
+        private void SaveComic()
         {
             if (SelectedLanguage == null)
             {
@@ -484,10 +487,10 @@ namespace ComicReaderDataManagementUI.ViewModels
             { StatusBar = $"Save Failed, check log"; ; }
             _eventAggregator.PublishOnUIThreadAsync(new ComicChangedOnMainEvent());
         }
-        public void OpenComic()
+        private void OpenComic()
         {
             var comicurl = PathInput.Replace("\\", $"/");
-            var url = $"{_configuration["ComicReaderUrl"]}{Uri.EscapeUriString($"{comicurl}")}/0";
+            var url = $"{_configuration["ComicReaderUrl"]}ComicPage{Uri.EscapeUriString($"{comicurl}")}/0";
             try
             {
                 Process.Start(url);
@@ -514,6 +517,147 @@ namespace ComicReaderDataManagementUI.ViewModels
                 }
             }
         }
+        private void ExitApplication()
+        {
+            Application.Current.Shutdown();
+        }
+        #endregion
+
+        #region commands
+        private ICommand _searchCommand;
+        public ICommand SearchCommand
+        {
+            get
+            {
+                if (_searchCommand == null)
+                    _searchCommand = new ComicDelegatedCommandAsync(Search);
+                return _searchCommand;
+            }
+        }
+
+        private ICommand _authorCommand;
+        public ICommand AuthorCommand
+        {
+            get
+            {
+                if (_authorCommand == null)
+                    _authorCommand = new ComicDelegatedCommandAsync(EditAuthorAsync);
+                return _authorCommand;
+            }
+        }
+
+        private ICommand _languageCommand;
+        public ICommand LanguageCommand
+        {
+            get
+            {
+                if (_languageCommand == null)
+                    _languageCommand = new ComicDelegatedCommandAsync(EditLanguageAsync);
+                return _languageCommand;
+            }
+        }
+
+        private ICommand _typeCommand;
+        public ICommand TypeCommand
+        {
+            get
+            {
+                if (_typeCommand == null)
+                    _typeCommand = new ComicDelegatedCommandAsync(EditTypeAsync);
+                return _typeCommand;
+            }
+        }
+
+        private ICommand _seriesCommand;
+        public ICommand SeriesCommand
+        {
+            get
+            {
+                if (_seriesCommand == null)
+                    _seriesCommand = new ComicDelegatedCommandAsync(EditSeriesAsync);
+                return _seriesCommand;
+            }
+        }
+
+        private ICommand _subSeriesCommand;
+        public ICommand SubSeriesCommand
+        {
+            get
+            {
+                if (_subSeriesCommand == null)
+                    _subSeriesCommand = new ComicDelegatedCommandAsync(EditSubSeriesAsync);
+                return _subSeriesCommand;
+            }
+        }
+
+        private ICommand _publisherCommand;
+        public ICommand PublisherCommand
+        {
+            get
+            {
+                if (_publisherCommand == null)
+                    _publisherCommand = new ComicDelegatedCommandAsync(EditPublisherAsync);
+                return _publisherCommand;
+            }
+        }
+
+        private ICommand _genreCommand;
+        public ICommand GenreCommand
+        {
+            get
+            {
+                if (_genreCommand == null)
+                    _genreCommand = new ComicDelegatedCommandAsync(EditGenreAsync);
+                return _genreCommand;
+            }
+        }
+
+        private ICommand _exitCommand;
+        public ICommand ExitCommand
+        {
+            get
+            {
+                if (_exitCommand == null)
+                    _exitCommand = new ComicDelegatedCommand(ExitApplication);
+                return _exitCommand;
+            }
+        }
+
+        private ICommand _saveComicCommand;
+        public ICommand SaveComicCommand
+        {
+            get
+            {
+                if (_saveComicCommand == null)
+                    _saveComicCommand = new ComicDelegatedCommand(SaveComic);
+                return _saveComicCommand;
+            }
+        }
+
+        private ICommand _openComicCommand;
+        public ICommand OpenComicCommand
+        {
+            get
+            {
+                if (_openComicCommand == null)
+                    _openComicCommand = new ComicDelegatedCommand(OpenComic);
+                return _openComicCommand;
+            }
+        }
+
+        private ICommand _aboutCommand;
+        public ICommand AboutCommand
+        {
+            get
+            {
+                if (_aboutCommand == null)
+                    _aboutCommand = new ComicDelegatedCommandAsync(AboutAsync);
+                return _aboutCommand;
+            }
+        }        
+        #endregion
+
+        #region public methods
         public async Task HandleAsync(ComicChangedOnDialogEvent message, CancellationToken cancellationToken)
         {
             await RetrieveComics();

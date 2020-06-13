@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ComicReaderDataManagementUI.Views"
         mc:Ignorable="d"
-        Title="Comic Reader Publisher Data Management" Background="#FF999999" FontFamily="Eras ITC" FontSize="14" Foreground="Black" Width="970" Height="320" MinWidth="700" MinHeight="320" >
+        Title="Comic Reader Publisher Data Management" Background="#FF999999" FontFamily="Eras ITC" FontSize="14" Foreground="Black" Width="970" Height="750" MinWidth="970" MinHeight="750" ResizeMode="CanResizeWithGrip">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="190*"/>
+            <ColumnDefinition Width="270*"/>
+            <ColumnDefinition Width="270*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
@@ -20,17 +20,17 @@
             <RowDefinition Height="20" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="60" />
             <RowDefinition Height="20" />
         </Grid.RowDefinitions>
         <!-- banner -->
@@ -57,23 +57,23 @@
         <Label Content="Details" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="4"/>
         <Label Content="Name" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="5"/>
         <Label Content="Publisher name" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="6"/>
-        <Label x:Name="StatusBar" Content="{Binding StatusBar}" HorizontalAlignment="Left" Height="26" Grid.Column="1" Grid.Row="12"/>
+        <Label x:Name="StatusBar" Content="{Binding StatusBar}" HorizontalAlignment="Left" Height="26" Grid.Column="1" Grid.Row="11" VerticalAlignment="Bottom"/>
         <!-- column two -->
-        <TextBox x:Name="PublisherName" HorizontalAlignment="Left" Text="Publisher" TextWrapping="Wrap" VerticalAlignment="Center" Margin="5,5,5,5" Width="180" Grid.Column="2" Grid.Row="6"/>
+        <TextBox x:Name="PublisherName" HorizontalAlignment="Stretch" Text="Publisher" TextWrapping="Wrap" VerticalAlignment="Center" Margin="5,5,5,5" Grid.Column="2" Grid.Row="6"/>
 
-        <Grid Grid.Row="11" Grid.Column="1" HorizontalAlignment="Right" Grid.ColumnSpan="2" Margin="5">
+        <Grid Grid.Row="12" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.ColumnSpan="2" Margin="5" Height="50">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="SavePublisher" Content="Save" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,2,5,2" Padding="2" Grid.Column="1"/>
-            <Button x:Name="DeletePublisher" Content="Delete" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,2,5,2" Padding="2" Grid.Column="2"/>
+            <Button x:Name="SavePublisher" Content="Save" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5,2,5,0" Padding="5,2,5,2" Grid.Column="1" Command="{Binding SavePublisherCommand}"/>
+            <Button x:Name="DeletePublisher" Content="Delete" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5,2,5,0" Padding="5,2,5,2" Grid.Column="2" Command="{Binding DeletePublisherCommand}"/>
         </Grid>
-        <Button x:Name="NewPublisher" Content="New Publisher" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="2" Grid.Row="11" Grid.Column="1"/>
+        <Button x:Name="NewPublisher" Content="New Publisher" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5" Padding="5,2,5,2" Grid.Row="12" Grid.Column="1" Command="{Binding NewPublisherCommand}"/>
         <!-- column three -->
         <Label Content="Comics available" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="3" Grid.Row="3"/>
-        <ListBox x:Name="ComicList" Height="120" Width="260" Margin="5,5,5,5" Grid.Column="3" Grid.Row="4" Grid.RowSpan="8" SelectionMode="Extended">
+        <ListBox x:Name="ComicList" MinHeight="120" MinWidth="260" MaxHeight="550" Margin="5,5,5,5" Grid.Column="3" Grid.Row="4" Grid.RowSpan="8" SelectionMode="Extended" VerticalAlignment="Top">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">
@@ -86,12 +86,12 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <Button x:Name="AddComicToPublisher" Content="Add Comic to Publisher" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5" Padding="2" Grid.Row="12" Grid.Column="3"
+        <Button x:Name="AddComicToPublisher" Content="Add Comic to Publisher" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5" Padding="5,2,5,2" Grid.Row="12" Grid.Column="3"
                 Command="{Binding AddComicToPublisherCommand}"
                 CommandParameter="{Binding ElementName=ComicList, Path=SelectedItems}"/>
         <!-- column four -->
         <Label Content="Comics by this Publisher" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="4" Grid.Row="3"/>
-        <ListBox x:Name="ComicsByPublisherBox" Height="120" Width="260" Grid.Column="4" Grid.Row="4" Grid.RowSpan="8" Margin="5"  SelectedItem="{ Binding SelectedComicByPublisher }">
+        <ListBox x:Name="ComicsByPublisherBox" MinHeight="120" MinWidth="260" MaxHeight="550" Grid.Column="4" Grid.Row="4" Grid.RowSpan="8" Margin="5"  SelectedItem="{ Binding SelectedComicByPublisher }" VerticalAlignment="Top">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">

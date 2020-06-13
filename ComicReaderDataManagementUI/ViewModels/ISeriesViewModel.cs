@@ -25,7 +25,7 @@ namespace ComicReaderDataManagementUI.ViewModels
         /// <summary>
         /// Backing field for the DateSeriesStart field
         /// </summary>
-        DateTime DateSeriesStart { get; set; }        
+        DateTime DateSeriesStart { get; set; }
         /// <summary>
         /// Backing field for the Selected Comic in the Comic in Series Listbox
         /// </summary>
@@ -55,14 +55,21 @@ namespace ComicReaderDataManagementUI.ViewModels
         /// </summary>
         ICommand AddComicToSerieCommand { get; }
         /// <summary>
+        /// Command for the New Serie button
+        /// </summary>
+        ICommand NewSerieCommand { get; }
+        /// <summary>
+        /// Command for the Save Serie button
+        /// </summary>
+        ICommand SaveSerieCommand { get; }
+        /// <summary>
+        /// Command for the Delete Series button
+        /// </summary>
+        ICommand DeleteSerieCommand { get; }
+        /// <summary>
         /// Backing field for the SubSeries Listbox
         /// </summary>
         BindableCollection<SubSeriesDataModel> SubSeriesInSeries { get; set; }
-        
-        /// <summary>
-        /// Method for the Delete Series button
-        /// </summary>
-        void DeleteSerie();
         /// <summary>
         /// Event handler for when a Comic was changed in the MainViewModel
         /// </summary>
@@ -71,13 +78,5 @@ namespace ComicReaderDataManagementUI.ViewModels
         /// Event handler for when a Comic was changed in the SubSeriesViewModel
         /// </summary>
         Task HandleAsync(SubSeriesChangedEvent message, CancellationToken cancellationToken);
-        /// <summary>
-        /// Method for the New Serie button
-        /// </summary>
-        void NewSerie();
-        /// <summary>
-        /// Method for the Save Serie button
-        /// </summary>
-        void SaveSerie();
     }
 }

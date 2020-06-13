@@ -28,7 +28,7 @@ namespace ComicReaderDataManagementUI.ViewModels
 
         #region (backed) fields
         private bool newAuthorAdded { get; set; } = false;
-        
+
         private string _statusBar;
         public string StatusBar
         {
@@ -47,6 +47,39 @@ namespace ComicReaderDataManagementUI.ViewModels
                 if (_addComicToAuthorCommand == null)
                     _addComicToAuthorCommand = new ParameteredComicDelegatedCommand(AddComicToAuthor);
                 return _addComicToAuthorCommand;
+            }
+        }
+
+        private ICommand _newAuthorCommand;
+        public ICommand NewAuthorCommand
+        {
+            get
+            {
+                if (_newAuthorCommand == null)
+                    _newAuthorCommand = new ComicDelegatedCommand(NewAuthor);
+                return _newAuthorCommand;
+            }
+        }
+
+        private ICommand _saveAuthorCommand;
+        public ICommand SaveAuthorCommand
+        {
+            get
+            {
+                if (_saveAuthorCommand == null)
+                    _saveAuthorCommand = new ComicDelegatedCommand(SaveAuthor);
+                return _saveAuthorCommand;
+            }
+        }
+
+        private ICommand _deleteAuthorCommand;
+        public ICommand DeleteAuthorCommand
+        {
+            get
+            {
+                if (_deleteAuthorCommand == null)
+                    _deleteAuthorCommand = new ComicDelegatedCommand(DeleteAuthor);
+                return _deleteAuthorCommand;
             }
         }
 
@@ -109,8 +142,8 @@ namespace ComicReaderDataManagementUI.ViewModels
         public DateTime DateBirth
         {
             get { return _dateBirth; }
-            set 
-            { 
+            set
+            {
                 _dateBirth = value;
                 NotifyOfPropertyChange(nameof(DateBirth));
             }
@@ -129,8 +162,8 @@ namespace ComicReaderDataManagementUI.ViewModels
         public bool Active
         {
             get { return _active; }
-            set 
-            { 
+            set
+            {
                 _active = value;
                 NotifyOfPropertyChange(nameof(Active));
             }
@@ -236,7 +269,7 @@ namespace ComicReaderDataManagementUI.ViewModels
             {
                 comicToAuthorAssoc.Add(new ComicToAuthorsDataModel { ComicId = comic.Id, AuthorId = SelectedItem.Id });
             }
-            
+
             var succeeded = _sqlUiDbConnection.SaveAuthorAssoc(comicToAuthorAssoc);
             if (succeeded == true)
             {
@@ -254,12 +287,8 @@ namespace ComicReaderDataManagementUI.ViewModels
                 StatusBar = $"Add comic(s) failed, check log";
             }
         }
-        #endregion
 
-        #region public methods
-
-
-        public void NewAuthor()
+        private void NewAuthor()
         {
             var lastId = AuthorBox.OrderByDescending(i => i.Id).First().Id + 1;
             SelectedItem = new AuthorDataModel
@@ -275,7 +304,7 @@ namespace ComicReaderDataManagementUI.ViewModels
             newAuthorAdded = true;
         }
 
-        public void SaveAuthor()
+        private void SaveAuthor()
         {
             int authorToUpdatePos = AuthorBox.IndexOf(SelectedItem);
             if (newAuthorAdded == false)
@@ -321,7 +350,7 @@ namespace ComicReaderDataManagementUI.ViewModels
             _ = RetrieveAuthors();
         }
 
-        public void DeleteAuthor()
+        private void DeleteAuthor()
         {
             MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Are you sure?", "Delete Confirmation", System.Windows.MessageBoxButton.YesNo);
             if (messageBoxResult == MessageBoxResult.Yes)
@@ -341,6 +370,9 @@ namespace ComicReaderDataManagementUI.ViewModels
                 }
             }
         }
+        #endregion
+
+        #region public methods
         #endregion
 
         #region aux methods

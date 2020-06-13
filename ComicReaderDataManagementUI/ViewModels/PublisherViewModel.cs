@@ -50,6 +50,39 @@ namespace ComicReaderDataManagementUI.ViewModels
             }
         }
 
+        private ICommand _newPublisherCommand;
+        public ICommand NewPublisherCommand
+        {
+            get
+            {
+                if (_newPublisherCommand == null)
+                    _newPublisherCommand = new ComicDelegatedCommand(NewPublisher);
+                return _newPublisherCommand;
+            }
+        }
+
+        private ICommand _savePublisherCommand;
+        public ICommand SavePublisherCommand
+        {
+            get
+            {
+                if (_savePublisherCommand == null)
+                    _savePublisherCommand = new ComicDelegatedCommand(SavePublisher);
+                return _savePublisherCommand;
+            }
+        }
+
+        private ICommand _deletePublisherCommand;
+        public ICommand DeletePublisherCommand
+        {
+            get
+            {
+                if (_deletePublisherCommand == null)
+                    _deletePublisherCommand = new ComicDelegatedCommand(DeletePublisher);
+                return _deletePublisherCommand;
+            }
+        }
+
         private PublisherDataModel _selectedItem = new PublisherDataModel();
 
         public PublisherDataModel SelectedItem
@@ -200,10 +233,8 @@ namespace ComicReaderDataManagementUI.ViewModels
                 StatusBar = $"Add comic failed, check log";
             }
         }
-        #endregion
 
-        #region public methods
-        public void NewPublisher()
+        private void NewPublisher()
         {
             var lastId = PublisherBox.OrderByDescending(i => i.Id).First().Id + 1;
             SelectedItem = new PublisherDataModel
@@ -215,7 +246,7 @@ namespace ComicReaderDataManagementUI.ViewModels
             newPublisherAdded = true;
         }
 
-        public void SavePublisher()
+        private void SavePublisher()
         {
             int publisherToUpdatePos = PublisherBox.IndexOf(SelectedItem);
             if (newPublisherAdded == false)
@@ -256,7 +287,7 @@ namespace ComicReaderDataManagementUI.ViewModels
             _ = RetrievePublishers();
         }
 
-        public void DeletePublisher()
+        private void DeletePublisher()
         {
             MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Are you sure?", "Delete Confirmation", System.Windows.MessageBoxButton.YesNo);
             if (messageBoxResult == MessageBoxResult.Yes)
@@ -276,6 +307,9 @@ namespace ComicReaderDataManagementUI.ViewModels
                 }
             }
         }
+        #endregion
+
+        #region public methods
         #endregion
 
         #region event handlers

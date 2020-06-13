@@ -50,6 +50,40 @@ namespace ComicReaderDataManagementUI.ViewModels
             }
         }
 
+        private ICommand _newGenreCommand;
+        public ICommand NewGenreCommand
+        {
+            get 
+            {
+                if (_newGenreCommand == null)
+                    _newGenreCommand = new ComicDelegatedCommand(NewGenre);
+                return _newGenreCommand; 
+            }
+        }
+
+        private ICommand _saveGenreCommand;
+        public ICommand SaveGenreCommand
+        {
+            get
+            {
+                if (_saveGenreCommand == null)
+                    _saveGenreCommand = new ComicDelegatedCommand(SaveGenre);
+                return _saveGenreCommand;
+            }
+        }
+
+        private ICommand _deleteGenreCommand;
+        public ICommand DeleteGenreCommand
+        {
+            get
+            {
+                if (_deleteGenreCommand == null)
+                    _deleteGenreCommand = new ComicDelegatedCommand(DeleteGenre);
+                return _deleteGenreCommand;
+            }
+        }
+
+
         private GenreDataModel _selectedItem = new GenreDataModel();
         public GenreDataModel SelectedItem
         {
@@ -198,10 +232,8 @@ namespace ComicReaderDataManagementUI.ViewModels
                 StatusBar = $"Add comic(s) failed, check log";
             }
         }
-        #endregion
 
-        #region public methods
-        public void NewGenre()
+        private void NewGenre()
         {
             var lastId = GenreBox.OrderByDescending(i => i.Id).First().Id + 1;
             SelectedItem = new GenreDataModel
@@ -213,7 +245,7 @@ namespace ComicReaderDataManagementUI.ViewModels
             newGenreAdded = true;
         }
 
-        public void SaveGenre()
+        private void SaveGenre()
         {
             int genreToUpdatePos = GenreBox.IndexOf(SelectedItem);
             if (newGenreAdded == false)
@@ -254,7 +286,7 @@ namespace ComicReaderDataManagementUI.ViewModels
             _ = RetrieveGenres();
         }
 
-        public void DeleteGenre()
+        private void DeleteGenre()
         {
             MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Are you sure?", "Delete Confirmation", System.Windows.MessageBoxButton.YesNo);
             if (messageBoxResult == MessageBoxResult.Yes)
@@ -274,6 +306,9 @@ namespace ComicReaderDataManagementUI.ViewModels
                 }
             }
         }
+        #endregion
+
+        #region public methods        
         #endregion
 
         #region aux methods

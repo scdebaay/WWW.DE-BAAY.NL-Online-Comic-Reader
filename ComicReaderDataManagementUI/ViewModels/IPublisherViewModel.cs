@@ -42,20 +42,20 @@ namespace ComicReaderDataManagementUI.ViewModels
         /// </summary>
         ICommand AddComicToPublisherCommand { get; }
         /// <summary>
-        /// Method for the Delete puiblisher button
+        /// Command for the Add New Publisher button
         /// </summary>
-        void DeletePublisher();
+        ICommand NewPublisherCommand { get; }
+        /// <summary>
+        /// Command for the Save Publisher button
+        /// </summary>
+        ICommand SavePublisherCommand { get; }
+        /// <summary>
+        /// Command for the Delete puiblisher button
+        /// </summary>
+        ICommand DeletePublisherCommand { get; }
         /// <summary>
         /// Event handler for when a Comic was changed in the MainViewModel
         /// </summary>
         Task HandleAsync(ComicChangedOnMainEvent message, CancellationToken cancellationToken);
-        /// <summary>
-        /// Method for the Add New Publisher button
-        /// </summary>
-        void NewPublisher();
-        /// <summary>
-        /// Method for the Save Publisher button
-        /// </summary>
-        void SavePublisher();
     }
 }

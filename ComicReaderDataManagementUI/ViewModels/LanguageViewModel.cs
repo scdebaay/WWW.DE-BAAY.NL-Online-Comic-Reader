@@ -47,6 +47,38 @@ namespace ComicReaderDataManagementUI.ViewModels
             }
         }
 
+        private ICommand _newLanguageCommand;
+        public ICommand NewLanguageCommand
+        {
+            get
+            {
+                if (_newLanguageCommand == null)
+                    _newLanguageCommand = new ComicDelegatedCommand(NewLanguage);
+                return _newLanguageCommand;
+            }
+        }
+
+        private ICommand _saveLanguageCommand;
+        public ICommand SaveLanguageCommand
+        {
+            get
+            {
+                if (_saveLanguageCommand == null)
+                    _saveLanguageCommand = new ComicDelegatedCommand(SaveLanguage);
+                return _saveLanguageCommand;
+            }
+        }
+
+        private ICommand _deleteLanguageCommand;
+        public ICommand DeleteLanguageCommand
+        {
+            get
+            {
+                if (_deleteLanguageCommand == null)
+                    _deleteLanguageCommand = new ComicDelegatedCommand(DeleteLanguage);
+                return _deleteLanguageCommand;
+            }
+        }
 
         private LanguageDataModel _selectedItem = new LanguageDataModel();
         public LanguageDataModel SelectedItem
@@ -161,9 +193,9 @@ namespace ComicReaderDataManagementUI.ViewModels
             var list = await _sqlUiDbConnection.RetrieveComicsAsync("");
             var l = list.Where(x => x.LanguageId == SelectedItem.Id).Select(x => x);
             if (l != null)
-                {
-                    SelectedComicInLanguage = l.FirstOrDefault();
-                }
+            {
+                SelectedComicInLanguage = l.FirstOrDefault();
+            }
             ComicsInLanguageBox.AddRange(l);
             ComicList.AddRange(list);
         }
@@ -193,11 +225,8 @@ namespace ComicReaderDataManagementUI.ViewModels
                 StatusBar = $"Add comic failed, check log";
             }
         }
-        #endregion
-
-        #region public methods        
-
-        public void NewLanguage()
+        
+        private void NewLanguage()
         {
             var lastId = LanguageBox.OrderByDescending(i => i.Id).First().Id + 1;
             SelectedItem = new LanguageDataModel
@@ -209,7 +238,7 @@ namespace ComicReaderDataManagementUI.ViewModels
             newLanguageAdded = true;
         }
 
-        public void SaveLanguage()
+        private void SaveLanguage()
         {
             int langToUpdatePos = LanguageBox.IndexOf(SelectedItem);
             if (newLanguageAdded == false)
@@ -250,7 +279,7 @@ namespace ComicReaderDataManagementUI.ViewModels
             _ = RetrieveLanguages();
         }
 
-        public void DeleteLanguage()
+        private void DeleteLanguage()
         {
             MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Are you sure?", "Delete Confirmation", System.Windows.MessageBoxButton.YesNo);
             if (messageBoxResult == MessageBoxResult.Yes)
@@ -270,6 +299,9 @@ namespace ComicReaderDataManagementUI.ViewModels
                 }
             }
         }
+        #endregion
+
+        #region public methods
         #endregion
 
         #region event handlers

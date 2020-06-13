@@ -18,10 +18,6 @@ namespace ComicReaderDataManagementUI.ViewModels
         /// </summary>
         BindableCollection<ComicDataModel> ComicsInTypeBox { get; }
         /// <summary>
-        /// Backing field for the Selected Comic in the Comic dropdown
-        /// </summary>
-        //BindableCollection<ComicDataModel> SelectedComics { get; set; }
-        /// <summary>
         /// Backing field for the Selected Comic in Comic in Type listbox
         /// </summary>
         ComicDataModel SelectedComicInType { get; set; }
@@ -38,6 +34,18 @@ namespace ComicReaderDataManagementUI.ViewModels
         /// </summary>
         ICommand AddComicToTypeCommand { get; }
         /// <summary>
+        /// Command for the new Type button
+        /// </summary>
+        ICommand NewTypeCommand { get; }
+        /// <summary>
+        /// Command for the Save Type button
+        /// </summary>
+        ICommand SaveTypeCommand { get; }
+        /// <summary>
+        /// Command for the Delete Type button
+        /// </summary>
+        ICommand DeleteTypeCommand { get; }
+        /// <summary>
         /// Backing field for the Type dropdown
         /// </summary>
         BindableCollection<TypeDataModel> TypeBox { get; }
@@ -46,20 +54,8 @@ namespace ComicReaderDataManagementUI.ViewModels
         /// </summary>
         string TypeName { get; set; }
         /// <summary>
-        /// Method for the Delete Type button
-        /// </summary>
-        void DeleteType();
-        /// <summary>
         /// Method for the eventhandler when a Comic was changed in the MainViewModel
         /// </summary>
         Task HandleAsync(ComicChangedOnMainEvent message, CancellationToken cancellationToken);
-        /// <summary>
-        /// Method for the new Type button
-        /// </summary>
-        void NewType();
-        /// <summary>
-        /// Method for the Save Type button
-        /// </summary>
-        void SaveType();
     }
 }

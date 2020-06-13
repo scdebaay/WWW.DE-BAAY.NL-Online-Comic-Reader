@@ -8,12 +8,17 @@ namespace ComicReaderDataManagementUI.ViewModels.Commands
 {
     internal class ComicDelegatedCommand : ICommand
     {
-        public ComicDelegatedCommand(Action execute)
+        private readonly Action _execute;
+        private readonly Func<bool> _canExecute;
+
+        public ComicDelegatedCommand(Action execute) : this(execute, () => true) { }
+        public ComicDelegatedCommand(Action execute, Func<bool> canExecute)
         {
             _execute = execute;
+            _canExecute = canExecute;
         }
 
-        private Action _execute { get; set; }
+        
 
         public event EventHandler CanExecuteChanged
         {
@@ -23,7 +28,7 @@ namespace ComicReaderDataManagementUI.ViewModels.Commands
 
         public bool CanExecute(object parameter)
         {
-            if (parameter != null)
+            if (_canExecute())
                 return true;
 
             return false;

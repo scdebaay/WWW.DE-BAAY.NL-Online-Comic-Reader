@@ -62,20 +62,20 @@ namespace ComicReaderDataManagementUI.ViewModels
         /// </summary>
         ICommand AddComicToAuthorCommand { get; }
         /// <summary>
-        /// Method for delete author button.
+        /// Command for save author button.
         /// </summary>
-        void DeleteAuthor();
+        ICommand SaveAuthorCommand { get; }
+        /// <summary>
+        /// Command for new author button.
+        /// </summary>
+        ICommand NewAuthorCommand { get; }
+        /// <summary>
+        /// Command for delete author button.
+        /// </summary>
+        ICommand DeleteAuthorCommand { get; }
         /// <summary>
         /// Eventhandler for Changed comic in MainView
         /// </summary>
         Task HandleAsync(ComicChangedOnMainEvent message, CancellationToken cancellationToken);
-        /// <summary>
-        /// Method for new author button.
-        /// </summary>
-        void NewAuthor();
-        /// <summary>
-        /// Method for save author button.
-        /// </summary>
-        void SaveAuthor();
     }
 }
