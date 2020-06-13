@@ -339,5 +339,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ComicReaderDBTest.publish.xml" />
+    <None Include="ComicReaderDBAlt.publish.xml" />
   </ItemGroup>
 </Project>
