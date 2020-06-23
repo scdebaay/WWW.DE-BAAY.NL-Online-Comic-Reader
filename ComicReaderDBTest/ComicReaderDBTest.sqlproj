@@ -336,6 +336,7 @@
     <Build Include="dbo\Stored Procedures\Series\spUpdateComicToSerieByIds.sql" />
     <Build Include="dbo\Stored Procedures\SubSeries\spUpdateComicToSubSerieByIds.sql" />
     <Build Include="dbo\Tables\uComicIdPropIdTVP.sql" />
+    <Build Include="dbo\Stored Procedures\Comics\spUpdateComicByIdIngest.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ComicReaderDBTest.publish.xml" />

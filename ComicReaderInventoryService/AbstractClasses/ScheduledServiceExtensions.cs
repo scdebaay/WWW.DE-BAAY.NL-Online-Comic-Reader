@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using ComicReaderInventoryService.Jobs;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 
 namespace ComicReaderInventoryService.AbstractClasses

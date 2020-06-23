@@ -1,0 +1,16 @@
+{
+  "Jobs": [
+    {
+      "Name": "Alt",
+      "Database": "Data Source=SQL01;Initial Catalog=ComicReaderDBAlt;Integrated Security=True",
+      "Folder": "\\\\DE-BAAY.NL\\AdministrativeDistributedShare\\Archive\\Comics\\Overig\\",
+      "CronExpression": "*/5 * * * *"
+    },
+    {
+      "Name": "Pub",
+      "Database": "Data Source=SQL01;Initial Catalog=ComicReaderDBTest;Integrated Security=True",
+      "Folder": "\\\\DE-BAAY.NL\\DistributedFileShare\\Comics\\pub\\",
+      "CronExpression": "*/5 * * * *"
+    }
+  ]
+}

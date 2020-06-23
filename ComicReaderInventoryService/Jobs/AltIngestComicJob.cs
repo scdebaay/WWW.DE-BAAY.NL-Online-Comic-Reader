@@ -15,13 +15,13 @@ using System.Threading.Tasks;
 
 namespace ComicReaderInventoryService.Jobs
 {
-    public class IngestComicJob : CronJobService, IIngestComicJob
+    public class AltIngestComicJob : CronJobService
     {
-        private readonly ILogger<IngestComicJob> _logger;
+        private readonly ILogger<AltIngestComicJob> _logger;
         private readonly IHostApplicationLifetime _hostApplicationLifetime;
         private readonly IServiceProvider _serviceProvider;
         private readonly IFileSystem _fileSystem;
-        private readonly IScheduleConfig<IngestComicJob> _jobConfig;
+        private readonly IScheduleConfig<AltIngestComicJob> _jobConfig;
 
         /// <summary>
         /// Using the example at https://codeburst.io/schedule-cron-jobs-using-hostedservice-in-asp-net-core-e17c47ba06 implemented the following
@@ -32,7 +32,7 @@ namespace ComicReaderInventoryService.Jobs
         /// The folder to crawl is resolved and when not encountered, the service throws an exception and is stopped.
         /// ToDo: Implement http endpoint to activate Job out of Band.
         /// </summary>
-        public IngestComicJob(IScheduleConfig<IngestComicJob> config, IHostApplicationLifetime hostApplicationLifetime, IServiceProvider serviceProvider, ILogger<IngestComicJob> logger, IFileSystem fileSystem)
+        public AltIngestComicJob(IScheduleConfig<AltIngestComicJob> config, IHostApplicationLifetime hostApplicationLifetime, IServiceProvider serviceProvider, ILogger<AltIngestComicJob> logger, IFileSystem fileSystem)
             : base(config.CronExpression, config.TimeZoneInfo)
         {
             _hostApplicationLifetime = hostApplicationLifetime;

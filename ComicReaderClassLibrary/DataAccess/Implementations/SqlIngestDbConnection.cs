@@ -17,6 +17,7 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
         private IConfiguration _configuration;
         private readonly ILogger _logger;
         private IRootModel _rootModel;
+        private string _connectionString;
 
         /// <summary>
         /// Constructor, creates a database context object for Api access
@@ -48,7 +49,7 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
         /// <returns>Retrieves a ComicDataModel by name or, if the comic was nog found, one dummy record.</returns>
         private ComicDataModel RetrieveComic(string name)
         {
-            using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
+            using (IDbConnection connection = new SqlConnection(_connectionString))
             {
                 var queryoutput = connection.Query<ComicDataModel>("dbo.spRetrieveComicByName @Name", new { Name = @name }).AsList();
                 if (queryoutput.Count > 0)
@@ -71,7 +72,7 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
         public void InsertComics(List<FileModel> comicsToIngest)
         {
 
-            using (IDbConnection connection = new SqlConnection(CnnVal("Default")))
+            using (IDbConnection connection = new SqlConnection(_connectionString))
             {
                 List<ComicDataModel> comicsDataToIngest = new List<ComicDataModel>();
                 List<ComicDataModel> comicsDataToUpdate = new List<ComicDataModel>();
@@ -97,7 +98,7 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
                 _logger.LogInformation($"Starting Comic ingest at: {DateTimeOffset.Now}");
                 connection.Execute("dbo.spInsertComics @Name, @Path, @TotalPages", comicsDataToIngest);
                 _logger.LogInformation($"Starting Comic Updates at: {DateTimeOffset.Now}");
-                connection.Execute("dbo.spUpdateComicById @Id, @Name, @Path, @TotalPages", comicsDataToUpdate);
+                connection.Execute("dbo.spUpdateComicByIdIngest @Id, @Name, @Path, @TotalPages", comicsDataToUpdate);
                 _logger.LogInformation($"{comicsInDb} were found but already in the DB at: {DateTimeOffset.Now}");
             }
         }
@@ -135,6 +136,15 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
             {
                 return true;
             }
+        }
+
+        /// <summary>
+        /// Public method to set internal connectionstring for multiple database use.
+        /// </summary>
+        /// <param name="connectionString">string representing the connectionstring to the database</param>
+        public void SetConnectionString(string connectionString)
+        {
+            _connectionString = connectionString;
         }
     }
 }

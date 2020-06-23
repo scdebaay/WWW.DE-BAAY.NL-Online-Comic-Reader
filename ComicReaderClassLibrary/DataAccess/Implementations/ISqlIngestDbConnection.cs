@@ -14,6 +14,12 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
         /// Method to ingest Comics in FileModel format.
         /// </summary>
         /// <param name="comicsToIngest">List of FileModels, representing comics to be ingested into the database.</param>
-        void InsertComics(List<FileModel> comicsToIngest);        
+        void InsertComics(List<FileModel> comicsToIngest);
+
+        /// <summary>
+        /// Public method to set internal connectionstring for multiple database use.
+        /// </summary>
+        /// <param name="connectionString">string representing the connectionstring to the database</param>
+        public void SetConnectionString(string connectionString);
     }
 }

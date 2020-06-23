@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AssemblyVersion>2020.06.1.6</AssemblyVersion>
-    <FileVersion>2020.06.1.6</FileVersion>
-    <Version>2020.06.1.6</Version>
+    <AssemblyVersion>2020.06.1.7</AssemblyVersion>
+    <FileVersion>2020.06.1.7</FileVersion>
+    <Version>2020.06.1.7</Version>
     <Authors>Solino de Baay</Authors>
     <Company>WWW.DE-BAAY.NL</Company>
     <Product>Comic Reader Class Library</Product>
@@ -13,7 +13,12 @@
     <PackageIcon>Comic Cloud Service.png</PackageIcon>
     <RepositoryUrl>https://github.com/scdebaay/WWW.DE-BAAY.NL-Online-Comic-Reader</RepositoryUrl>
     <ApplicationIcon>Comic Cloud Service.ico</ApplicationIcon>
-    <PackageReleaseNotes>ComicReader Class Library, Version 1.0, Release 2020.06.1.6,
+    <PackageReleaseNotes>ComicReader Class Library, Version 1.0, Release 2020.06.1.7,
+To be used with Comic Reader Inventory Service Version 2, Release 2020.05.2.3, 
+Attempt to generate jobs from settings file. Created Jobs.json for this purpose. Not succeeded in generating custom job classes from this file. Added an Alt class that can ingest a secondary folder to a secondary database. Need to find a way to automate this without having to recompile the code to include an additional job. Requires more research.
+For now this is done, added an additional stored procedure to make updating by Id end without Id possible from the ingest process. Also implemented this in the SqlIngestDatabase class.
+
+ComicReader Class Library, Version 1.0, Release 2020.06.1.6,
 Added an AboutDataModel to be used by other applications to provide version information in a uniform manner.
 
 ComicReader Class Library, Version 1.0, Release 2020.06.1.5,

@@ -17,6 +17,9 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.IO;
 
 namespace ComicReaderInventoryService
 {
@@ -28,7 +31,7 @@ namespace ComicReaderInventoryService
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-        }       
+        }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -39,12 +42,39 @@ namespace ComicReaderInventoryService
             services.AddScoped<IFolderCrawler, FolderCrawler>();
             services.AddSingleton<IFileSystem, FileSystem>();
             services.AddScoped<ISqlIngestDbConnection, SqlIngestDbConnection>();
-            //Jobs are scheduled using cron expression from Configuration object, that is, Settings.Json.
+            //Jobs are defined in Jobs.json. This file is read from location defined in Settings.Json.
+            var jobConfigList = JsonConvert.DeserializeObject<JObject>(File.ReadAllText(Configuration["JobsFile"]));
+            //Jobs are scheduled using cron expression from JobConfiguration object configured in Jobs.Json.
+            JArray jobArray = (JArray)jobConfigList["Jobs"];
+
             services.AddCronJob<IngestComicJob>(c =>
-            {
-                c.TimeZoneInfo = TimeZoneInfo.Local;
-                c.CronExpression = Configuration["IngestComicJob"];
-            });
+                            {
+                                c.Name = (string)jobArray[1]["Name"];
+                                c.Database = (string)jobArray[1]["Database"];
+                                c.Folder = (string)jobArray[1]["Folder"];
+                                c.TimeZoneInfo = TimeZoneInfo.Local;
+                                c.CronExpression = (string)jobArray[1]["CronExpression"];
+                            });
+            services.AddCronJob<AltIngestComicJob>(c =>
+                            {
+                                c.Name = (string)jobArray[0]["Name"];
+                                c.Database = (string)jobArray[0]["Database"];
+                                c.Folder = (string)jobArray[0]["Folder"];
+                                c.TimeZoneInfo = TimeZoneInfo.Local;
+                                c.CronExpression = (string)jobArray[0]["CronExpression"];
+                            });
+
+            ///foreach (var job in jobArray.Children())
+            ///{
+            ///    services.AddCronJob<IngestComicJob>(c =>
+            ///                {
+            ///                    c.Name = (string)job["Name"];
+            ///                    c.Database = (string)job["Database"];
+            ///                    c.Folder = (string)job["Folder"];
+            ///                    c.TimeZoneInfo = TimeZoneInfo.Local;
+            ///                    c.CronExpression = (string)job["CronExpression"];
+            ///                });
+            ///}
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
