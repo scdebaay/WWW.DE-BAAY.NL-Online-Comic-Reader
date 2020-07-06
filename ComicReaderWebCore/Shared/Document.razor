@@ -1,0 +1,9 @@
+﻿@inject IJSRuntime JSRuntime
+@code {
+    [Parameter]
+    public string Title { get; set; }
+    protected override async Task OnParametersSetAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("DocumentInterop.setDocumentTitle", Title);
+    }
+}

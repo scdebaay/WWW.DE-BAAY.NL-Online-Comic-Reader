@@ -10,43 +10,46 @@
 @inject NavigationManager NavigationManager
 @inject IComicStateProvider ComicStateProvider
 @inject IComicListStateProvider ComicListStateProvider
+@inject IJSRuntime JSRuntime
+
 @if (ComicStateProvider.CurrentComic == null)
 {
-<div id="Comic">
-    <div id="content">
-        <p><em>Loading...</em></p>
+    <div id="Comic">
+        <div id="content">
+            <p><em>Loading...</em></p>
+        </div>
     </div>
-</div>
-<div id="ComicBottomMargin"></div>
-<div id="Footer"></div>
+    <div id="ComicBottomMargin"></div>
+    <div id="Footer"></div>
 }
 else
 {
- <!--Content-->
-<div id="Comic" tabindex="0" @onkeyup="KeyUp">
-    <div id="ZoomOut"><div class="paging" @onclick="ZoomOut">-</div></div>
-    <div id="header">
-        <NavLink class="nav-link" href="@Href">
-            Comic list
-        </NavLink>
+    <Document Title="@Title" />
+    <!--Content-->
+    <div id="Comic" tabindex="0" @onkeyup="KeyUp">
+        <div id="ZoomOut"><div class="paging" @onclick="ZoomOut">-</div></div>
+        <div id="header">
+            <NavLink class="nav-link" href="@Href">
+                Comic list
+            </NavLink>
+        </div>
+        <div id="ZoomIn">
+            <div class="paging" @onclick="ZoomIn">+</div>
+        </div>
+        <div id="prevButton">
+            <div class="firstpaging" @onclick="FirstPage">P.<br />1</div>
+            <div class="paging" @onclick="PreviousPage">&lt;</div>
+        </div>
+        <div id="content">
+            <img src="@comicPage" alt="ComicPage" />
+        </div>
+        <div id="nextButton">
+            <div class="paging" @onclick="NextPage">&gt;</div>
+            <div class="lastpaging" @onclick="LastPage">P.<br />@ComicStateProvider.CurrentComic.TotalPages</div>
+        </div>
     </div>
-    <div id="ZoomIn">
-        <div class="paging" @onclick="ZoomIn">+</div>
-    </div>
-    <div id="prevButton">
-        <div class="firstpaging" @onclick="FirstPage">P.<br />1</div>
-        <div class="paging" @onclick="PreviousPage">&lt;</div>
-    </div>
-    <div id="content">
-        <img src="@comicPage" alt="ComicPage" />
-    </div>
-    <div id="nextButton">
-        <div class="paging" @onclick="NextPage">&gt;</div>
-        <div class="lastpaging" @onclick="LastPage">P.<br />@ComicStateProvider.CurrentComic.TotalPages</div>
-    </div>
-</div>
-<div id="ComicBottomMargin"></div>
-<div id="Footer"></div>
+    <div id="ComicBottomMargin"></div>
+    <div id="Footer"></div>
 }
 
 @code {
@@ -62,6 +65,9 @@ else
 
     [Parameter]
     public int CurrentComicPage { get; set; } = 0;
+
+    [Parameter]
+    public string Title { get; set; }
 
     private int currentSize { get; set; }
 
@@ -110,6 +116,15 @@ else
         comicPage = $"{ApiCallService.ApiLocation}comic/{Path}/{Filename}/{CurrentComicPage}?size={currentSize}";
 
         Href = $"ComicListPage/{ComicListStateProvider.CurrentListPage}";
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Title = ComicStateProvider.CurrentComic.Title;
+            await JSRuntime.InvokeVoidAsync("DocumentInterop.setDocumentTitle", Title);
+        }
     }
     #endregion
 

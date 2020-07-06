@@ -7,7 +7,9 @@
 @inject IComicStateProvider ComicStateProvider
 @inject IComicListStateProvider ComicListStateProvider
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
 
+<Document Title="@Title" />
 @if (comiclist == null)
 {
     <div id="ComicPage">
@@ -25,12 +27,13 @@ else
 
         <div id="ComicHeader">
             Comics available<div id="Searcher">
-                <button class="btn" type="button" @onclick="@SetSearchActive" width="30" height="30" id="SearchIcon"  />
-            @if (SearchActive == true) { 
-                <input id="SearchText" type="text" @bind="@this.SearchText" @onkeyup="@SearchBoxKeyPress" />
-                <button class="btn" type="button" @onclick="@SearchClick">Search</button>
-                <button class="btn" type="button" @onclick="@ClearClick">Clear</button>
-            }
+                <button class="btn" type="button" @onclick="@SetSearchActive" width="30" height="30" id="SearchIcon" />
+                @if (SearchActive == true)
+                {
+                    <input id="SearchText" type="text" @bind="@this.SearchText" @onkeyup="@SearchBoxKeyPress" />
+                    <button class="btn" type="button" @onclick="@SearchClick">Search</button>
+                    <button class="btn" type="button" @onclick="@ClearClick">Clear</button>
+                }
             </div>
         </div>
 
@@ -106,10 +109,13 @@ else
     private bool SearchActive { get; set; } = false;
 
     [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
     public int currentComicListPage { get; set; }
     #endregion
 
-    #region Method called at Initialization
+    #region Methods called at Initialization
     /// <summary>
     /// Checks whether that ComicList page was visited in the current session.
     /// State is returend if this is true
@@ -135,6 +141,14 @@ else
         }
         comiclist = await ApiCallService.GetFolderListAsync(SearchText, ComicListStateProvider.CurrentListPage);
     }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await SetTitleAsync();
+        }
+    }
     #endregion
 
     #region Page navigation methods
@@ -159,6 +173,7 @@ else
         ComicListStateProvider.PageChangeEventArgs args = new ComicListStateProvider.PageChangeEventArgs();
         args.Page = currentComicListPage;
         ComicListStateProvider.OnComicListPageChanged(this, args);
+        await SetTitleAsync();
     }
 
     private async Task NextPage()
@@ -178,6 +193,7 @@ else
         ComicListStateProvider.PageChangeEventArgs args = new ComicListStateProvider.PageChangeEventArgs();
         args.Page = currentComicListPage;
         ComicListStateProvider.OnComicListPageChanged(this, args);
+        await SetTitleAsync();
     }
 
     private async Task FirstPage()
@@ -189,6 +205,7 @@ else
         ComicListStateProvider.PageChangeEventArgs args = new ComicListStateProvider.PageChangeEventArgs();
         args.Page = currentComicListPage;
         ComicListStateProvider.OnComicListPageChanged(this, args);
+        await SetTitleAsync();
     }
 
     private async Task LastPage()
@@ -201,6 +218,7 @@ else
         ComicListStateProvider.PageChangeEventArgs args = new ComicListStateProvider.PageChangeEventArgs();
         args.Page = currentComicListPage;
         ComicListStateProvider.OnComicListPageChanged(this, args);
+        await SetTitleAsync();
     }
 
     /// <summary>
@@ -229,6 +247,7 @@ else
         ComicListStateProvider.PageChangeEventArgs args = new ComicListStateProvider.PageChangeEventArgs();
         args.Page = currentComicListPage;
         ComicListStateProvider.OnComicListPageChanged(this, args);
+        await SetTitleAsync();
     }
     #endregion
 
@@ -242,7 +261,9 @@ else
         comiclist = await ApiCallService.GetFolderListAsync(SearchText, 0);
         currentComicListPage = 0;
         NavigationManager.NavigateTo($"ComicListPage/{currentComicListPage}");
+        ComicListStateProvider.CurrentListPage = currentComicListPage;
         ComicListStateProvider.OnComicListPageChanged(this, args);
+        await SetTitleAsync();
     }
 
     protected async Task SearchBoxKeyPress(KeyboardEventArgs ev)
@@ -251,11 +272,15 @@ else
         {
             await Search();
         }
+
+        await SetTitleAsync();
     }
 
     protected async Task SearchClick(MouseEventArgs ev)
     {
         await Search();
+
+        await SetTitleAsync();
     }
 
     protected void ClearClick(MouseEventArgs ev)
@@ -282,6 +307,14 @@ else
     {
         ComicStateProvider.CurrentComic = comic;
         NavigationManager.NavigateTo($"ComicPage/{comic.Path.ToString().Remove(0, 1)}/0");
+    }
+    #endregion
+
+    #region private methods
+    private async Task SetTitleAsync()
+    {
+        Title = $"Available comics - Page {ComicListStateProvider.CurrentListPage}";
+        await JSRuntime.InvokeVoidAsync("DocumentInterop.setDocumentTitle", Title);
     }
     #endregion
 }
