@@ -42,6 +42,7 @@ namespace ComicReaderClassLibrary.DataAccess.Implementations
         /// <param name="pageLimit">Int, Optional, representing the amount of records to retrieve in one request.</param>
         /// <param name="page">Int, Optional, representing the set of records to be retrieved.</param>
         /// <returns>Ojects that implements IRootModel containing database query results or one dummy record.</returns>
+        #nullable enable
         public IRootModel RetrieveComics(int? pageLimit, int? page, string? searchText)
         {
             _rootModel.folder = new FolderModel { name = "pub", currentPage = page.ToString() };

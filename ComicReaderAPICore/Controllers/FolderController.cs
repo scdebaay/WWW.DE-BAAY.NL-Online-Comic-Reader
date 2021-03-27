@@ -44,6 +44,7 @@ namespace ComicReaderAPICore.Controllers
         /// <param name="currentfolderpage">Int, which page is begin requested. JSON also includes total pages available using current pageLimit</param>
         /// <returns>Returns JSON object containing file list, folder name, total pages, current page and total pages per comic</returns>
         [Produces("application/json")]
+        #nullable enable
         public IRootModel Get(string folder, int? pageLimit, string? searchText, int? currentfolderpage = 0)
         {
             if (pageLimit == null)
