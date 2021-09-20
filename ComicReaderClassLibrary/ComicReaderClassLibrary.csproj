@@ -52,7 +52,7 @@ ComicReader Class Library, Version 0.1, 2020.04.0.1. Built on .NET Core 3.1, Imp
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
     <PackageReference Include="NLog" Version="4.7.9" />
-    <PackageReference Include="SharpCompress" Version="0.28.1" />
+    <PackageReference Include="SharpCompress" Version="0.29.0" />
     <PackageReference Include="SkiaSharp" Version="2.80.2" />
     <PackageReference Include="System.IO.Abstractions" Version="13.2.28" />
     <PackageReference Include="VersOne.Epub" Version="3.0.3.1" />
