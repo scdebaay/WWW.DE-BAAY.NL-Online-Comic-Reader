@@ -47,7 +47,7 @@ namespace ComicReaderWebCore.Data
                 return emptyResponseList;
             }
         }
-
+#nullable enable
         public async Task<ComicListModel> GetFolderListAsync(string? searchText, int? page = 1)
         {
             HttpClient client = new HttpClient
@@ -62,7 +62,8 @@ namespace ComicReaderWebCore.Data
             }
             HttpResponseMessage response = await client.GetAsync(request);
             response.EnsureSuccessStatusCode();
-            JObject jObject = JsonConvert.DeserializeObject<JObject>(response.Content.ReadAsStringAsync().Result);
+            
+            JObject? jObject = JsonConvert.DeserializeObject<JObject>(response.Content.ReadAsStringAsync().Result);
             if (jObject != null)
             {
                 ComicListModel returnList = new ComicListModel(jObject, _config);
@@ -76,6 +77,7 @@ namespace ComicReaderWebCore.Data
                 return emptyResponseList;
             }
         }
+#nullable disable
 
         public string ApiLocation { get { return _config.GetValue<string>("ApiLocation"); } set { } }
         public string SiteRoot { get { return _config.GetValue<string>("SiteRoot"); } set { } }

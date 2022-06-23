@@ -45,17 +45,17 @@ ComicReader Class Library, Version 0.1, 2020.04.0.1. Built on .NET Core 3.1, Imp
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Caliburn.Micro.Core" Version="4.0.105-alpha" />
-    <PackageReference Include="Dapper" Version="2.0.78" />
+    <PackageReference Include="Caliburn.Micro.Core" Version="4.0.173" />
+    <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="Dapper.Contrib" Version="2.0.78" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="2.1.2" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
-    <PackageReference Include="NLog" Version="4.7.9" />
-    <PackageReference Include="SharpCompress" Version="0.28.1" />
-    <PackageReference Include="SkiaSharp" Version="2.80.2" />
-    <PackageReference Include="System.IO.Abstractions" Version="13.2.28" />
-    <PackageReference Include="VersOne.Epub" Version="3.0.3.1" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="4.1.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    <PackageReference Include="NLog" Version="5.0.1" />
+    <PackageReference Include="SharpCompress" Version="0.32.1" />
+    <PackageReference Include="SkiaSharp" Version="2.88.0" />
+    <PackageReference Include="System.IO.Abstractions" Version="17.0.18" />
+    <PackageReference Include="VersOne.Epub" Version="3.1.1" />
   </ItemGroup>
 
   <ItemGroup>
