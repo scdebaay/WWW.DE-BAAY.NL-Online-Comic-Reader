@@ -6,10 +6,13 @@
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Comic Cloud Management.ico</ApplicationIcon>
     <PackageIcon>Comic Cloud Management.png</PackageIcon>
-    <AssemblyVersion>2020.06.1.1</AssemblyVersion>
-    <FileVersion>2020.06.1.1</FileVersion>
-    <Version>2020.06.1.1</Version>
-    <PackageReleaseNotes>ComicReader Metadata Management UI, Version 1.0, Release, 2020.06.1.1.
+    <AssemblyVersion>2022.06.1.0</AssemblyVersion>
+    <FileVersion>2022.06.1.0</FileVersion>
+    <Version>2022.06.1.0</Version>
+    <PackageReleaseNotes>ComicReader Metadata Management UI, Version 1.0, Release, 2022.06.1.0.
+Big bugfix for NewtonSoft Json Parser and update all packages to latest version.
+New SQL connection requieres SSL connection by default. Amend your connection string or get a certificate for you SQL server.
+ComicReader Metadata Management UI, Version 1.0, Release, 2020.06.1.1.
 Refactored all public methods into Commands for UI implementation. Added menubar with active menu items.
 Added an About screen with application, library and API information. Needs CL Version 2020.06.1.6 or above
 

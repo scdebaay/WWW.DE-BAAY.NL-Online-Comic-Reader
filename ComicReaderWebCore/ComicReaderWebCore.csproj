@@ -2,14 +2,18 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <AssemblyVersion>2020.07.2.7</AssemblyVersion>
-    <FileVersion>2020.07.2.7</FileVersion>
-    <Version>2020.07.2.7</Version>
+    <AssemblyVersion>2022.06.1.0</AssemblyVersion>
+    <FileVersion>2022.06.1.0</FileVersion>
+    <Version>2022.06.1.0</Version>
     <Description>.NET Core implementation of the Comic Web Reader.</Description>
     <PackageIcon>Comic Cloud Web.png</PackageIcon>
     <ApplicationIcon>Comic Cloud Web.ico</ApplicationIcon>
     <Copyright>Copyright Solino de Baay © 2020</Copyright>
-    <PackageReleaseNotes>Comic Cloud Web Core version 2, Release 2020.07.2.7. 
+    <PackageReleaseNotes>Comic Cloud Web Core version 2, Release 2022.06.1.0. 
+Big bugfix for NewtonSoft Json Parser and update all packages to latest version.
+New SQL connection requieres SSL connection by default. Amend your connection string or get a certificate for you SQL server.
+
+Comic Cloud Web Core version 2, Release 2020.07.2.7. 
 Implemented page titleing for Comic List page and Comic pages using JSInterop.
 
 Comic Cloud Web Core version 2, Release 2020.06.2.6. 

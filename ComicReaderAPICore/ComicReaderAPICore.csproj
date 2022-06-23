@@ -2,15 +2,18 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <AssemblyVersion>2020.06.1.6</AssemblyVersion>
-    <FileVersion>2020.06.1.6</FileVersion>
-    <Version>2020.06.1.6</Version>
+    <AssemblyVersion>2022.06.1.0</AssemblyVersion>
+    <FileVersion>2022.06.1.0</FileVersion>
+    <Version>2022.06.1.0</Version>
     <Description>.NET Core implementation of the Comic Reader API, previously WWW.DE-BAAY.NL Online Comic Reader</Description>
     <ApplicationIcon>Comic Cloud API.ico</ApplicationIcon>
     <PackageIcon>Comic Cloud API.png</PackageIcon>
     <RepositoryUrl>https://github.com/scdebaay/WWW.DE-BAAY.NL-Online-Comic-Reader</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
-    <PackageReleaseNotes>ComicReaderAPICore 2, Version 1.5, Release Release 2020.05.1.6, 
+    <PackageReleaseNotes>ComicReaderAPICore 2, Version 1.0, Release 2022.06.1.0
+Big bugfix for NewtonSoft Json Parser and update all packages to latest version.
+New SQL connection requieres SSL connection by default. Amend your connection string or get a certificate for you SQL server.
+ComicReaderAPICore 2, Version 1.5, Release 2020.05.1.6, 
 Implemented API Search, On the Folder controller add searchText parameter (Optional) with text to search for. Search is performed on Title and Path. More searchoptions to be implemented
 
 ComicReaderAPICore 2, Version 1.5, Release Release 2020.05.1.5, 
