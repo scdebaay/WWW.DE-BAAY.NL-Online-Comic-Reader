@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <AssemblyVersion>2022.06.1.0</AssemblyVersion>
-    <FileVersion>2022.06.1.0</FileVersion>
-    <Version>2022.06.1.0</Version>
+    <TargetFramework>net7.0</TargetFramework>
+    <AssemblyVersion>2023.02.1.0</AssemblyVersion>
+    <FileVersion>2023.02.1.0</FileVersion>
+    <Version>2023.02.1.0</Version>
     <Authors>Solino de Baay</Authors>
     <Company>WWW.DE-BAAY.NL</Company>
     <Product>Comic Reader Class Library</Product>
@@ -13,7 +13,10 @@
     <PackageIcon>Comic Cloud Service.png</PackageIcon>
     <RepositoryUrl>https://github.com/scdebaay/WWW.DE-BAAY.NL-Online-Comic-Reader</RepositoryUrl>
     <ApplicationIcon>Comic Cloud Service.ico</ApplicationIcon>
-    <PackageReleaseNotes>ComicReader Class Library, Version 1.0, Release 2022.06.1.0,
+    <PackageReleaseNotes>ComicReader Class Library, Release 2023.02.1.0
+Updated code with package bugfixes and Framework updates to .Net 4.8 and .Net Core 7.0
+
+ComicReader Class Library, Version 1.0, Release 2022.06.1.0,
 Big bugfix for NewtonSoft Json Parser and update all packages to latest version.
 New SQL connection requieres SSL connection by default. Amend your connection string or get a certificate for you SQL server.
 ComicReader Class Library, Version 1.0, Release 2020.06.1.7,
@@ -48,17 +51,17 @@ ComicReader Class Library, Version 0.1, 2020.04.0.1. Built on .NET Core 3.1, Imp
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Caliburn.Micro.Core" Version="4.0.173" />
+    <PackageReference Include="Caliburn.Micro.Core" Version="4.0.212" />
     <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="Dapper.Contrib" Version="2.0.78" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="4.1.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
-    <PackageReference Include="NLog" Version="5.0.1" />
-    <PackageReference Include="SharpCompress" Version="0.32.1" />
-    <PackageReference Include="SkiaSharp" Version="2.88.0" />
-    <PackageReference Include="System.IO.Abstractions" Version="17.0.18" />
-    <PackageReference Include="VersOne.Epub" Version="3.1.1" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+    <PackageReference Include="NLog" Version="5.1.2" />
+    <PackageReference Include="SharpCompress" Version="0.32.2" />
+    <PackageReference Include="SkiaSharp" Version="2.88.3" />
+    <PackageReference Include="System.IO.Abstractions" Version="19.1.18" />
+    <PackageReference Include="VersOne.Epub" Version="3.2.0" />
   </ItemGroup>
 
   <ItemGroup>

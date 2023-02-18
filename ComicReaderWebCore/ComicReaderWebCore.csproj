@@ -1,15 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <AssemblyVersion>2022.06.1.0</AssemblyVersion>
-    <FileVersion>2022.06.1.0</FileVersion>
-    <Version>2022.06.1.0</Version>
+    <TargetFramework>net7.0</TargetFramework>
+    <AssemblyVersion>2023.02.1.0</AssemblyVersion>
+    <FileVersion>2023.02.1.0</FileVersion>
+    <Version>2023.02.1.0</Version>
     <Description>.NET Core implementation of the Comic Web Reader.</Description>
     <PackageIcon>Comic Cloud Web.png</PackageIcon>
     <ApplicationIcon>Comic Cloud Web.ico</ApplicationIcon>
     <Copyright>Copyright Solino de Baay © 2020</Copyright>
-    <PackageReleaseNotes>Comic Cloud Web Core version 2, Release 2022.06.1.0. 
+    <PackageReleaseNotes>Comic Cloud Web Core, Release 2023.02.1.0
+Updated code with package bugfixes and Framework updates to .Net 4.8 and .Net Core 7.0
+
+Comic Cloud Web Core version 2, Release 2022.06.1.0. 
 Big bugfix for NewtonSoft Json Parser and update all packages to latest version.
 New SQL connection requieres SSL connection by default. Amend your connection string or get a certificate for you SQL server.
 
@@ -25,7 +28,7 @@ Now using API Version2, with SQL support.</PackageReleaseNotes>
     <Authors>Solino de Baay</Authors>
     <Company>WWW.DE-BAAY.NL</Company>
     <Product>Comic Reader Web 2</Product>
-    <PackageId>ComicReaderWebCore 2</PackageId>
+    <PackageId>ComicReaderWebCore 3</PackageId>
     <RepositoryUrl>https://github.com/scdebaay/WWW.DE-BAAY.NL-Online-Comic-Reader</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
   </PropertyGroup>
@@ -43,12 +46,12 @@ Now using API Version2, with SQL support.</PackageReleaseNotes>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="NLog" Version="5.0.1" />
-    <PackageReference Include="NLog.Schema" Version="5.0.1" />
-    <PackageReference Include="NLog.Web.AspNetCore" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="NLog" Version="5.1.2" />
+    <PackageReference Include="NLog.Schema" Version="5.1.2" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="5.2.2" />
   </ItemGroup>
 
 </Project>

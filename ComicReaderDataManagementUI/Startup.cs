@@ -75,7 +75,7 @@ namespace ComicReaderDataManagementUI
                 var services = serviceScope.ServiceProvider;
                 try
                 {
-                    DisplayRootViewFor<MainViewModel>();
+                    DisplayRootViewForAsync<MainViewModel>();
                 }
                 catch (Exception ex)
                 {

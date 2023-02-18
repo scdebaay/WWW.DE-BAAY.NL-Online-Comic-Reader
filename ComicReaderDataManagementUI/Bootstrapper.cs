@@ -41,7 +41,7 @@ namespace ComicReaderDataManagementUI
         }
         protected override void OnStartup(object sender, StartupEventArgs e)
         {   
-            DisplayRootViewFor<MainViewModel>();
+            DisplayRootViewForAsync<MainViewModel>();
         }
 
         protected override object GetInstance(Type service, string key)

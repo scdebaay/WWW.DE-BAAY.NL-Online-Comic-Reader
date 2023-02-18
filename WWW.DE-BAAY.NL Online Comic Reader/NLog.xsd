@@ -1243,7 +1243,7 @@
           <xs:element name="log" type="xs:string" minOccurs="0" maxOccurs="1" default="Application" />
           <xs:element name="machineName" type="xs:string" minOccurs="0" maxOccurs="1" default="." />
           <xs:element name="maxKilobytes" type="xs:long" minOccurs="0" maxOccurs="1" />
-          <xs:element name="maxMessageLength" type="xs:integer" minOccurs="0" maxOccurs="1" default="16384" />
+          <xs:element name="maxMessageLength" type="xs:integer" minOccurs="0" maxOccurs="1" default="30000" />
           <xs:element name="source" type="Layout" minOccurs="0" maxOccurs="1" />
           <xs:element name="onOverflow" type="NLog.Targets.EventLogTargetOverflowAction" minOccurs="0" maxOccurs="1" default="Truncate" />
         </xs:choice>
@@ -2480,7 +2480,7 @@
           <xs:element name="escapeDataRfc3986" type="xs:boolean" minOccurs="0" maxOccurs="1" default="false" />
           <xs:element name="escapeDataNLogLegacy" type="xs:boolean" minOccurs="0" maxOccurs="1" default="false" />
           <xs:element name="userAgent" type="Layout" minOccurs="0" maxOccurs="1" />
-          <xs:element name="url" type="Layout" minOccurs="0" maxOccurs="1" />
+          <xs:element name="url" type="Layout" minOccurs="1" maxOccurs="1" />
           <xs:element name="proxyType" type="NLog.Targets.WebServiceProxyType" minOccurs="0" maxOccurs="1" default="DefaultWebProxy" />
           <xs:element name="proxyAddress" type="Layout" minOccurs="0" maxOccurs="1" />
           <xs:element name="protocol" type="NLog.Targets.WebServiceProtocol" minOccurs="0" maxOccurs="1" default="Soap11" />
@@ -3070,6 +3070,7 @@
       <xs:element name="attribute" minOccurs="0" maxOccurs="unbounded" type="NLog.Layouts.XmlAttribute" />
       <xs:element name="element" minOccurs="0" maxOccurs="unbounded" type="NLog.Layouts.XmlElement" />
       <xs:element name="includeScopeProperties" type="xs:boolean" minOccurs="0" maxOccurs="1" default="false" />
+      <xs:element name="layout" type="Layout" minOccurs="0" maxOccurs="1" />
       <xs:element name="value" type="Layout" minOccurs="0" maxOccurs="1" />
       <xs:element name="encode" type="xs:boolean" minOccurs="0" maxOccurs="1" default="true" />
       <xs:element name="excludeProperties" type="xs:string" minOccurs="0" maxOccurs="1" />
@@ -3090,6 +3091,11 @@
     <xs:attribute name="includeScopeProperties" type="xs:boolean">
       <xs:annotation>
         <xs:documentation>Whether to include the contents of the T:NLog.ScopeContext dictionary.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="layout" type="SimpleLayoutAttribute">
+      <xs:annotation>
+        <xs:documentation>Value inside the element</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="value" type="SimpleLayoutAttribute">

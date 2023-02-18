@@ -1,9 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <PackageReleaseNotes>ComicReaderClassLibrary Tests, Release 2023.02.1.0
+Updated code with package bugfixes and Framework updates to .Net 4.8 and .Net Core 7.0</PackageReleaseNotes>
+
+    <Copyright>Copyright Solino de Baay © 2023</Copyright>
+
+    <Version>2023.02.1.0</Version>
+
+    <Title>ComicReader Class Tests Library</Title>
+
+    <Authors>Solino c. de Baay</Authors>
+
+    <Company>WWW.DE-BAAY.NL</Company>
   </PropertyGroup>
 
   <ItemGroup>
@@ -97,19 +110,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.1" />
-    <PackageReference Include="Moq" Version="4.16.1" />
-    <PackageReference Include="Moq.Dapper" Version="1.0.4" />
-    <PackageReference Include="MSTest.TestAdapter" Version="2.2.3" />
-    <PackageReference Include="MSTest.TestFramework" Version="2.2.3" />
-    <PackageReference Include="SharpCompress" Version="0.32.1" />
-    <PackageReference Include="System.IO.Abstractions.TestingHelpers" Version="13.2.28" />
-    <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
+    <PackageReference Include="Moq" Version="4.18.4" />
+    <PackageReference Include="Moq.Dapper" Version="1.0.7" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.0.2" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.0.2" />
+    <PackageReference Include="SharpCompress" Version="0.32.2" />
+    <PackageReference Include="System.IO.Abstractions.TestingHelpers" Version="19.1.18" />
+    <PackageReference Include="xunit" Version="2.4.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="coverlet.collector" Version="3.0.3">
+    <PackageReference Include="coverlet.collector" Version="3.2.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
