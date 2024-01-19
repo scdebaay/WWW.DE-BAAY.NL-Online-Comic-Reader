@@ -33,14 +33,14 @@ Service to monitor Comic staging folder. Will add new comics to database on a te
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cronos" Version="0.7.1" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="7.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-    <PackageReference Include="NLog" Version="5.1.2" />
-    <PackageReference Include="NLog.Extensions.Logging" Version="5.2.2" />
-    <PackageReference Include="NLog.Web.AspNetCore" Version="5.2.2" />
-    <PackageReference Include="System.IO.Abstractions" Version="19.1.18" />
+    <PackageReference Include="Cronos" Version="0.8.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="8.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="NLog" Version="5.2.8" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="5.3.8" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.8" />
+    <PackageReference Include="System.IO.Abstractions" Version="20.0.4" />
   </ItemGroup>
 
   <ItemGroup>
